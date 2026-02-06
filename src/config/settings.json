@@ -1,0 +1,11 @@
+{
+  "firstRun": true,
+  "keeperConstraints": {
+    "minCages": 1,
+    "maxCages": 4
+  },
+  "animalRules": {
+    "predatorShareable": false,
+    "preyShareable": true
+  }
+}

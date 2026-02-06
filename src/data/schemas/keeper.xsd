@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <!-- Root element -->
+    <xs:element name="keepers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="keeper" type="KeeperType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Keeper complex type -->
+    <xs:complexType name="KeeperType">
+        <xs:sequence>
+            <xs:element name="keeperId" type="xs:positiveInteger"/>
+            <xs:element name="firstName" type="xs:string"/>
+            <xs:element name="surname" type="xs:string"/>
+            <xs:element name="address" type="xs:string"/>
+            <xs:element name="contactNumber" type="xs:string"/>
+            <xs:element name="position" type="PositionType"/>
+            <xs:element name="allocatedCages" type="CageListType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Position simple type (HEAD_KEEPER or ASSISTANT_KEEPER) -->
+    <xs:simpleType name="PositionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="HEAD_KEEPER"/>
+            <xs:enumeration value="ASSISTANT_KEEPER"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <!-- Cage list type (for allocated cages) -->
+    <xs:complexType name="CageListType">
+        <xs:sequence>
+            <xs:element name="cageId" type="xs:positiveInteger" minOccurs="0" maxOccurs="4"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+</xs:schema>

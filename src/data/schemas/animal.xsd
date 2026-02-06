@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <!-- Root element -->
+    <xs:element name="animals">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="animal" type="AnimalType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Animal complex type -->
+    <xs:complexType name="AnimalType">
+        <xs:sequence>
+            <xs:element name="animalId" type="xs:positiveInteger"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="type" type="xs:string"/>
+            <xs:element name="category" type="CategoryType"/>
+            <xs:element name="dateOfBirth" type="xs:date"/>
+            <xs:element name="dateOfAcquisition" type="xs:date"/>
+            <xs:element name="sex" type="SexType"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Category simple type (PREDATOR or PREY) -->
+    <xs:simpleType name="CategoryType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PREDATOR"/>
+            <xs:enumeration value="PREY"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <!-- Sex simple type (MALE or FEMALE) -->
+    <xs:simpleType name="SexType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MALE"/>
+            <xs:enumeration value="FEMALE"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+</xs:schema>

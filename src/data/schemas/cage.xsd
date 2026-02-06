@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <!-- Root element -->
+    <xs:element name="cages">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cage" type="CageType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- Cage complex type -->
+    <xs:complexType name="CageType">
+        <xs:sequence>
+            <xs:element name="cageId" type="xs:positiveInteger"/>
+            <xs:element name="cageNumber" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="animalCapacity" type="xs:positiveInteger"/>
+            <xs:element name="currentAnimals" type="AnimalListType" minOccurs="0"/>
+            <xs:element name="assignedKeeper" type="xs:positiveInteger" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Animal list type (for current animals in cage) -->
+    <xs:complexType name="AnimalListType">
+        <xs:sequence>
+            <xs:element name="animalId" type="xs:positiveInteger" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+</xs:schema>
