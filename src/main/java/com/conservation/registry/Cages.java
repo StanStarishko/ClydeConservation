@@ -11,11 +11,10 @@ import java.util.Map;
  * Registry class for managing all cages in the conservation system.
  * 
  * Provides in-memory storage using HashMap for O(1) lookups by cage ID.
- * Implements IRegistry interface for standard CRUD operations.
- * 
+ *
  * Uses static storage - all instances share the same cage collection.
  */
-public class Cages implements IRegistry<Cage> {
+public class Cages {
     
     private static final Map<Integer, Cage> allCages = new HashMap<>();
     private static int lastCageId = 0;
@@ -40,8 +39,7 @@ public class Cages implements IRegistry<Cage> {
      * @param cage the cage to add
      * @throws IllegalArgumentException if cage is null
      */
-    @Override
-    public void add(Cage cage) {
+    public static void add(Cage cage) {
         if (cage == null) {
             throw new IllegalArgumentException("Cannot add null cage");
         }
@@ -60,8 +58,7 @@ public class Cages implements IRegistry<Cage> {
      * @param cageId the unique identifier of the cage
      * @return the cage with the given ID, or null if not found
      */
-    @Override
-    public Cage findById(int cageId) {
+    public static Cage findById(int cageId) {
         return allCages.get(cageId);
     }
     
@@ -70,8 +67,7 @@ public class Cages implements IRegistry<Cage> {
      * 
      * @return collection of all cages (defensive copy)
      */
-    @Override
-    public Collection<Cage> getAll() {
+    public static Collection<Cage> getAll() {
         return allCages.values();
     }
     
@@ -84,8 +80,7 @@ public class Cages implements IRegistry<Cage> {
      * @param cageId the unique identifier of the cage to remove
      * @return true if cage was removed, false if cage was not found
      */
-    @Override
-    public boolean remove(int cageId) {
+    public static boolean remove(int cageId) {
         Cage removed = allCages.remove(cageId);
         if (removed != null) {
             System.out.println("Cage removed: " + removed.getCageNumber() + " (ID: " + cageId + ")");
@@ -99,8 +94,7 @@ public class Cages implements IRegistry<Cage> {
      * 
      * @return count of cages
      */
-    @Override
-    public int count() {
+    public static int count() {
         return allCages.size();
     }
     
@@ -110,8 +104,7 @@ public class Cages implements IRegistry<Cage> {
      * Warning: This does NOT reset the ID counter.
      * Used primarily for testing purposes.
      */
-    @Override
-    public void clear() {
+    public static void clear() {
         allCages.clear();
         System.out.println("All cages cleared from registry");
     }

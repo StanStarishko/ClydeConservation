@@ -11,12 +11,11 @@ import java.util.Map;
  * Registry class for managing all animals in the conservation system.
  * 
  * Provides in-memory storage using HashMap for O(1) lookups by animal ID.
- * Implements IRegistry interface for standard CRUD operations.
- * 
+ *
  * Uses static storage - all instances share the same animal collection.
  * This is intentional for this application where we need a single global registry.
  */
-public class Animals implements IRegistry<Animal> {
+public class Animals {
     
     private static final Map<Integer, Animal> allAnimals = new HashMap<>();
     private static int lastAnimalId = 0;
@@ -41,8 +40,7 @@ public class Animals implements IRegistry<Animal> {
      * @param animal the animal to add
      * @throws IllegalArgumentException if animal is null
      */
-    @Override
-    public void add(Animal animal) {
+    public static void add(Animal animal) {
         if (animal == null) {
             throw new IllegalArgumentException("Cannot add null animal");
         }
@@ -61,8 +59,7 @@ public class Animals implements IRegistry<Animal> {
      * @param animalId the unique identifier of the animal
      * @return the animal with the given ID, or null if not found
      */
-    @Override
-    public Animal findById(int animalId) {
+    public static Animal findById(int animalId) {
         return allAnimals.get(animalId);
     }
     
@@ -71,8 +68,7 @@ public class Animals implements IRegistry<Animal> {
      * 
      * @return collection of all animals (defensive copy)
      */
-    @Override
-    public Collection<Animal> getAll() {
+    public static Collection<Animal> getAll() {
         return allAnimals.values();
     }
     
@@ -84,8 +80,7 @@ public class Animals implements IRegistry<Animal> {
      * @param animalId the unique identifier of the animal to remove
      * @return true if animal was removed, false if animal was not found
      */
-    @Override
-    public boolean remove(int animalId) {
+    public static boolean remove(int animalId) {
         Animal removed = allAnimals.remove(animalId);
         if (removed != null) {
             System.out.println("Animal removed: " + removed.getName() + " (ID: " + animalId + ")");
@@ -99,8 +94,7 @@ public class Animals implements IRegistry<Animal> {
      * 
      * @return count of animals
      */
-    @Override
-    public int count() {
+    public static int count() {
         return allAnimals.size();
     }
     
@@ -110,8 +104,7 @@ public class Animals implements IRegistry<Animal> {
      * Warning: This does NOT reset the ID counter.
      * Used primarily for testing purposes.
      */
-    @Override
-    public void clear() {
+    public static void clear() {
         allAnimals.clear();
         System.out.println("All animals cleared from registry");
     }

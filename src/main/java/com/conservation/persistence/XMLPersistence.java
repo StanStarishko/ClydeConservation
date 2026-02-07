@@ -154,6 +154,7 @@ public class XMLPersistence {
                 filepath,
                 fileNotFoundException
             );
+
         } catch (IOException ioException) {
             throw new PersistenceException(
                 "Failed to read XML file",

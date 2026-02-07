@@ -11,12 +11,11 @@ import java.util.Map;
  * Registry class for managing all keepers in the conservation system.
  * 
  * Provides in-memory storage using HashMap for O(1) lookups by keeper ID.
- * Implements IRegistry interface for standard CRUD operations.
- * 
+ *
  * Stores both HeadKeeper and AssistantKeeper objects (polymorphism).
  * Uses static storage - all instances share the same keeper collection.
  */
-public class Keepers implements IRegistry<Keeper> {
+public class Keepers {
     
     private static final Map<Integer, Keeper> allKeepers = new HashMap<>();
     private static int lastKeeperId = 0;
@@ -42,8 +41,7 @@ public class Keepers implements IRegistry<Keeper> {
      * @param keeper the keeper to add (HeadKeeper or AssistantKeeper)
      * @throws IllegalArgumentException if keeper is null
      */
-    @Override
-    public void add(Keeper keeper) {
+    public static void add(Keeper keeper) {
         if (keeper == null) {
             throw new IllegalArgumentException("Cannot add null keeper");
         }
@@ -63,8 +61,7 @@ public class Keepers implements IRegistry<Keeper> {
      * @param keeperId the unique identifier of the keeper
      * @return the keeper with the given ID, or null if not found
      */
-    @Override
-    public Keeper findById(int keeperId) {
+    public static Keeper findById(int keeperId) {
         return allKeepers.get(keeperId);
     }
     
@@ -73,8 +70,7 @@ public class Keepers implements IRegistry<Keeper> {
      * 
      * @return collection of all keepers (defensive copy)
      */
-    @Override
-    public Collection<Keeper> getAll() {
+    public static Collection<Keeper> getAll() {
         return allKeepers.values();
     }
     
@@ -87,8 +83,7 @@ public class Keepers implements IRegistry<Keeper> {
      * @param keeperId the unique identifier of the keeper to remove
      * @return true if keeper was removed, false if keeper was not found
      */
-    @Override
-    public boolean remove(int keeperId) {
+    public static boolean remove(int keeperId) {
         Keeper removed = allKeepers.remove(keeperId);
         if (removed != null) {
             System.out.println("Keeper removed: " + removed.getFullName() + " (ID: " + keeperId + ")");
@@ -102,8 +97,7 @@ public class Keepers implements IRegistry<Keeper> {
      * 
      * @return count of keepers
      */
-    @Override
-    public int count() {
+    public static int count() {
         return allKeepers.size();
     }
     
@@ -113,8 +107,7 @@ public class Keepers implements IRegistry<Keeper> {
      * Warning: This does NOT reset the ID counter.
      * Used primarily for testing purposes.
      */
-    @Override
-    public void clear() {
+    public static void clear() {
         allKeepers.clear();
         System.out.println("All keepers cleared from registry");
     }

@@ -26,7 +26,7 @@ public class DataInitialiser {
      * Private constructor to prevent instantiation.
      * This is a utility class with only static methods.
      */
-    private DataInitialiser() {
+    public DataInitialiser() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
     
@@ -86,7 +86,6 @@ public class DataInitialiser {
         // Create 5 large cages (capacity: 10)
         for (int idx = 1; idx <= 5; idx++) {
             Cage cage = new Cage(
-                0,  // ID will be auto-generated
                 "Large-0" + idx,
                 "Large cage for multiple animals",
                 10
@@ -98,7 +97,6 @@ public class DataInitialiser {
         // Create 3 medium cages (capacity: 5)
         for (int idx = 1; idx <= 3; idx++) {
             Cage cage = new Cage(
-                0,
                 "Medium-0" + idx,
                 "Medium cage for small groups",
                 5
@@ -110,7 +108,6 @@ public class DataInitialiser {
         // Create 7 small cages (capacity: 1)
         for (int idx = 1; idx <= 7; idx++) {
             Cage cage = new Cage(
-                0,
                 "Small-0" + idx,
                 "Small cage for single animal",
                 1
@@ -136,7 +133,6 @@ public class DataInitialiser {
         
         // Create head keepers
         HeadKeeper headKeeper1 = new HeadKeeper(
-            0,
             "John",
             "Smith",
             "123 Main Street, Glasgow",
@@ -146,7 +142,6 @@ public class DataInitialiser {
         keeperCount++;
         
         HeadKeeper headKeeper2 = new HeadKeeper(
-            0,
             "Sarah",
             "Johnson",
             "45 High Street, Glasgow",
@@ -157,7 +152,6 @@ public class DataInitialiser {
         
         // Create assistant keepers
         AssistantKeeper assistant1 = new AssistantKeeper(
-            0,
             "Michael",
             "Brown",
             "78 Queen Street, Glasgow",
@@ -167,7 +161,6 @@ public class DataInitialiser {
         keeperCount++;
         
         AssistantKeeper assistant2 = new AssistantKeeper(
-            0,
             "Emma",
             "Davis",
             "12 King Street, Glasgow",
@@ -177,7 +170,6 @@ public class DataInitialiser {
         keeperCount++;
         
         AssistantKeeper assistant3 = new AssistantKeeper(
-            0,
             "James",
             "Wilson",
             "90 Bridge Street, Glasgow",
@@ -281,7 +273,6 @@ public class DataInitialiser {
                                    Animal.Sex sex, LocalDate dateOfBirth, LocalDate dateOfAcquisition) {
         try {
             Animal animal = new Animal(
-                0,  // ID will be auto-generated
                 name,
                 type,
                 category,

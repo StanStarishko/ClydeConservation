@@ -125,12 +125,12 @@ public class ConsoleUI {
         
         try {
             // Check if this is first run
-            boolean isFirstRun = SettingsManager.isFirstRun(CONFIG_PATH);
+            boolean isFirstRun = SettingsManager.isFirstRun();
             
             if (isFirstRun) {
                 DisplayFormatter.printInfo("First run detected. Loading initial test data...");
                 loadTestData();
-                SettingsManager.setFirstRun(false, CONFIG_PATH);
+                SettingsManager.setFirstRun(false);
                 DisplayFormatter.printSuccess("Test data loaded successfully.");
             } else {
                 DisplayFormatter.printInfo("Loading data from persistence...");
@@ -156,8 +156,7 @@ public class ConsoleUI {
      */
     private void loadTestData() {
         try {
-            DataInitialiser initialiser = new DataInitialiser();
-            initialiser.loadTestData();
+            DataInitialiser.loadTestData();
             
             // Save the test data to XML files
             saveAllData();
@@ -174,24 +173,15 @@ public class ConsoleUI {
     private void loadDataFromPersistence() {
         try {
             // Load animals
-            var loadedAnimals = XMLPersistence.loadFromXML(
-                DATA_PATH + "animals.xml", 
-                com.conservation.model.Animal.class
-            );
+            var loadedAnimals = XMLPersistence.loadFromXML(DATA_PATH + "animals.xml");
             Animals.initializeFromPersistence(loadedAnimals);
             
             // Load keepers
-            var loadedKeepers = XMLPersistence.loadFromXML(
-                DATA_PATH + "keepers.xml",
-                com.conservation.model.Keeper.class
-            );
+            var loadedKeepers = XMLPersistence.loadFromXML(DATA_PATH + "keepers.xml");
             Keepers.initializeFromPersistence(loadedKeepers);
             
             // Load cages
-            var loadedCages = XMLPersistence.loadFromXML(
-                DATA_PATH + "cages.xml",
-                com.conservation.model.Cage.class
-            );
+            var loadedCages = XMLPersistence.loadFromXML(DATA_PATH + "cages.xml");
             Cages.initializeFromPersistence(loadedCages);
             
         } catch (PersistenceException exception) {
