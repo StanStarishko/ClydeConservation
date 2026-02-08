@@ -176,7 +176,7 @@ class KeeperTest {
         @Test
         @DisplayName("Should add cage ID to allocated cages list")
         void shouldAddCageIdToAllocatedCagesList() {
-            testKeeper.addAllocatedCage(1);
+            testKeeper.allocateCage(1);
             
             List<Integer> allocatedCages = testKeeper.getAllocatedCageIds();
             assertEquals(1, allocatedCages.size());
@@ -186,9 +186,9 @@ class KeeperTest {
         @Test
         @DisplayName("Should add multiple cage IDs")
         void shouldAddMultipleCageIds() {
-            testKeeper.addAllocatedCage(1);
-            testKeeper.addAllocatedCage(2);
-            testKeeper.addAllocatedCage(3);
+            testKeeper.allocateCage(1);
+            testKeeper.allocateCage(2);
+            testKeeper.allocateCage(3);
             
             List<Integer> allocatedCages = testKeeper.getAllocatedCageIds();
             assertEquals(3, allocatedCages.size());
@@ -200,8 +200,8 @@ class KeeperTest {
         @Test
         @DisplayName("Should remove cage ID from allocated cages list")
         void shouldRemoveCageIdFromAllocatedCagesList() {
-            testKeeper.addAllocatedCage(1);
-            testKeeper.addAllocatedCage(2);
+            testKeeper.allocateCage(1);
+            testKeeper.allocateCage(2);
             
             boolean removed = testKeeper.removeAllocatedCage(1);
             
@@ -215,7 +215,7 @@ class KeeperTest {
         @Test
         @DisplayName("Should return false when removing non-existent cage ID")
         void shouldReturnFalseWhenRemovingNonExistentCageId() {
-            testKeeper.addAllocatedCage(1);
+            testKeeper.allocateCage(1);
             
             boolean removed = testKeeper.removeAllocatedCage(999);
             
@@ -226,9 +226,9 @@ class KeeperTest {
         @Test
         @DisplayName("Should not allow duplicate cage IDs")
         void shouldNotAllowDuplicateCageIds() {
-            testKeeper.addAllocatedCage(1);
-            testKeeper.addAllocatedCage(1);
-            testKeeper.addAllocatedCage(1);
+            testKeeper.allocateCage(1);
+            testKeeper.allocateCage(1);
+            testKeeper.allocateCage(1);
             
             // Should only be added once
             assertEquals(1, testKeeper.getAllocatedCageIds().size());
@@ -237,7 +237,7 @@ class KeeperTest {
         @Test
         @DisplayName("Should return defensive copy of allocated cages list")
         void shouldReturnDefensiveCopyOfAllocatedCagesList() {
-            testKeeper.addAllocatedCage(1);
+            testKeeper.allocateCage(1);
             
             List<Integer> allocatedCages1 = testKeeper.getAllocatedCageIds();
             List<Integer> allocatedCages2 = testKeeper.getAllocatedCageIds();
@@ -252,7 +252,7 @@ class KeeperTest {
         @Test
         @DisplayName("Should not modify internal list when modifying returned list")
         void shouldNotModifyInternalListWhenModifyingReturnedList() {
-            testKeeper.addAllocatedCage(1);
+            testKeeper.allocateCage(1);
             
             List<Integer> allocatedCages = testKeeper.getAllocatedCageIds();
             allocatedCages.add(999); // Try to modify returned list
@@ -280,9 +280,9 @@ class KeeperTest {
         @DisplayName("Should accept more cages when keeper has 3 cages")
         void shouldAcceptMoreCagesWhenKeeperHasThreeCages() {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
-            keeper.addAllocatedCage(1);
-            keeper.addAllocatedCage(2);
-            keeper.addAllocatedCage(3);
+            keeper.allocateCage(1);
+            keeper.allocateCage(2);
+            keeper.allocateCage(3);
             
             assertTrue(keeper.canAcceptMoreCages());
         }
@@ -291,10 +291,10 @@ class KeeperTest {
         @DisplayName("Should not accept more cages when keeper has 4 cages (maximum)")
         void shouldNotAcceptMoreCagesWhenKeeperHasFourCages() {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
-            keeper.addAllocatedCage(1);
-            keeper.addAllocatedCage(2);
-            keeper.addAllocatedCage(3);
-            keeper.addAllocatedCage(4);
+            keeper.allocateCage(1);
+            keeper.allocateCage(2);
+            keeper.allocateCage(3);
+            keeper.allocateCage(4);
             
             assertFalse(keeper.canAcceptMoreCages());
         }
@@ -303,10 +303,10 @@ class KeeperTest {
         @DisplayName("Should accept more cages after removing one cage")
         void shouldAcceptMoreCagesAfterRemovingOneCage() {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
-            keeper.addAllocatedCage(1);
-            keeper.addAllocatedCage(2);
-            keeper.addAllocatedCage(3);
-            keeper.addAllocatedCage(4);
+            keeper.allocateCage(1);
+            keeper.allocateCage(2);
+            keeper.allocateCage(3);
+            keeper.allocateCage(4);
             
             assertFalse(keeper.canAcceptMoreCages());
             
@@ -358,10 +358,10 @@ class KeeperTest {
         void shouldBeAbleToManageMaximumFourCages() {
             HeadKeeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             
-            headKeeper.addAllocatedCage(1);
-            headKeeper.addAllocatedCage(2);
-            headKeeper.addAllocatedCage(3);
-            headKeeper.addAllocatedCage(4);
+            headKeeper.allocateCage(1);
+            headKeeper.allocateCage(2);
+            headKeeper.allocateCage(3);
+            headKeeper.allocateCage(4);
             
             assertEquals(4, headKeeper.getAllocatedCageIds().size());
             assertFalse(headKeeper.canAcceptMoreCages());
@@ -422,10 +422,10 @@ class KeeperTest {
         void shouldBeAbleToManageMaximumFourCages() {
             AssistantKeeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             
-            assistant.addAllocatedCage(1);
-            assistant.addAllocatedCage(2);
-            assistant.addAllocatedCage(3);
-            assistant.addAllocatedCage(4);
+            assistant.allocateCage(1);
+            assistant.allocateCage(2);
+            assistant.allocateCage(3);
+            assistant.allocateCage(4);
             
             assertEquals(4, assistant.getAllocatedCageIds().size());
             assertFalse(assistant.canAcceptMoreCages());
@@ -495,8 +495,8 @@ class KeeperTest {
             Keeper keeper1 = new HeadKeeper("John", "Smith", "Address1", "Phone1");
             Keeper keeper2 = new AssistantKeeper("Jane", "Doe", "Address2", "Phone2");
             
-            keeper1.addAllocatedCage(1);
-            keeper2.addAllocatedCage(2);
+            keeper1.allocateCage(1);
+            keeper2.allocateCage(2);
             
             assertEquals(1, keeper1.getAllocatedCageIds().size());
             assertEquals(1, keeper2.getAllocatedCageIds().size());
@@ -584,11 +584,11 @@ class KeeperTest {
         void shouldHandleAddingAndRemovingSameCageMultipleTimes() {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             
-            keeper.addAllocatedCage(1);
+            keeper.allocateCage(1);
             keeper.removeAllocatedCage(1);
-            keeper.addAllocatedCage(1);
+            keeper.allocateCage(1);
             keeper.removeAllocatedCage(1);
-            keeper.addAllocatedCage(1);
+            keeper.allocateCage(1);
             
             assertEquals(1, keeper.getAllocatedCageIds().size());
             assertTrue(keeper.getAllocatedCageIds().contains(1));
@@ -598,9 +598,9 @@ class KeeperTest {
         @DisplayName("Should handle clearing all cages one by one")
         void shouldHandleClearingAllCagesOneByOne() {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
-            keeper.addAllocatedCage(1);
-            keeper.addAllocatedCage(2);
-            keeper.addAllocatedCage(3);
+            keeper.allocateCage(1);
+            keeper.allocateCage(2);
+            keeper.allocateCage(3);
             
             keeper.removeAllocatedCage(1);
             keeper.removeAllocatedCage(2);

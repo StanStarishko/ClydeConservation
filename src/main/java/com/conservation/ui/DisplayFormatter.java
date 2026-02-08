@@ -382,7 +382,7 @@ public final class DisplayFormatter {
         printLabelledValue("Capacity", cage.getOccupancyInfo());
         printLabelledValue("Status", cage.getStatus());
         
-        Integer assignedKeeper = cage.getAssignedKeeper();
+        Integer assignedKeeper = cage.getAssignedKeeperId();
         printLabelledValue("Assigned Keeper", assignedKeeper != null ? String.valueOf(assignedKeeper) : "None");
         
         List<Integer> animalIds = cage.getCurrentAnimalIds();

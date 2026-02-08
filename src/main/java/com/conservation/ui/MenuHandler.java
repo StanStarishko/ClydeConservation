@@ -610,8 +610,6 @@ public class MenuHandler {
             try {
                 conservationService.removeAnimalFromCage(animalId, cageId);
                 DisplayFormatter.printSuccess("Animal successfully removed from cage.");
-            } catch (ValidationException exception) {
-                DisplayFormatter.printError(exception.getMessage());
             } catch (Exception exception) {
                 ExceptionHandler.handle(exception);
             }
@@ -657,7 +655,7 @@ public class MenuHandler {
             }
             
             // Show assigned keeper
-            Integer keeperId = cage.getAssignedKeeper();
+            Integer keeperId = cage.getAssignedKeeperId();
             if (keeperId != null) {
                 Keeper keeper = Keepers.findById(keeperId);
                 if (keeper != null) {

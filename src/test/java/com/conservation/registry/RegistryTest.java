@@ -438,13 +438,13 @@ class RegistryTest {
             HeadKeeper availableKeeper = new HeadKeeper("Sarah", "Johnson", "789 Elm St", "07111222333");
             
             // Simulate busy keeper with 4 cages
-            busyKeeper.addAllocatedCage(1);
-            busyKeeper.addAllocatedCage(2);
-            busyKeeper.addAllocatedCage(3);
-            busyKeeper.addAllocatedCage(4);
+            busyKeeper.allocateCage(1);
+            busyKeeper.allocateCage(2);
+            busyKeeper.allocateCage(3);
+            busyKeeper.allocateCage(4);
             
             // Available keeper has only 1 cage
-            availableKeeper.addAllocatedCage(5);
+            availableKeeper.allocateCage(5);
             
             Keepers.add(busyKeeper);
             Keepers.add(availableKeeper);
@@ -464,13 +464,13 @@ class RegistryTest {
         void findOverloadedKeepers_ShouldReturnKeepersAtMaxCapacity() {
             // Arrange
             HeadKeeper overloadedKeeper = new HeadKeeper("John", "Smith", "123 Main St", "07123456789");
-            overloadedKeeper.addAllocatedCage(1);
-            overloadedKeeper.addAllocatedCage(2);
-            overloadedKeeper.addAllocatedCage(3);
-            overloadedKeeper.addAllocatedCage(4);
+            overloadedKeeper.allocateCage(1);
+            overloadedKeeper.allocateCage(2);
+            overloadedKeeper.allocateCage(3);
+            overloadedKeeper.allocateCage(4);
             
             HeadKeeper normalKeeper = new HeadKeeper("Sarah", "Johnson", "789 Elm St", "07111222333");
-            normalKeeper.addAllocatedCage(5);
+            normalKeeper.allocateCage(5);
             
             Keepers.add(overloadedKeeper);
             Keepers.add(normalKeeper);
@@ -489,9 +489,9 @@ class RegistryTest {
             HeadKeeper keeper1 = new HeadKeeper("John", "Smith", "123 Main St", "07123456789");
             HeadKeeper keeper2 = new HeadKeeper("Sarah", "Johnson", "789 Elm St", "07111222333");
             
-            keeper1.addAllocatedCage(1);
-            keeper1.addAllocatedCage(2);
-            keeper2.addAllocatedCage(3);
+            keeper1.allocateCage(1);
+            keeper1.allocateCage(2);
+            keeper2.allocateCage(3);
             
             Keepers.add(keeper1);
             Keepers.add(keeper2);
@@ -657,9 +657,9 @@ class RegistryTest {
             Cage cage2 = new Cage("Large-02", "Cage 2", 10);
             Cage cage3 = new Cage("Medium-01", "Cage 3", 5);
             
-            cage1.setAssignedKeeper(1);
-            cage2.setAssignedKeeper(1);
-            cage3.setAssignedKeeper(2);
+            cage1.setAssignedKeeperId(1);
+            cage2.setAssignedKeeperId(1);
+            cage3.setAssignedKeeperId(2);
             
             Cages.add(cage1);
             Cages.add(cage2);
@@ -687,7 +687,7 @@ class RegistryTest {
             Cages.add(cage2);
             
             // Act
-            Cage foundCage = Cages.findByAnimalId(2);
+            Cage foundCage = (Cage) Cages.findByAnimalId(2);
             
             // Assert
             assertNotNull(foundCage, "Should find cage containing animal");
@@ -767,7 +767,7 @@ class RegistryTest {
             Cages.add(cage);
             
             // Act
-            Cage foundCage = Cages.findByAnimalId(999);
+            Cage foundCage = (Cage) Cages.findByAnimalId(999);
             
             // Assert
             assertNull(foundCage, "Should return null when animal not in any cage");

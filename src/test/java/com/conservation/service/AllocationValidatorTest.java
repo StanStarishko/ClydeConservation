@@ -236,9 +236,9 @@ public class AllocationValidatorTest {
         @DisplayName("Should allow keeper with 3 cages to accept 4th")
         void testKeeperWith3Cages() {
             // Assign 3 cages to keeper
-            headKeeper.addAllocatedCage(1);
-            headKeeper.addAllocatedCage(2);
-            headKeeper.addAllocatedCage(3);
+            headKeeper.allocateCage(1);
+            headKeeper.allocateCage(2);
+            headKeeper.allocateCage(3);
             
             Cage fourthCage = new Cage("Large-04", "Fourth cage", 10);
             fourthCage.setCageId(10);
@@ -252,10 +252,10 @@ public class AllocationValidatorTest {
         @DisplayName("Should reject keeper with 4 cages from accepting 5th")
         void testKeeperWith4Cages() {
             // Assign 4 cages (maximum) to keeper
-            headKeeper.addAllocatedCage(1);
-            headKeeper.addAllocatedCage(2);
-            headKeeper.addAllocatedCage(3);
-            headKeeper.addAllocatedCage(4);
+            headKeeper.allocateCage(1);
+            headKeeper.allocateCage(2);
+            headKeeper.allocateCage(3);
+            headKeeper.allocateCage(4);
             
             Cage fifthCage = new Cage("Large-05", "Fifth cage", 10);
             fifthCage.setCageId(10);
@@ -271,7 +271,7 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should reject keeper already assigned to this cage")
         void testKeeperAlreadyAssigned() {
-            headKeeper.addAllocatedCage(emptyCage.getCageId());
+            headKeeper.allocateCage(emptyCage.getCageId());
             
             ValidationException exception = assertThrows(ValidationException.class, () -> {
                 validator.validateKeeperToCage(headKeeper, emptyCage);
@@ -315,21 +315,21 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should allow removal when keeper has multiple cages")
         void testRemovalWithMultipleCages() {
-            headKeeper.addAllocatedCage(1);
-            headKeeper.addAllocatedCage(2);
+            headKeeper.allocateCage(1);
+            headKeeper.allocateCage(2);
             
             assertDoesNotThrow(() -> {
-                validator.validateKeeperRemoval(headKeeper, false);
+                validator.validateKeeperRemoval(headKeeper);
             });
         }
         
         @Test
         @DisplayName("Should reject removal when keeper has only 1 cage (underload)")
         void testRemovalCausingUnderload() {
-            headKeeper.addAllocatedCage(1);
+            headKeeper.allocateCage(1);
             
             ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateKeeperRemoval(headKeeper, false);
+                validator.validateKeeperRemoval(headKeeper);
             });
             
             assertEquals(ValidationException.ErrorType.KEEPER_UNDERLOAD, 
@@ -339,10 +339,10 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should allow removal with underload when explicitly allowed")
         void testRemovalWithAllowUnderload() {
-            headKeeper.addAllocatedCage(1);
+            headKeeper.allocateCage(1);
             
             assertDoesNotThrow(() -> {
-                validator.validateKeeperRemoval(headKeeper, true);
+                validator.validateKeeperRemoval(headKeeper);
             });
         }
         
@@ -350,7 +350,7 @@ public class AllocationValidatorTest {
         @DisplayName("Should allow removal when keeper has no cages with underload allowed")
         void testRemovalNoCagesWithAllowUnderload() {
             assertDoesNotThrow(() -> {
-                validator.validateKeeperRemoval(headKeeper, true);
+                validator.validateKeeperRemoval(headKeeper);
             });
         }
     }
@@ -464,10 +464,10 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should provide detailed error for keeper overload")
         void testKeeperOverloadErrorMessage() {
-            headKeeper.addAllocatedCage(1);
-            headKeeper.addAllocatedCage(2);
-            headKeeper.addAllocatedCage(3);
-            headKeeper.addAllocatedCage(4);
+            headKeeper.allocateCage(1);
+            headKeeper.allocateCage(2);
+            headKeeper.allocateCage(3);
+            headKeeper.allocateCage(4);
             
             Cage newCage = new Cage("Test", "Test cage", 5);
             newCage.setCageId(100);
@@ -601,16 +601,16 @@ public class AllocationValidatorTest {
         @DisplayName("Should handle keeper at exact boundary (4 cages)")
         void testKeeperAtExactBoundary() {
             // Add exactly 3 cages
-            headKeeper.addAllocatedCage(1);
-            headKeeper.addAllocatedCage(2);
-            headKeeper.addAllocatedCage(3);
+            headKeeper.allocateCage(1);
+            headKeeper.allocateCage(2);
+            headKeeper.allocateCage(3);
             
             assertEquals(3, headKeeper.getAllocatedCageIds().size());
             assertTrue(headKeeper.canAcceptMoreCages(), 
                       "Keeper with 3 cages should accept more");
             
             // Add 4th cage
-            headKeeper.addAllocatedCage(4);
+            headKeeper.allocateCage(4);
             
             assertEquals(4, headKeeper.getAllocatedCageIds().size());
             assertFalse(headKeeper.canAcceptMoreCages(), 

@@ -13,6 +13,10 @@ import com.conservation.service.AllocationValidator;
 
 import java.util.Scanner;
 
+import com.conservation.model.Animal;
+import com.conservation.model.Keeper;
+import com.conservation.model.Cage;
+
 /**
  * Main entry point for the Clyde Conservation Management System console application.
  * Handles application initialisation, the main run loop, and graceful shutdown.
@@ -173,15 +177,15 @@ public class ConsoleUI {
     private void loadDataFromPersistence() {
         try {
             // Load animals
-            var loadedAnimals = XMLPersistence.loadFromXML(DATA_PATH + "animals.xml");
+            var loadedAnimals = XMLPersistence.loadFromXML(DATA_PATH + "animals.xml", Animal.class);
             Animals.initializeFromPersistence(loadedAnimals);
             
             // Load keepers
-            var loadedKeepers = XMLPersistence.loadFromXML(DATA_PATH + "keepers.xml");
+            var loadedKeepers = XMLPersistence.loadFromXML(DATA_PATH + "keepers.xml", Keeper.class);
             Keepers.initializeFromPersistence(loadedKeepers);
             
             // Load cages
-            var loadedCages = XMLPersistence.loadFromXML(DATA_PATH + "cages.xml");
+            var loadedCages = XMLPersistence.loadFromXML(DATA_PATH + "cages.xml", Cage.class);
             Cages.initializeFromPersistence(loadedCages);
             
         } catch (PersistenceException exception) {
@@ -264,9 +268,7 @@ public class ConsoleUI {
      * Performs cleanup operations (closing resources).
      */
     private void cleanup() {
-        if (scanner != null) {
-            scanner.close();
-        }
+        scanner.close();
     }
     
     /**
@@ -284,7 +286,7 @@ public class ConsoleUI {
         DisplayFormatter.printHeaderBar();
         
         // Log the full stack trace for debugging
-        exception.printStackTrace();
+        ExceptionHandler.handle(exception);
     }
 
     // ============================================================

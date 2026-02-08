@@ -341,9 +341,9 @@ class XMLPersistenceTest {
             // Arrange
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "123 Main St", "07123456789");
             setKeeperId(keeper, 1);
-            keeper.addAllocatedCage(1);
-            keeper.addAllocatedCage(2);
-            keeper.addAllocatedCage(3);
+            keeper.allocateCage(1);
+            keeper.allocateCage(2);
+            keeper.allocateCage(3);
             
             List<Keeper> keepers = List.of(keeper);
             Path xmlPath = dataDir.resolve(KEEPERS_XML);
@@ -381,7 +381,7 @@ class XMLPersistenceTest {
             setCageId(cage, 1);
             cage.addAnimal(1);
             cage.addAnimal(2);
-            cage.setAssignedKeeper(5);
+            cage.setAssignedKeeperId(5);
             
             List<Cage> cages = List.of(cage);
             Path xmlPath = dataDir.resolve(CAGES_XML);
@@ -398,7 +398,7 @@ class XMLPersistenceTest {
             assertEquals("Large-01", loadedCage.getCageNumber(), "Cage number should match");
             assertEquals(10, loadedCage.getAnimalCapacity(), "Capacity should match");
             assertEquals(2, loadedCage.getCurrentAnimalIds().size(), "Should have 2 animals");
-            assertEquals(Integer.valueOf(5), loadedCage.getAssignedKeeper(), 
+            assertEquals(Integer.valueOf(5), loadedCage.getAssignedKeeperId(),
                 "Assigned keeper should match");
         }
         
