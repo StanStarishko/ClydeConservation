@@ -150,7 +150,14 @@ public abstract class Keeper {
      * @return description of responsibilities
      */
     public abstract String getResponsibilities();
-    
+
+    /**
+     * Gets the full professional title including position and name.
+     *
+     * @return title in format "Position FirstName Surname"
+     */
+    public abstract String getFullTitle();
+
     /**
      * Abstract method to check if keeper can perform specific management tasks.
      * 

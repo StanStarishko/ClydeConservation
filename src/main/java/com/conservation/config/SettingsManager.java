@@ -66,9 +66,19 @@ public class SettingsManager {
      * @return true if save successful, false otherwise
      */
     public static boolean saveSettings(Settings settings) {
-        File settingsFile = new File(SETTINGS_FILE_PATH);
-        
-        // Create parent directory if it doesn't exist
+            return saveSettings(settings, SETTINGS_FILE_PATH);
+    }
+
+    /**
+     * Saves settings to a specific JSON file path.
+     *
+     * @param settings the Settings object to save
+     * @param filePath the target file path
+     * @return true if save successful, false otherwise
+     */
+    public static boolean saveSettings(Settings settings, String filePath) {
+        File settingsFile = new File(filePath);
+
         File parentDir = settingsFile.getParentFile();
         if (parentDir != null && !parentDir.exists()) {
             if (!parentDir.mkdirs()) {
@@ -76,11 +86,10 @@ public class SettingsManager {
                 return false;
             }
         }
-        
-        // Save settings to JSON file
+
         try (FileWriter writer = new FileWriter(settingsFile)) {
             gson.toJson(settings, writer);
-            System.out.println("Settings saved successfully to " + SETTINGS_FILE_PATH);
+            System.out.println("Settings saved successfully to " + filePath);
             currentSettings = settings;
             return true;
         } catch (IOException ioException) {
@@ -88,7 +97,7 @@ public class SettingsManager {
             return false;
         }
     }
-    
+
     /**
      * Gets the current settings instance.
      * 

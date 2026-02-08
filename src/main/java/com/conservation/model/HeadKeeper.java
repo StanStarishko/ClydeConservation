@@ -47,7 +47,17 @@ public class HeadKeeper extends Keeper {
         return "Full management responsibilities including animal allocation, " +
                "keeper supervision, and welfare decisions";
     }
-    
+
+    /**
+     * Gets the full professional title for a Head Keeper.
+     *
+     * @return title in format "Head Keeper FirstName Surname"
+     */
+    @Override
+    public String getFullTitle() {
+        return "Head Keeper " + getFullName();
+    }
+
     /**
      * Head keepers have full management permissions.
      * 

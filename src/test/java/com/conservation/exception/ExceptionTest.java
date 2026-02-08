@@ -94,8 +94,8 @@ class ExceptionTest {
             ConservationException exception = new ConservationException(TEST_MESSAGE);
             
             // Assert
-            assertFalse(exception instanceof RuntimeException, 
-                "ConservationException should be a checked exception");
+            assertFalse(RuntimeException.class.isAssignableFrom(ConservationException.class),
+                    "ConservationException should be a checked exception");
         }
     }
 

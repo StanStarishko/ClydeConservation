@@ -51,7 +51,17 @@ public class AssistantKeeper extends Keeper {
         return "Daily animal care, health monitoring, and reporting to head keepers. " +
                "No allocation or management responsibilities.";
     }
-    
+
+    /**
+     * Gets the full professional title for an Assistant Keeper.
+     *
+     * @return title in format "Assistant Keeper FirstName Surname"
+     */
+    @Override
+    public String getFullTitle() {
+        return "Assistant Keeper " + getFullName();
+    }
+
     /**
      * Assistant keepers do not have management permissions.
      * 

@@ -376,7 +376,7 @@ public class ConservationServiceTest {
             service.allocateKeeperToCage(keeperId, mediumCage.getCageId());
             
             // Remove from one cage (without underload because keeper still has another)
-            service.removeKeeperFromCage(keeperId, largeCage.getCageId(), false);
+            service.removeKeeperFromCage(keeperId, largeCage.getCageId());
             
             // Verify removal
             Keeper updatedKeeper = Keepers.findById(keeperId);
@@ -400,7 +400,7 @@ public class ConservationServiceTest {
             
             // Try to remove without allowUnderload - should fail
             assertThrows(ValidationException.class, () -> {
-                service.removeKeeperFromCage(keeperId, largeCage.getCageId(), false);
+                service.removeKeeperFromCage(keeperId, largeCage.getCageId());
             });
         }
         
@@ -414,7 +414,7 @@ public class ConservationServiceTest {
             
             // Remove with allowUnderload = true
             assertDoesNotThrow(() -> {
-                service.removeKeeperFromCage(keeperId, largeCage.getCageId(), true);
+                service.removeKeeperFromCage(keeperId, largeCage.getCageId());
             });
             
             Keeper updatedKeeper = Keepers.findById(keeperId);
@@ -608,7 +608,7 @@ public class ConservationServiceTest {
             service.allocateKeeperToCage(keeperId, mediumCage.getCageId());
             
             // Remove from cage 1
-            service.removeKeeperFromCage(keeperId, largeCage.getCageId(), false);
+            service.removeKeeperFromCage(keeperId, largeCage.getCageId());
             
             // Add cage 3
             service.allocateKeeperToCage(keeperId, smallCage.getCageId());

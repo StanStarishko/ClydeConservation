@@ -195,7 +195,7 @@ class ConfigPersistenceTest {
             Files.writeString(settingsPath, validJson);
             
             // Act
-            Settings settings = SettingsManager.loadSettings(settingsPath.toString());
+            Settings settings = SettingsManager.loadSettings();
             
             // Assert
             assertNotNull(settings, "Settings should not be null");
@@ -211,7 +211,7 @@ class ConfigPersistenceTest {
             String nonExistentPath = configDir.resolve("nonexistent.json").toString();
             
             // Act
-            Settings settings = SettingsManager.loadSettings(nonExistentPath);
+            Settings settings = SettingsManager.loadSettings();
             
             // Assert
             assertNotNull(settings, "Should return default settings");
@@ -226,7 +226,7 @@ class ConfigPersistenceTest {
             Files.writeString(settingsPath, corruptJson);
             
             // Act
-            Settings settings = SettingsManager.loadSettings(settingsPath.toString());
+            Settings settings = SettingsManager.loadSettings();
             
             // Assert
             assertNotNull(settings, "Should return default settings on error");
@@ -241,7 +241,7 @@ class ConfigPersistenceTest {
             Files.writeString(settingsPath, "");
             
             // Act
-            Settings settings = SettingsManager.loadSettings(settingsPath.toString());
+            Settings settings = SettingsManager.loadSettings();
             
             // Assert
             assertNotNull(settings, "Should return default settings for empty file");
@@ -259,7 +259,7 @@ class ConfigPersistenceTest {
             Files.writeString(settingsPath, partialJson);
             
             // Act
-            Settings settings = SettingsManager.loadSettings(settingsPath.toString());
+            Settings settings = SettingsManager.loadSettings();
             
             // Assert
             assertNotNull(settings, "Settings should not be null");
@@ -285,7 +285,7 @@ class ConfigPersistenceTest {
             settings.setFirstRun(false);
             
             // Act
-            boolean saved = SettingsManager.saveSettings(settings, settingsPath.toString());
+            boolean saved = SettingsManager.saveSettings(settings);
             
             // Assert
             assertTrue(saved, "Save should return true");
@@ -300,7 +300,7 @@ class ConfigPersistenceTest {
             settings.setFirstRun(false);
             
             // Act
-            SettingsManager.saveSettings(settings, settingsPath.toString());
+            SettingsManager.saveSettings(settings);
             String content = Files.readString(settingsPath);
             
             // Assert
@@ -324,8 +324,8 @@ class ConfigPersistenceTest {
             original.getAnimalRules().setPreyShareable(false);
             
             // Act
-            SettingsManager.saveSettings(original, settingsPath.toString());
-            Settings loaded = SettingsManager.loadSettings(settingsPath.toString());
+            SettingsManager.saveSettings(original);
+            Settings loaded = SettingsManager.loadSettings();
             
             // Assert
             assertFalse(loaded.isFirstRun(), "firstRun should be preserved");
@@ -347,7 +347,7 @@ class ConfigPersistenceTest {
             Path deepPath = tempDir.resolve("deep/nested/config/settings.json");
             
             // Act
-            boolean saved = SettingsManager.saveSettings(settings, deepPath.toString());
+            boolean saved = SettingsManager.saveSettings(settings);
             
             // Assert
             assertTrue(saved, "Save should succeed");
@@ -361,7 +361,7 @@ class ConfigPersistenceTest {
             Settings settings = new Settings();
             
             // Act
-            SettingsManager.saveSettings(settings, settingsPath.toString());
+            SettingsManager.saveSettings(settings);
             String content = Files.readString(settingsPath);
             
             // Assert
@@ -388,7 +388,7 @@ class ConfigPersistenceTest {
             String nonExistentPath = configDir.resolve("nonexistent.json").toString();
             
             // Act
-            boolean isFirstRun = SettingsManager.isFirstRun(nonExistentPath);
+            boolean isFirstRun = SettingsManager.isFirstRun();
             
             // Assert
             assertTrue(isFirstRun, "Should return true when file doesn't exist");
@@ -408,7 +408,7 @@ class ConfigPersistenceTest {
             Files.writeString(settingsPath, jsonWithFirstRunFalse);
             
             // Act
-            boolean isFirstRun = SettingsManager.isFirstRun(settingsPath.toString());
+            boolean isFirstRun = SettingsManager.isFirstRun();
             
             // Assert
             assertFalse(isFirstRun, "Should return false from file");
@@ -420,13 +420,13 @@ class ConfigPersistenceTest {
             // Arrange
             Settings settings = new Settings();
             assertTrue(settings.isFirstRun(), "Initial should be true");
-            SettingsManager.saveSettings(settings, settingsPath.toString());
+            SettingsManager.saveSettings(settings);
             
             // Act
-            SettingsManager.setFirstRun(false, settingsPath.toString());
+            SettingsManager.setFirstRun(false);
             
             // Assert
-            Settings reloaded = SettingsManager.loadSettings(settingsPath.toString());
+            Settings reloaded = SettingsManager.loadSettings();
             assertFalse(reloaded.isFirstRun(), "Flag should be updated and saved");
         }
         
@@ -439,10 +439,10 @@ class ConfigPersistenceTest {
             
             // Act - Simulate initialization complete
             settings.setFirstRun(false);
-            SettingsManager.saveSettings(settings, settingsPath.toString());
+            SettingsManager.saveSettings(settings);
             
             // Assert - Next load should return false
-            Settings reloaded = SettingsManager.loadSettings(settingsPath.toString());
+            Settings reloaded = SettingsManager.loadSettings();
             assertFalse(reloaded.isFirstRun(), 
                 "After initialization, firstRun should be false");
         }
@@ -461,11 +461,11 @@ class ConfigPersistenceTest {
         void getSettings_ShouldReturnCachedInstance() {
             // Arrange
             Settings settings = new Settings();
-            SettingsManager.saveSettings(settings, settingsPath.toString());
+            SettingsManager.saveSettings(settings);
             
             // Act
-            Settings first = SettingsManager.getSettings(settingsPath.toString());
-            Settings second = SettingsManager.getSettings(settingsPath.toString());
+            Settings first = SettingsManager.getSettings();
+            Settings second = SettingsManager.getSettings();
             
             // Assert
             assertNotNull(first, "First call should return settings");
@@ -481,16 +481,16 @@ class ConfigPersistenceTest {
         void updateSettings_ShouldModifyAndSave() {
             // Arrange
             Settings original = new Settings();
-            SettingsManager.saveSettings(original, settingsPath.toString());
+            SettingsManager.saveSettings(original);
             
             // Act
-            Settings toUpdate = SettingsManager.getSettings(settingsPath.toString());
+            Settings toUpdate = SettingsManager.getSettings();
             toUpdate.setFirstRun(false);
             toUpdate.getKeeperConstraints().setMaxCages(6);
-            SettingsManager.saveSettings(toUpdate, settingsPath.toString());
+            SettingsManager.saveSettings(toUpdate);
             
             // Assert
-            Settings reloaded = SettingsManager.loadSettings(settingsPath.toString());
+            Settings reloaded = SettingsManager.loadSettings();
             assertFalse(reloaded.isFirstRun(), "firstRun should be updated");
             assertEquals(6, reloaded.getKeeperConstraints().getMaxCages(), 
                 "maxCages should be updated");
@@ -510,10 +510,10 @@ class ConfigPersistenceTest {
         void keeperConstraints_ShouldBeAccessibleForValidation() {
             // Arrange
             Settings settings = new Settings();
-            SettingsManager.saveSettings(settings, settingsPath.toString());
+            SettingsManager.saveSettings(settings);
             
             // Act
-            Settings loaded = SettingsManager.loadSettings(settingsPath.toString());
+            Settings loaded = SettingsManager.loadSettings();
             int minCages = loaded.getKeeperConstraints().getMinCages();
             int maxCages = loaded.getKeeperConstraints().getMaxCages();
             
@@ -529,10 +529,10 @@ class ConfigPersistenceTest {
         void animalRules_ShouldBeAccessibleForValidation() {
             // Arrange
             Settings settings = new Settings();
-            SettingsManager.saveSettings(settings, settingsPath.toString());
+            SettingsManager.saveSettings(settings);
             
             // Act
-            Settings loaded = SettingsManager.loadSettings(settingsPath.toString());
+            Settings loaded = SettingsManager.loadSettings();
             boolean predatorShareable = loaded.getAnimalRules().isPredatorShareable();
             boolean preyShareable = loaded.getAnimalRules().isPreyShareable();
             
@@ -551,8 +551,8 @@ class ConfigPersistenceTest {
             settings.getAnimalRules().setPredatorShareable(true); // Allow predator sharing
             
             // Act
-            SettingsManager.saveSettings(settings, settingsPath.toString());
-            Settings loaded = SettingsManager.loadSettings(settingsPath.toString());
+            SettingsManager.saveSettings(settings);
+            Settings loaded = SettingsManager.loadSettings();
             
             // Assert
             assertEquals(2, loaded.getKeeperConstraints().getMinCages(), 
@@ -576,7 +576,7 @@ class ConfigPersistenceTest {
         @DisplayName("Load with null path returns defaults")
         void loadSettings_NullPath_ShouldReturnDefaults() {
             // Act
-            Settings settings = SettingsManager.loadSettings(null);
+            Settings settings = SettingsManager.loadSettings();
             
             // Assert
             assertNotNull(settings, "Should return default settings");
@@ -600,7 +600,7 @@ class ConfigPersistenceTest {
             Settings settings = new Settings();
             
             // Act
-            boolean result = SettingsManager.saveSettings(settings, null);
+            boolean result = SettingsManager.saveSettings(settings);
             
             // Assert
             assertFalse(result, "Should return false for null path");
@@ -629,7 +629,7 @@ class ConfigPersistenceTest {
             Files.writeString(settingsPath, jsonWithExtras);
             
             // Act
-            Settings settings = SettingsManager.loadSettings(settingsPath.toString());
+            Settings settings = SettingsManager.loadSettings();
             
             // Assert
             assertNotNull(settings, "Should load despite extra fields");
@@ -656,7 +656,7 @@ class ConfigPersistenceTest {
             Files.writeString(settingsPath, jsonWithWrongTypes);
             
             // Act - Should either convert, use defaults, or handle gracefully
-            Settings settings = SettingsManager.loadSettings(settingsPath.toString());
+            Settings settings = SettingsManager.loadSettings();
             
             // Assert
             assertNotNull(settings, "Should return settings even with wrong types");
@@ -679,7 +679,7 @@ class ConfigPersistenceTest {
             Settings settings = new Settings();
             
             // Act
-            SettingsManager.saveSettings(settings, settingsPath.toString());
+            SettingsManager.saveSettings(settings);
             String content = Files.readString(settingsPath);
             
             // Assert - Check structure
@@ -702,7 +702,7 @@ class ConfigPersistenceTest {
             settings.setFirstRun(true);
             
             // Act
-            SettingsManager.saveSettings(settings, settingsPath.toString());
+            SettingsManager.saveSettings(settings);
             String content = Files.readString(settingsPath);
             
             // Assert - Booleans should be true/false, not "true"/"false"
@@ -720,7 +720,7 @@ class ConfigPersistenceTest {
             Settings settings = new Settings();
             
             // Act
-            SettingsManager.saveSettings(settings, settingsPath.toString());
+            SettingsManager.saveSettings(settings);
             String content = Files.readString(settingsPath);
             
             // Assert - Numbers should not have quotes

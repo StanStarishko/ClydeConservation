@@ -337,7 +337,7 @@ public class ConservationService {
      */
     public int addCage(Cage cage) throws ValidationException {
         // Validate cage data
-        validator.validateCageData(cage);
+        validator.validateCage(cage);
 
         // Add to registry (ID auto-generated)
         Cages.add(cage);

@@ -203,7 +203,7 @@ class KeeperTest {
             testKeeper.allocateCage(1);
             testKeeper.allocateCage(2);
             
-            boolean removed = testKeeper.removeAllocatedCage(1);
+            boolean removed = testKeeper.removeCage(1);
             
             assertTrue(removed);
             List<Integer> allocatedCages = testKeeper.getAllocatedCageIds();
@@ -217,7 +217,7 @@ class KeeperTest {
         void shouldReturnFalseWhenRemovingNonExistentCageId() {
             testKeeper.allocateCage(1);
             
-            boolean removed = testKeeper.removeAllocatedCage(999);
+            boolean removed = testKeeper.removeCage(999);
             
             assertFalse(removed);
             assertEquals(1, testKeeper.getAllocatedCageIds().size());
@@ -310,7 +310,7 @@ class KeeperTest {
             
             assertFalse(keeper.canAcceptMoreCages());
             
-            keeper.removeAllocatedCage(1);
+            keeper.removeCage(1);
             
             assertTrue(keeper.canAcceptMoreCages());
         }
@@ -333,7 +333,7 @@ class KeeperTest {
         @DisplayName("Should return full permissions description")
         void shouldReturnFullPermissionsDescription() {
             HeadKeeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
-            String permissions = headKeeper.getPermissions();
+            String permissions = headKeeper.getResponsibilities();
             
             assertNotNull(permissions);
             assertFalse(permissions.isEmpty());
@@ -385,7 +385,7 @@ class KeeperTest {
         @DisplayName("Should return limited permissions description")
         void shouldReturnLimitedPermissionsDescription() {
             AssistantKeeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
-            String permissions = assistant.getPermissions();
+            String permissions = assistant.getResponsibilities();
             
             assertNotNull(permissions);
             assertFalse(permissions.isEmpty());
@@ -411,8 +411,8 @@ class KeeperTest {
             HeadKeeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             AssistantKeeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             
-            String headPermissions = headKeeper.getPermissions();
-            String assistantPermissions = assistant.getPermissions();
+            String headPermissions = headKeeper.getResponsibilities();
+            String assistantPermissions = assistant.getResponsibilities();
             
             assertNotEquals(headPermissions, assistantPermissions);
         }
@@ -465,13 +465,13 @@ class KeeperTest {
         }
 
         @Test
-        @DisplayName("Should call correct getPermissions implementation through polymorphism")
-        void shouldCallCorrectGetPermissionsImplementationThroughPolymorphism() {
+        @DisplayName("Should call correct getResponsibilities implementation through polymorphism")
+        void shouldCallCorrectgetResponsibilitiesImplementationThroughPolymorphism() {
             Keeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             Keeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             
-            String headPermissions = headKeeper.getPermissions();
-            String assistantPermissions = assistant.getPermissions();
+            String headPermissions = headKeeper.getResponsibilities();
+            String assistantPermissions = assistant.getResponsibilities();
             
             assertNotEquals(headPermissions, assistantPermissions);
         }
@@ -585,9 +585,9 @@ class KeeperTest {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             
             keeper.allocateCage(1);
-            keeper.removeAllocatedCage(1);
+            keeper.removeCage(1);
             keeper.allocateCage(1);
-            keeper.removeAllocatedCage(1);
+            keeper.removeCage(1);
             keeper.allocateCage(1);
             
             assertEquals(1, keeper.getAllocatedCageIds().size());
@@ -602,9 +602,9 @@ class KeeperTest {
             keeper.allocateCage(2);
             keeper.allocateCage(3);
             
-            keeper.removeAllocatedCage(1);
-            keeper.removeAllocatedCage(2);
-            keeper.removeAllocatedCage(3);
+            keeper.removeCage(1);
+            keeper.removeCage(2);
+            keeper.removeCage(3);
             
             assertTrue(keeper.getAllocatedCageIds().isEmpty());
             assertTrue(keeper.canAcceptMoreCages());

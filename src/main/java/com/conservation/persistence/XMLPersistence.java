@@ -428,6 +428,58 @@ public class XMLPersistence {
                 .replace("'", "&apos;");
     }
 
+    /**
+     * Validates an XML file against an XSD schema.
+     *
+     * @param xmlFilePath full path to the XML file
+     * @param xsdFilePath full path to the XSD schema file
+     * @return true if XML is valid against the schema
+     * @throws PersistenceException if files cannot be read or schema is invalid
+     */
+    public static boolean validateXML(String xmlFilePath, String xsdFilePath)
+            throws PersistenceException {
+
+        File xmlFile = new File(xmlFilePath);
+        File xsdFile = new File(xsdFilePath);
+
+        if (!xmlFile.exists()) {
+            throw new PersistenceException(
+                    "XML file not found for validation: " + xmlFilePath,
+                    xmlFilePath
+            );
+        }
+
+        if (!xsdFile.exists()) {
+            throw new PersistenceException(
+                    "XSD schema file not found: " + xsdFilePath,
+                    xsdFilePath
+            );
+        }
+
+        try {
+            javax.xml.validation.SchemaFactory schemaFactory =
+                    javax.xml.validation.SchemaFactory.newInstance(
+                            javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+            javax.xml.validation.Schema schema =
+                    schemaFactory.newSchema(xsdFile);
+
+            javax.xml.validation.Validator validator = schema.newValidator();
+            validator.validate(new javax.xml.transform.stream.StreamSource(xmlFile));
+
+            return true;
+
+        } catch (org.xml.sax.SAXException saxException) {
+            return false;
+        } catch (IOException ioException) {
+            throw new PersistenceException(
+                    "Failed to validate XML against schema: " + ioException.getMessage(),
+                    xmlFilePath,
+                    ioException
+            );
+        }
+    }
+
     public static boolean validateWithXSD(String filename, String schemaFilename) {
         System.out.println("XSD validation not yet implemented");
         return true;
