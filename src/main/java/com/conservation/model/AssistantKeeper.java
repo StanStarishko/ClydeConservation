@@ -71,37 +71,7 @@ public class AssistantKeeper extends Keeper {
     public boolean hasManagementPermissions() {
         return false;
     }
-    
-    /**
-     * Reports an issue to the supervising head keeper.
-     * 
-     * Assistant keepers must report problems rather than making decisions independently.
-     * 
-     * @param issueDescription description of the issue to report
-     * @return confirmation message
-     */
-    public String reportIssue(String issueDescription) {
-        return String.format("Assistant Keeper %s reported issue: %s",
-                           getFullName(), issueDescription);
-    }
-    
-    /**
-     * Performs daily care routine for assigned cages.
-     * 
-     * Includes feeding, cleaning, and health checks.
-     * 
-     * @param cageId the cage to perform care routine for
-     * @return status message
-     */
-    public String performDailyCare(int cageId) {
-        if (!getAllocatedCageIds().contains(cageId)) {
-            return String.format("Error: Cage %d is not allocated to %s", 
-                               cageId, getFullName());
-        }
-        return String.format("Assistant Keeper %s completed daily care for Cage %d",
-                           getFullName(), cageId);
-    }
-    
+
     /**
      * Gets the ID of the head keeper supervising this assistant.
      * 

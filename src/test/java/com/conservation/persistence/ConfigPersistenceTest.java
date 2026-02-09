@@ -3,7 +3,6 @@ package com.conservation.persistence;
 import com.conservation.config.Settings;
 import com.conservation.config.SettingsManager;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -36,9 +35,7 @@ class ConfigPersistenceTest {
     private static final String SETTINGS_FILE = "settings.json";
     private static final int DEFAULT_MIN_CAGES = 1;
     private static final int DEFAULT_MAX_CAGES = 4;
-    private static final boolean DEFAULT_PREDATOR_SHAREABLE = false;
-    private static final boolean DEFAULT_PREY_SHAREABLE = true;
-    
+
     // ============================================================
     // Test Directory
     // ============================================================
@@ -207,9 +204,7 @@ class ConfigPersistenceTest {
         @Test
         @DisplayName("Load settings creates defaults when file missing")
         void loadSettings_FileMissing_ShouldCreateDefaults() {
-            // Arrange - File doesn't exist
-            String nonExistentPath = configDir.resolve("nonexistent.json").toString();
-            
+
             // Act
             Settings settings = SettingsManager.loadSettings();
             
@@ -384,9 +379,6 @@ class ConfigPersistenceTest {
         @Test
         @DisplayName("isFirstRun returns true when file missing")
         void isFirstRun_FileMissing_ShouldReturnTrue() {
-            // Arrange
-            String nonExistentPath = configDir.resolve("nonexistent.json").toString();
-            
             // Act
             boolean isFirstRun = SettingsManager.isFirstRun();
             

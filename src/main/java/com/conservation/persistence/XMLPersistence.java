@@ -480,11 +480,6 @@ public class XMLPersistence {
         }
     }
 
-    public static boolean validateWithXSD(String filename, String schemaFilename) {
-        System.out.println("XSD validation not yet implemented");
-        return true;
-    }
-
     public static boolean fileExists(String filename) {
         File file = new File(DATA_DIRECTORY + filename);
         return file.exists();
