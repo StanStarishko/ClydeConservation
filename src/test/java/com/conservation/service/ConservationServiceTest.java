@@ -56,7 +56,7 @@ public class ConservationServiceTest {
     private AssistantKeeper assistantKeeperEmma;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws ValidationException {
         // Clear all registries before each test
         Animals.clear();
         Keepers.clear();
@@ -155,9 +155,7 @@ public class ConservationServiceTest {
             service.allocateAnimalToCage(preyMarty.getAnimalId(), mediumCage.getCageId());
             
             // Try to allocate predator - should fail
-            assertThrows(ValidationException.class, () -> {
-                service.allocateAnimalToCage(predatorLeo.getAnimalId(), mediumCage.getCageId());
-            });
+            assertThrows(ValidationException.class, () -> service.allocateAnimalToCage(predatorLeo.getAnimalId(), mediumCage.getCageId()));
             
             // Verify predator was not added
             Cage cage = Cages.findById(mediumCage.getCageId());
@@ -172,9 +170,7 @@ public class ConservationServiceTest {
             service.allocateAnimalToCage(predatorLeo.getAnimalId(), largeCage.getCageId());
             
             // Try to allocate prey - should fail
-            assertThrows(ValidationException.class, () -> {
-                service.allocateAnimalToCage(preyMarty.getAnimalId(), largeCage.getCageId());
-            });
+            assertThrows(ValidationException.class, () -> service.allocateAnimalToCage(preyMarty.getAnimalId(), largeCage.getCageId()));
         }
         
         @Test
@@ -184,9 +180,7 @@ public class ConservationServiceTest {
             service.allocateAnimalToCage(preyMarty.getAnimalId(), smallCage.getCageId());
             
             // Try to add another animal - should fail
-            assertThrows(ValidationException.class, () -> {
-                service.allocateAnimalToCage(preyBugs.getAnimalId(), smallCage.getCageId());
-            });
+            assertThrows(ValidationException.class, () -> service.allocateAnimalToCage(preyBugs.getAnimalId(), smallCage.getCageId()));
         }
         
         @Test
@@ -194,9 +188,7 @@ public class ConservationServiceTest {
         void testRejectNonExistentAnimal() {
             int nonExistentAnimalId = 9999;
             
-            assertThrows(ValidationException.class, () -> {
-                service.allocateAnimalToCage(nonExistentAnimalId, largeCage.getCageId());
-            });
+            assertThrows(ValidationException.class, () -> service.allocateAnimalToCage(nonExistentAnimalId, largeCage.getCageId()));
         }
         
         @Test
@@ -204,9 +196,7 @@ public class ConservationServiceTest {
         void testRejectNonExistentCage() {
             int nonExistentCageId = 9999;
             
-            assertThrows(ValidationException.class, () -> {
-                service.allocateAnimalToCage(preyMarty.getAnimalId(), nonExistentCageId);
-            });
+            assertThrows(ValidationException.class, () -> service.allocateAnimalToCage(preyMarty.getAnimalId(), nonExistentCageId));
         }
     }
 
@@ -282,9 +272,7 @@ public class ConservationServiceTest {
             service.allocateKeeperToCage(keeperId, cage4.getCageId());
             
             // 5th cage should fail
-            assertThrows(ValidationException.class, () -> {
-                service.allocateKeeperToCage(keeperId, cage5.getCageId());
-            });
+            assertThrows(ValidationException.class, () -> service.allocateKeeperToCage(keeperId, cage5.getCageId()));
         }
         
         @Test
@@ -302,9 +290,7 @@ public class ConservationServiceTest {
         @Test
         @DisplayName("Should reject non-existent keeper")
         void testRejectNonExistentKeeper() {
-            assertThrows(ValidationException.class, () -> {
-                service.allocateKeeperToCage(9999, largeCage.getCageId());
-            });
+            assertThrows(ValidationException.class, () -> service.allocateKeeperToCage(9999, largeCage.getCageId()));
         }
     }
 
@@ -337,9 +323,7 @@ public class ConservationServiceTest {
         @DisplayName("Should reject removal of animal not in cage")
         void testRejectRemovalAnimalNotInCage() {
             // Try to remove animal that was never allocated
-            assertThrows(ValidationException.class, () -> {
-                service.removeAnimalFromCage(preyMarty.getAnimalId(), mediumCage.getCageId());
-            });
+            assertThrows(ValidationException.class, () -> service.removeAnimalFromCage(preyMarty.getAnimalId(), mediumCage.getCageId()));
         }
         
         @Test
@@ -352,9 +336,7 @@ public class ConservationServiceTest {
             service.removeAnimalFromCage(preyMarty.getAnimalId(), smallCage.getCageId());
             
             // Should now accept new animal
-            assertDoesNotThrow(() -> {
-                service.allocateAnimalToCage(preyBugs.getAnimalId(), smallCage.getCageId());
-            });
+            assertDoesNotThrow(() -> service.allocateAnimalToCage(preyBugs.getAnimalId(), smallCage.getCageId()));
         }
     }
 
@@ -399,9 +381,7 @@ public class ConservationServiceTest {
             service.allocateKeeperToCage(keeperId, largeCage.getCageId());
             
             // Try to remove without allowUnderload - should fail
-            assertThrows(ValidationException.class, () -> {
-                service.removeKeeperFromCage(keeperId, largeCage.getCageId());
-            });
+            assertThrows(ValidationException.class, () -> service.removeKeeperFromCage(keeperId, largeCage.getCageId()));
         }
         
         @Test
@@ -413,9 +393,7 @@ public class ConservationServiceTest {
             service.allocateKeeperToCage(keeperId, largeCage.getCageId());
             
             // Remove with allowUnderload = true
-            assertDoesNotThrow(() -> {
-                service.removeKeeperFromCage(keeperId, largeCage.getCageId());
-            });
+            assertDoesNotThrow(() -> service.removeKeeperFromCage(keeperId, largeCage.getCageId()));
             
             Keeper updatedKeeper = Keepers.findById(keeperId);
             assertEquals(0, updatedKeeper.getAllocatedCageIds().size(),

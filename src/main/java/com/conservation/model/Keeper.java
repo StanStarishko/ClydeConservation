@@ -3,6 +3,7 @@ package com.conservation.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import com.conservation.exception.ValidationException;
 
 /**
  * Abstract base class for all keeper types in the conservation system.
@@ -51,7 +52,7 @@ public abstract class Keeper {
      * @throws IllegalArgumentException if any required field is null or invalid
      */
     public Keeper(String firstName, String surname,
-                  String address, String contactNumber, Position position) {
+                  String address, String contactNumber, Position position) throws ValidationException {
         validateFields(firstName, surname, address, contactNumber, position);
         
         this.firstName = firstName;
@@ -68,21 +69,21 @@ public abstract class Keeper {
      * @throws IllegalArgumentException if validation fails
      */
     private void validateFields(String firstName, String surname, String address,
-                                String contactNumber, Position position) {
+                                String contactNumber, Position position) throws ValidationException {
         if (firstName == null || firstName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Keeper first name cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Keeper first name cannot be null or empty");
         }
         if (surname == null || surname.trim().isEmpty()) {
-            throw new IllegalArgumentException("Keeper surname cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Keeper surname cannot be null or empty");
         }
         if (address == null || address.trim().isEmpty()) {
-            throw new IllegalArgumentException("Keeper address cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Keeper address cannot be null or empty");
         }
         if (contactNumber == null || contactNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException("Keeper contact number cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Keeper contact number cannot be null or empty");
         }
         if (position == null) {
-            throw new IllegalArgumentException("Keeper position cannot be null");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Keeper position cannot be null");
         }
     }
     
@@ -95,12 +96,12 @@ public abstract class Keeper {
      * @throws IllegalStateException if keeper already has 4 cages
      * @throws IllegalArgumentException if cage is already allocated to this keeper
      */
-    public void allocateCage(int cageId) {
+    public void allocateCage(int cageId) throws ValidationException {
         if (allocatedCageIds.size() >= 4) {
             throw new IllegalStateException("Keeper cannot have more than 4 cages");
         }
         if (allocatedCageIds.contains(cageId)) {
-            throw new IllegalArgumentException("Cage " + cageId + " is already allocated to this keeper");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Cage " + cageId + " is already allocated to this keeper");
         }
         allocatedCageIds.add(cageId);
     }
@@ -179,9 +180,9 @@ public abstract class Keeper {
         return firstName;
     }
     
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName) throws ValidationException {
         if (firstName == null || firstName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Keeper first name cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Keeper first name cannot be null or empty");
         }
         this.firstName = firstName;
     }
@@ -190,9 +191,9 @@ public abstract class Keeper {
         return surname;
     }
     
-    public void setSurname(String surname) {
+    public void setSurname(String surname) throws ValidationException {
         if (surname == null || surname.trim().isEmpty()) {
-            throw new IllegalArgumentException("Keeper surname cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Keeper surname cannot be null or empty");
         }
         this.surname = surname;
     }
@@ -201,9 +202,9 @@ public abstract class Keeper {
         return address;
     }
     
-    public void setAddress(String address) {
+    public void setAddress(String address) throws ValidationException {
         if (address == null || address.trim().isEmpty()) {
-            throw new IllegalArgumentException("Keeper address cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Keeper address cannot be null or empty");
         }
         this.address = address;
     }
@@ -212,9 +213,9 @@ public abstract class Keeper {
         return contactNumber;
     }
     
-    public void setContactNumber(String contactNumber) {
+    public void setContactNumber(String contactNumber) throws ValidationException {
         if (contactNumber == null || contactNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException("Keeper contact number cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Keeper contact number cannot be null or empty");
         }
         this.contactNumber = contactNumber;
     }
@@ -223,9 +224,9 @@ public abstract class Keeper {
         return position;
     }
     
-    public void setPosition(Position position) {
+    public void setPosition(Position position) throws ValidationException {
         if (position == null) {
-            throw new IllegalArgumentException("Keeper position cannot be null");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_KEEPER_DATA, "Keeper position cannot be null");
         }
         this.position = position;
     }

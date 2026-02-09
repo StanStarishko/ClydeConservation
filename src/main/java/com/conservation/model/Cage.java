@@ -3,6 +3,7 @@ package com.conservation.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import com.conservation.exception.ValidationException;
 
 /**
  * Entity class representing a cage in the conservation system.
@@ -38,7 +39,7 @@ public class Cage {
      * @param animalCapacity maximum number of animals this cage can hold
      * @throws IllegalArgumentException if any required field is null or invalid
      */
-    public Cage(String cageNumber, String description, int animalCapacity) {
+    public Cage(String cageNumber, String description, int animalCapacity) throws ValidationException {
         validateFields(cageNumber, description, animalCapacity);
         
         this.cageNumber = cageNumber;
@@ -53,15 +54,15 @@ public class Cage {
      * 
      * @throws IllegalArgumentException if validation fails
      */
-    private void validateFields(String cageNumber, String description, int animalCapacity) {
+    private void validateFields(String cageNumber, String description, int animalCapacity) throws ValidationException {
         if (cageNumber == null || cageNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException("Cage number cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_CAGE_DATA, "Cage number cannot be null or empty");
         }
         if (description == null || description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Cage description cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_CAGE_DATA, "Cage description cannot be null or empty");
         }
         if (animalCapacity <= 0) {
-            throw new IllegalArgumentException("Cage capacity must be positive");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_CAGE_DATA, "Cage capacity must be positive");
         }
     }
     
@@ -178,9 +179,9 @@ public class Cage {
         return cageNumber;
     }
     
-    public void setCageNumber(String cageNumber) {
+    public void setCageNumber(String cageNumber) throws ValidationException {
         if (cageNumber == null || cageNumber.trim().isEmpty()) {
-            throw new IllegalArgumentException("Cage number cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_CAGE_DATA, "Cage number cannot be null or empty");
         }
         this.cageNumber = cageNumber;
     }
@@ -189,9 +190,9 @@ public class Cage {
         return description;
     }
     
-    public void setDescription(String description) {
+    public void setDescription(String description) throws ValidationException {
         if (description == null || description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Cage description cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_CAGE_DATA, "Cage description cannot be null or empty");
         }
         this.description = description;
     }
@@ -200,9 +201,9 @@ public class Cage {
         return animalCapacity;
     }
     
-    public void setAnimalCapacity(int animalCapacity) {
+    public void setAnimalCapacity(int animalCapacity) throws ValidationException {
         if (animalCapacity <= 0) {
-            throw new IllegalArgumentException("Cage capacity must be positive");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_CAGE_DATA, "Cage capacity must be positive");
         }
         if (animalCapacity < currentAnimalIds.size()) {
             throw new IllegalArgumentException(

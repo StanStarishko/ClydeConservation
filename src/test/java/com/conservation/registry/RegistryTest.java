@@ -1,5 +1,6 @@
 package com.conservation.registry;
 
+import com.conservation.exception.ValidationException;
 import com.conservation.model.Animal;
 import com.conservation.model.Animal.Category;
 import com.conservation.model.Animal.Sex;
@@ -65,7 +66,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Add animal and verify auto-generated ID")
-        void addAnimal_ShouldAutoGenerateId() {
+        void addAnimal_ShouldAutoGenerateId() throws ValidationException {
             // Arrange
             Animal tiger = createSampleAnimal("Leo", "Tiger", Category.PREDATOR);
             
@@ -79,7 +80,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Add multiple animals with sequential IDs")
-        void addMultipleAnimals_ShouldHaveSequentialIds() {
+        void addMultipleAnimals_ShouldHaveSequentialIds() throws ValidationException {
             // Arrange
             Animal tiger = createSampleAnimal("Leo", "Tiger", Category.PREDATOR);
             Animal zebra = createSampleAnimal("Marty", "Zebra", Category.PREY);
@@ -98,7 +99,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find animal by ID returns correct animal")
-        void findById_ExistingAnimal_ShouldReturnAnimal() {
+        void findById_ExistingAnimal_ShouldReturnAnimal() throws ValidationException {
             // Arrange
             Animal tiger = createSampleAnimal("Leo", "Tiger", Category.PREDATOR);
             Animals.add(tiger);
@@ -115,7 +116,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find animal by non-existent ID returns null")
-        void findById_NonExistentId_ShouldReturnNull() {
+        void findById_NonExistentId_ShouldReturnNull() throws ValidationException {
             // Arrange
             Animal tiger = createSampleAnimal("Leo", "Tiger", Category.PREDATOR);
             Animals.add(tiger);
@@ -129,7 +130,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Get all animals returns defensive copy")
-        void getAll_ShouldReturnDefensiveCopy() {
+        void getAll_ShouldReturnDefensiveCopy() throws ValidationException {
             // Arrange
             Animals.add(createSampleAnimal("Leo", "Tiger", Category.PREDATOR));
             Animals.add(createSampleAnimal("Marty", "Zebra", Category.PREY));
@@ -151,7 +152,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Remove animal by ID returns true and decreases count")
-        void remove_ExistingAnimal_ShouldReturnTrueAndDecreaseCount() {
+        void remove_ExistingAnimal_ShouldReturnTrueAndDecreaseCount() throws ValidationException {
             // Arrange
             Animal tiger = createSampleAnimal("Leo", "Tiger", Category.PREDATOR);
             Animals.add(tiger);
@@ -168,7 +169,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Remove non-existent animal returns false")
-        void remove_NonExistentAnimal_ShouldReturnFalse() {
+        void remove_NonExistentAnimal_ShouldReturnFalse() throws ValidationException {
             // Arrange
             Animals.add(createSampleAnimal("Leo", "Tiger", Category.PREDATOR));
             
@@ -182,7 +183,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Clear removes all animals")
-        void clear_ShouldRemoveAllAnimals() {
+        void clear_ShouldRemoveAllAnimals() throws ValidationException {
             // Arrange
             Animals.add(createSampleAnimal("Leo", "Tiger", Category.PREDATOR));
             Animals.add(createSampleAnimal("Marty", "Zebra", Category.PREY));
@@ -202,7 +203,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find animal by name returns correct animal")
-        void findByName_ExistingName_ShouldReturnAnimal() {
+        void findByName_ExistingName_ShouldReturnAnimal() throws ValidationException {
             // Arrange
             Animals.add(createSampleAnimal("Leo", "Tiger", Category.PREDATOR));
             Animals.add(createSampleAnimal("Marty", "Zebra", Category.PREY));
@@ -217,7 +218,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find animals by category returns correct list")
-        void findByCategory_ShouldReturnMatchingAnimals() {
+        void findByCategory_ShouldReturnMatchingAnimals() throws ValidationException {
             // Arrange
             Animals.add(createSampleAnimal("Leo", "Tiger", Category.PREDATOR));
             Animals.add(createSampleAnimal("Shadow", "Eagle", Category.PREDATOR));
@@ -235,7 +236,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find animals by type returns correct list")
-        void findByType_ShouldReturnMatchingAnimals() {
+        void findByType_ShouldReturnMatchingAnimals() throws ValidationException {
             // Arrange
             Animals.add(createSampleAnimal("Leo", "Tiger", Category.PREDATOR));
             Animals.add(createSampleAnimal("Stripe", "Tiger", Category.PREDATOR));
@@ -253,7 +254,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find by name with non-existent name returns null")
-        void findByName_NonExistentName_ShouldReturnNull() {
+        void findByName_NonExistentName_ShouldReturnNull() throws ValidationException {
             // Arrange
             Animals.add(createSampleAnimal("Leo", "Tiger", Category.PREDATOR));
             
@@ -270,7 +271,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Initialize from persistence restores ID counter")
-        void initializeFromPersistence_ShouldRestoreIdCounter() {
+        void initializeFromPersistence_ShouldRestoreIdCounter() throws ValidationException {
             // Arrange - Simulate loaded animals with IDs 5, 10, 15
             Animal animal1 = createSampleAnimalWithId(5, "Leo", "Tiger", Category.PREDATOR);
             Animal animal2 = createSampleAnimalWithId(10, "Marty", "Zebra", Category.PREY);
@@ -327,7 +328,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Add head keeper and verify auto-generated ID")
-        void addHeadKeeper_ShouldAutoGenerateId() {
+        void addHeadKeeper_ShouldAutoGenerateId() throws ValidationException {
             // Arrange
             Keeper headKeeper = new HeadKeeper(
                 "John", "Smith", "123 Main St", "07123456789"
@@ -343,7 +344,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Add assistant keeper with auto-generated ID")
-        void addAssistantKeeper_ShouldAutoGenerateId() {
+        void addAssistantKeeper_ShouldAutoGenerateId() throws ValidationException {
             // Arrange
             Keeper assistantKeeper = new AssistantKeeper(
                 "Jane", "Doe", "456 Oak Ave", "07987654321"
@@ -360,7 +361,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find keeper by ID with polymorphism")
-        void findById_ShouldReturnCorrectKeeperType() {
+        void findById_ShouldReturnCorrectKeeperType() throws ValidationException {
             // Arrange
             Keeper headKeeper = new HeadKeeper("John", "Smith", "123 Main St", "07123456789");
             Keeper assistantKeeper = new AssistantKeeper("Jane", "Doe", "456 Oak Ave", "07987654321");
@@ -378,7 +379,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Remove keeper returns true and decreases count")
-        void remove_ExistingKeeper_ShouldReturnTrue() {
+        void remove_ExistingKeeper_ShouldReturnTrue() throws ValidationException {
             // Arrange
             Keeper keeper = new HeadKeeper("John", "Smith", "123 Main St", "07123456789");
             Keepers.add(keeper);
@@ -398,7 +399,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find keeper by full name")
-        void findByFullName_ShouldReturnMatchingKeeper() {
+        void findByFullName_ShouldReturnMatchingKeeper() throws ValidationException {
             // Arrange
             Keepers.add(new HeadKeeper("John", "Smith", "123 Main St", "07123456789"));
             Keepers.add(new AssistantKeeper("Jane", "Doe", "456 Oak Ave", "07987654321"));
@@ -414,7 +415,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find keepers by position")
-        void findByPosition_ShouldReturnMatchingKeepers() {
+        void findByPosition_ShouldReturnMatchingKeepers() throws ValidationException {
             // Arrange
             Keepers.add(new HeadKeeper("John", "Smith", "123 Main St", "07123456789"));
             Keepers.add(new HeadKeeper("Sarah", "Johnson", "789 Elm St", "07111222333"));
@@ -432,7 +433,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find available keepers (less than 4 cages)")
-        void findAvailableKeepers_ShouldReturnKeepersWithSpareCapacity() {
+        void findAvailableKeepers_ShouldReturnKeepersWithSpareCapacity() throws ValidationException {
             // Arrange
             HeadKeeper busyKeeper = new HeadKeeper("John", "Smith", "123 Main St", "07123456789");
             HeadKeeper availableKeeper = new HeadKeeper("Sarah", "Johnson", "789 Elm St", "07111222333");
@@ -461,7 +462,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find overloaded keepers (at maximum 4 cages)")
-        void findOverloadedKeepers_ShouldReturnKeepersAtMaxCapacity() {
+        void findOverloadedKeepers_ShouldReturnKeepersAtMaxCapacity() throws ValidationException {
             // Arrange
             HeadKeeper overloadedKeeper = new HeadKeeper("John", "Smith", "123 Main St", "07123456789");
             overloadedKeeper.allocateCage(1);
@@ -484,7 +485,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find keepers by cage ID")
-        void findByCageId_ShouldReturnKeepersAssignedToCage() {
+        void findByCageId_ShouldReturnKeepersAssignedToCage() throws ValidationException {
             // Arrange
             HeadKeeper keeper1 = new HeadKeeper("John", "Smith", "123 Main St", "07123456789");
             HeadKeeper keeper2 = new HeadKeeper("Sarah", "Johnson", "789 Elm St", "07111222333");
@@ -521,7 +522,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Add cage and verify auto-generated ID")
-        void addCage_ShouldAutoGenerateId() {
+        void addCage_ShouldAutoGenerateId() throws ValidationException {
             // Arrange
             Cage cage = new Cage("Large-01", "Large predator cage", 10);
             
@@ -535,7 +536,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find cage by ID returns correct cage")
-        void findById_ExistingCage_ShouldReturnCage() {
+        void findById_ExistingCage_ShouldReturnCage() throws ValidationException {
             // Arrange
             Cage cage = new Cage("Large-01", "Large predator cage", 10);
             Cages.add(cage);
@@ -551,7 +552,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Remove cage returns true and decreases count")
-        void remove_ExistingCage_ShouldReturnTrue() {
+        void remove_ExistingCage_ShouldReturnTrue() throws ValidationException {
             // Arrange
             Cage cage = new Cage("Large-01", "Large predator cage", 10);
             Cages.add(cage);
@@ -571,7 +572,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find cage by cage number")
-        void findByCageNumber_ShouldReturnMatchingCage() {
+        void findByCageNumber_ShouldReturnMatchingCage() throws ValidationException {
             // Arrange
             Cages.add(new Cage("Large-01", "Large predator cage", 10));
             Cages.add(new Cage("Medium-01", "Medium prey cage", 5));
@@ -586,7 +587,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find empty cages")
-        void findEmptyCages_ShouldReturnCagesWithNoAnimals() {
+        void findEmptyCages_ShouldReturnCagesWithNoAnimals() throws ValidationException {
             // Arrange
             Cage emptyCage = new Cage("Large-01", "Empty cage", 10);
             Cage occupiedCage = new Cage("Large-02", "Occupied cage", 10);
@@ -606,7 +607,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find full cages")
-        void findFullCages_ShouldReturnCagesAtMaxCapacity() {
+        void findFullCages_ShouldReturnCagesAtMaxCapacity() throws ValidationException {
             // Arrange
             Cage smallCage = new Cage("Small-01", "Small cage", 1);
             smallCage.addAnimal(1); // Fill the small cage
@@ -628,7 +629,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find available cages (have space)")
-        void findAvailableCages_ShouldReturnCagesWithSpace() {
+        void findAvailableCages_ShouldReturnCagesWithSpace() throws ValidationException {
             // Arrange
             Cage fullCage = new Cage("Small-01", "Full cage", 1);
             fullCage.addAnimal(1);
@@ -651,7 +652,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find cages by keeper ID")
-        void findByKeeperId_ShouldReturnCagesAssignedToKeeper() {
+        void findByKeeperId_ShouldReturnCagesAssignedToKeeper() throws ValidationException {
             // Arrange
             Cage cage1 = new Cage("Large-01", "Cage 1", 10);
             Cage cage2 = new Cage("Large-02", "Cage 2", 10);
@@ -674,7 +675,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find cage by animal ID")
-        void findByAnimalId_ShouldReturnCageContainingAnimal() {
+        void findByAnimalId_ShouldReturnCageContainingAnimal() throws ValidationException {
             // Arrange
             Cage cage1 = new Cage("Large-01", "Cage 1", 10);
             Cage cage2 = new Cage("Large-02", "Cage 2", 10);
@@ -697,7 +698,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find cages by capacity")
-        void findByCapacity_ShouldReturnCagesWithMatchingCapacity() {
+        void findByCapacity_ShouldReturnCagesWithMatchingCapacity() throws ValidationException {
             // Arrange
             Cages.add(new Cage("Large-01", "Large cage", 10));
             Cages.add(new Cage("Large-02", "Large cage", 10));
@@ -720,7 +721,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Get total capacity returns sum of all cage capacities")
-        void getTotalCapacity_ShouldReturnSumOfCapacities() {
+        void getTotalCapacity_ShouldReturnSumOfCapacities() throws ValidationException {
             // Arrange
             Cages.add(new Cage("Large-01", "Large cage", 10));
             Cages.add(new Cage("Medium-01", "Medium cage", 5));
@@ -735,7 +736,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Get total occupancy returns count of all animals")
-        void getTotalOccupancy_ShouldReturnTotalAnimalCount() {
+        void getTotalOccupancy_ShouldReturnTotalAnimalCount() throws ValidationException {
             // Arrange
             Cage cage1 = new Cage("Large-01", "Large cage", 10);
             cage1.addAnimal(1);
@@ -760,7 +761,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Find by animal ID returns null when animal not in any cage")
-        void findByAnimalId_AnimalNotInAnyCage_ShouldReturnNull() {
+        void findByAnimalId_AnimalNotInAnyCage_ShouldReturnNull() throws ValidationException {
             // Arrange
             Cage cage = new Cage("Large-01", "Large cage", 10);
             cage.addAnimal(1);
@@ -784,7 +785,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("All registries maintain independent ID sequences")
-        void allRegistries_ShouldHaveIndependentIdSequences() {
+        void allRegistries_ShouldHaveIndependentIdSequences() throws ValidationException {
             // Arrange & Act
             Animal animal = createSampleAnimal("Leo", "Tiger", Category.PREDATOR);
             Keeper keeper = new HeadKeeper("John", "Smith", "123 Main St", "07123456789");
@@ -803,7 +804,7 @@ class RegistryTest {
         
         @Test
         @DisplayName("Clear one registry does not affect others")
-        void clearOneRegistry_ShouldNotAffectOthers() {
+        void clearOneRegistry_ShouldNotAffectOthers() throws ValidationException {
             // Arrange
             Animals.add(createSampleAnimal("Leo", "Tiger", Category.PREDATOR));
             Keepers.add(new HeadKeeper("John", "Smith", "123 Main St", "07123456789"));
@@ -831,7 +832,7 @@ class RegistryTest {
      * @param category the animal's category (PREDATOR or PREY)
      * @return a new Animal instance
      */
-    private Animal createSampleAnimal(String name, String type, Category category) {
+    private Animal createSampleAnimal(String name, String type, Category category) throws ValidationException {
         return new Animal(
             name,
             type,
@@ -852,7 +853,7 @@ class RegistryTest {
      * @param category the animal's category
      * @return a new Animal instance with specified ID
      */
-    private Animal createSampleAnimalWithId(int animalId, String name, String type, Category category) {
+    private Animal createSampleAnimalWithId(int animalId, String name, String type, Category category) throws ValidationException {
         Animal animal = createSampleAnimal(name, type, category);
         // Assuming there's a package-private or test method to set ID for persistence
         // In actual implementation, this might use reflection or a test-specific constructor

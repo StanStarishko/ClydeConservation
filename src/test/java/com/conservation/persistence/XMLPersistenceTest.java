@@ -1,6 +1,7 @@
 package com.conservation.persistence;
 
 import com.conservation.exception.PersistenceException;
+import com.conservation.exception.ValidationException;
 import com.conservation.model.Animal;
 import com.conservation.model.Animal.Category;
 import com.conservation.model.Animal.Sex;
@@ -199,7 +200,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Save animals to XML creates valid file")
-        void saveToXml_Animals_ShouldCreateValidFile() throws PersistenceException, IOException {
+        void saveToXml_Animals_ShouldCreateValidFile() throws PersistenceException, IOException, ValidationException {
             // Arrange
             List<Animal> animals = createSampleAnimals();
             Path xmlPath = dataDir.resolve(ANIMALS_XML);
@@ -217,7 +218,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Save and load animals preserves all data")
-        void saveAndLoad_Animals_ShouldPreserveData() throws PersistenceException {
+        void saveAndLoad_Animals_ShouldPreserveData() throws PersistenceException, ValidationException {
             // Arrange
             List<Animal> originalAnimals = createSampleAnimals();
             Path xmlPath = dataDir.resolve(ANIMALS_XML);
@@ -270,9 +271,7 @@ class XMLPersistenceTest {
             String nonExistentPath = dataDir.resolve("nonexistent.xml").toString();
             
             // Act & Assert
-            assertThrows(PersistenceException.class, () -> {
-                XMLPersistence.loadFromXML(nonExistentPath, Animal.class);
-            }, "Should throw PersistenceException for non-existent file");
+            assertThrows(PersistenceException.class, () -> XMLPersistence.loadFromXML(nonExistentPath, Animal.class), "Should throw PersistenceException for non-existent file");
         }
         
         @Test
@@ -308,7 +307,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Save keepers preserves polymorphic types")
-        void saveAndLoad_Keepers_ShouldPreservePolymorphicTypes() throws PersistenceException {
+        void saveAndLoad_Keepers_ShouldPreservePolymorphicTypes() throws PersistenceException, ValidationException {
             // Arrange
             List<Keeper> keepers = createSampleKeepers();
             Path xmlPath = dataDir.resolve(KEEPERS_XML);
@@ -337,7 +336,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Save keepers with allocated cages preserves cage IDs")
-        void saveAndLoad_KeepersWithCages_ShouldPreserveCageIds() throws PersistenceException {
+        void saveAndLoad_KeepersWithCages_ShouldPreserveCageIds() throws PersistenceException, ValidationException {
             // Arrange
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "123 Main St", "07123456789");
             setKeeperId(keeper, 1);
@@ -375,7 +374,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Save cages preserves animal IDs and keeper assignment")
-        void saveAndLoad_Cages_ShouldPreserveRelationships() throws PersistenceException {
+        void saveAndLoad_Cages_ShouldPreserveRelationships() throws PersistenceException, ValidationException {
             // Arrange
             Cage cage = new Cage("Large-01", "Large predator cage", 10);
             setCageId(cage, 1);
@@ -404,7 +403,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Save multiple cages of different sizes")
-        void saveAndLoad_MultipleCages_ShouldPreserveAll() throws PersistenceException {
+        void saveAndLoad_MultipleCages_ShouldPreserveAll() throws PersistenceException, ValidationException {
             // Arrange
             List<Cage> cages = createSampleCages();
             Path xmlPath = dataDir.resolve(CAGES_XML);
@@ -439,7 +438,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Validate valid XML against XSD returns true")
-        void validateXml_ValidXml_ShouldReturnTrue() throws PersistenceException, IOException {
+        void validateXml_ValidXml_ShouldReturnTrue() throws PersistenceException, ValidationException {
             // Arrange
             List<Animal> animals = createSampleAnimals();
             Path xmlPath = dataDir.resolve(ANIMALS_XML);
@@ -488,7 +487,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Validate with non-existent XSD throws PersistenceException")
-        void validateXml_NonExistentXsd_ShouldThrowException() throws PersistenceException, IOException {
+        void validateXml_NonExistentXsd_ShouldThrowException() throws PersistenceException, ValidationException {
             // Arrange
             List<Animal> animals = createSampleAnimals();
             Path xmlPath = dataDir.resolve(ANIMALS_XML);
@@ -497,9 +496,7 @@ class XMLPersistenceTest {
             String nonExistentXsd = schemaDir.resolve("nonexistent.xsd").toString();
             
             // Act & Assert
-            assertThrows(PersistenceException.class, () -> {
-                XMLPersistence.validateXML(xmlPath.toString(), nonExistentXsd);
-            }, "Should throw exception for non-existent XSD");
+            assertThrows(PersistenceException.class, () -> XMLPersistence.validateXML(xmlPath.toString(), nonExistentXsd), "Should throw exception for non-existent XSD");
         }
         
         @Test
@@ -559,9 +556,7 @@ class XMLPersistenceTest {
             Files.writeString(xmlPath, corruptXml);
             
             // Act & Assert
-            PersistenceException exception = assertThrows(PersistenceException.class, () -> {
-                XMLPersistence.loadFromXML(xmlPath.toString(), Animal.class);
-            }, "Should throw PersistenceException for corrupt XML");
+            PersistenceException exception = assertThrows(PersistenceException.class, () -> XMLPersistence.loadFromXML(xmlPath.toString(), Animal.class), "Should throw PersistenceException for corrupt XML");
             
             assertNotNull(exception.getMessage(), "Exception should have message");
         }
@@ -582,14 +577,12 @@ class XMLPersistenceTest {
             Files.writeString(xmlPath, wrongRootXml);
             
             // Act & Assert
-            assertThrows(PersistenceException.class, () -> {
-                XMLPersistence.loadFromXML(xmlPath.toString(), Animal.class);
-            }, "Should throw exception for wrong root element");
+            assertThrows(PersistenceException.class, () -> XMLPersistence.loadFromXML(xmlPath.toString(), Animal.class), "Should throw exception for wrong root element");
         }
         
         @Test
         @DisplayName("Save to read-only directory throws PersistenceException")
-        void saveToXml_ReadOnlyDirectory_ShouldThrowException() throws IOException {
+        void saveToXml_ReadOnlyDirectory_ShouldThrowException() throws IOException, ValidationException {
             // Arrange
             List<Animal> animals = createSampleAnimals();
             
@@ -606,9 +599,7 @@ class XMLPersistenceTest {
                 
                 // Act & Assert
                 try {
-                    assertThrows(PersistenceException.class, () -> {
-                        XMLPersistence.saveToXML(animals, xmlPath.toString(), "animals");
-                    }, "Should throw exception when writing to read-only directory");
+                    assertThrows(PersistenceException.class, () -> XMLPersistence.saveToXML(animals, xmlPath.toString(), "animals"), "Should throw exception when writing to read-only directory");
                 } finally {
                     // Cleanup: restore write permissions
                     readOnlyFile.setWritable(true);
@@ -624,9 +615,7 @@ class XMLPersistenceTest {
             String nonExistentPath = dataDir.resolve("nonexistent.xml").toString();
             
             // Act & Assert
-            PersistenceException exception = assertThrows(PersistenceException.class, () -> {
-                XMLPersistence.loadFromXML(nonExistentPath, Animal.class);
-            });
+            PersistenceException exception = assertThrows(PersistenceException.class, () -> XMLPersistence.loadFromXML(nonExistentPath, Animal.class));
             
             // The exception should reference the file path
             assertTrue(exception.getFilePath() != null || 
@@ -645,7 +634,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Dates are saved in ISO format (YYYY-MM-DD)")
-        void saveToXml_Dates_ShouldBeInIsoFormat() throws PersistenceException, IOException {
+        void saveToXml_Dates_ShouldBeInIsoFormat() throws PersistenceException, IOException, ValidationException {
             // Arrange
             Animal animal = createSampleAnimal("Leo", "Tiger", Category.PREDATOR);
             setAnimalId(animal, 1);
@@ -665,7 +654,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Dates are loaded correctly from ISO format")
-        void loadFromXml_IsoDates_ShouldBeLoadedCorrectly() throws PersistenceException {
+        void loadFromXml_IsoDates_ShouldBeLoadedCorrectly() throws PersistenceException, ValidationException {
             // Arrange
             Animal original = createSampleAnimal("Leo", "Tiger", Category.PREDATOR);
             setAnimalId(original, 1);
@@ -698,7 +687,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("XML declaration specifies UTF-8 encoding")
-        void saveToXml_ShouldSpecifyUtf8Encoding() throws PersistenceException, IOException {
+        void saveToXml_ShouldSpecifyUtf8Encoding() throws PersistenceException, IOException, ValidationException {
             // Arrange
             List<Animal> animals = createSampleAnimals();
             Path xmlPath = dataDir.resolve(ANIMALS_XML);
@@ -714,7 +703,7 @@ class XMLPersistenceTest {
         
         @Test
         @DisplayName("Special characters in data are escaped properly")
-        void saveAndLoad_SpecialCharacters_ShouldBePreserved() throws PersistenceException {
+        void saveAndLoad_SpecialCharacters_ShouldBePreserved() throws PersistenceException, ValidationException {
             // Arrange
             Cage cage = new Cage("Cage-01", "Large cage with <special> & \"characters\"", 10);
             setCageId(cage, 1);
@@ -741,7 +730,7 @@ class XMLPersistenceTest {
     /**
      * Creates a list of sample animals for testing.
      */
-    private List<Animal> createSampleAnimals() {
+    private List<Animal> createSampleAnimals() throws ValidationException {
         Animal tiger = createSampleAnimal("Leo", "Tiger", Category.PREDATOR);
         setAnimalId(tiger, 1);
         
@@ -757,7 +746,7 @@ class XMLPersistenceTest {
     /**
      * Creates a sample animal for testing.
      */
-    private Animal createSampleAnimal(String name, String type, Category category) {
+    private Animal createSampleAnimal(String name, String type, Category category) throws ValidationException {
         return new Animal(
             name,
             type,
@@ -771,7 +760,7 @@ class XMLPersistenceTest {
     /**
      * Creates a list of sample keepers for testing.
      */
-    private List<Keeper> createSampleKeepers() {
+    private List<Keeper> createSampleKeepers() throws ValidationException {
         HeadKeeper headKeeper = new HeadKeeper(
             "John", "Smith", "123 Main St", "07123456789"
         );
@@ -788,7 +777,7 @@ class XMLPersistenceTest {
     /**
      * Creates a list of sample cages for testing.
      */
-    private List<Cage> createSampleCages() {
+    private List<Cage> createSampleCages() throws ValidationException {
         Cage largeCage = new Cage("Large-01", "Large predator cage", 10);
         setCageId(largeCage, 1);
         

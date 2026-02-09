@@ -35,7 +35,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should create valid Animal with all correct parameters")
-        void shouldCreateValidAnimal() {
+        void shouldCreateValidAnimal() throws ValidationException {
             // Given: valid animal parameters
             // When: creating new animal
             Animal animal = new Animal(
@@ -184,14 +184,14 @@ class AnimalTest {
         private Animal testAnimal;
 
         @BeforeEach
-        void setUpAnimal() {
+        void setUpAnimal() throws ValidationException {
             testAnimal = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
         }
 
         @Test
         @DisplayName("Should update name with valid value")
-        void shouldUpdateNameWithValidValue() {
+        void shouldUpdateNameWithValidValue() throws ValidationException {
             testAnimal.setName("Simba");
             assertEquals("Simba", testAnimal.getName());
         }
@@ -214,28 +214,28 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should update type with valid value")
-        void shouldUpdateTypeWithValidValue() {
+        void shouldUpdateTypeWithValidValue() throws ValidationException {
             testAnimal.setType("Lion");
             assertEquals("Lion", testAnimal.getType());
         }
 
         @Test
         @DisplayName("Should update category with valid value")
-        void shouldUpdateCategory() {
+        void shouldUpdateCategory() throws ValidationException {
             testAnimal.setCategory(Animal.Category.PREY);
             assertEquals(Animal.Category.PREY, testAnimal.getCategory());
         }
 
         @Test
         @DisplayName("Should update sex with valid value")
-        void shouldUpdateSex() {
+        void shouldUpdateSex() throws ValidationException {
             testAnimal.setSex(Animal.Sex.FEMALE);
             assertEquals(Animal.Sex.FEMALE, testAnimal.getSex());
         }
 
         @Test
         @DisplayName("Should update birth date with valid past date")
-        void shouldUpdateBirthDateWithValidPastDate() {
+        void shouldUpdateBirthDateWithValidPastDate() throws ValidationException {
             LocalDate newBirthDate = LocalDate.of(2019, 1, 1);
             testAnimal.setDateOfBirth(newBirthDate);
             assertEquals(newBirthDate, testAnimal.getDateOfBirth());
@@ -252,7 +252,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should update acquisition date with valid date after birth")
-        void shouldUpdateAcquisitionDateWithValidDate() {
+        void shouldUpdateAcquisitionDateWithValidDate() throws ValidationException {
             LocalDate newAcquisitionDate = LocalDate.of(2021, 6, 15);
             testAnimal.setDateOfAcquisition(newAcquisitionDate);
             assertEquals(newAcquisitionDate, testAnimal.getDateOfAcquisition());
@@ -276,7 +276,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should have ID of 0 when first created")
-        void shouldHaveZeroIdWhenCreated() {
+        void shouldHaveZeroIdWhenCreated() throws ValidationException {
             Animal animal = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             assertEquals(0, animal.getAnimalId());
@@ -284,7 +284,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should update ID when set by registry")
-        void shouldUpdateIdWhenSetByRegistry() {
+        void shouldUpdateIdWhenSetByRegistry() throws ValidationException {
             Animal animal = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             animal.setAnimalId(42);
@@ -293,7 +293,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should allow ID to be updated multiple times")
-        void shouldAllowIdToBeUpdatedMultipleTimes() {
+        void shouldAllowIdToBeUpdatedMultipleTimes() throws ValidationException {
             Animal animal = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             animal.setAnimalId(1);
@@ -311,7 +311,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should be equal when same ID")
-        void shouldBeEqualWhenSameId() {
+        void shouldBeEqualWhenSameId() throws ValidationException {
             Animal animal1 = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             animal1.setAnimalId(1);
@@ -325,7 +325,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should not be equal when different ID")
-        void shouldNotBeEqualWhenDifferentId() {
+        void shouldNotBeEqualWhenDifferentId() throws ValidationException {
             Animal animal1 = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             animal1.setAnimalId(1);
@@ -339,7 +339,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should have same hashCode when same ID")
-        void shouldHaveSameHashCodeWhenSameId() {
+        void shouldHaveSameHashCodeWhenSameId() throws ValidationException {
             Animal animal1 = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             animal1.setAnimalId(1);
@@ -353,7 +353,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should be equal to itself")
-        void shouldBeEqualToItself() {
+        void shouldBeEqualToItself() throws ValidationException {
             Animal animal = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             animal.setAnimalId(1);
@@ -363,7 +363,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should not be equal to null")
-        void shouldNotBeEqualToNull() {
+        void shouldNotBeEqualToNull() throws ValidationException {
             Animal animal = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             animal.setAnimalId(1);
@@ -373,7 +373,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should not be equal to different type object")
-        void shouldNotBeEqualToDifferentType() {
+        void shouldNotBeEqualToDifferentType() throws ValidationException {
             Animal animal = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             animal.setAnimalId(1);
@@ -390,7 +390,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should sort alphabetically by name (ascending)")
-        void shouldSortAlphabeticallyByName() {
+        void shouldSortAlphabeticallyByName() throws ValidationException {
             Animal animalA = new Animal("Alice", "Rabbit", Animal.Category.PREY,
                     validBirthDate, validAcquisitionDate, Animal.Sex.FEMALE);
             Animal animalB = new Animal("Bob", "Zebra", Animal.Category.PREY,
@@ -405,7 +405,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should return 0 when comparing animals with same name")
-        void shouldReturnZeroForSameName() {
+        void shouldReturnZeroForSameName() throws ValidationException {
             Animal animal1 = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             Animal animal2 = new Animal("Leo", "Lion", Animal.Category.PREDATOR,
@@ -416,7 +416,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should be case-insensitive when sorting")
-        void shouldBeCaseInsensitiveWhenSorting() {
+        void shouldBeCaseInsensitiveWhenSorting() throws ValidationException {
             Animal animalLower = new Animal("alice", "Rabbit", Animal.Category.PREY,
                     validBirthDate, validAcquisitionDate, Animal.Sex.FEMALE);
             Animal animalUpper = new Animal("ALICE", "Rabbit", Animal.Category.PREY,
@@ -427,7 +427,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should return positive when this name comes after other name")
-        void shouldReturnPositiveWhenNameComesAfter() {
+        void shouldReturnPositiveWhenNameComesAfter() throws ValidationException {
             Animal animalZ = new Animal("Zebra", "Zebra", Animal.Category.PREY,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             Animal animalA = new Animal("Alice", "Rabbit", Animal.Category.PREY,
@@ -461,7 +461,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should create PREDATOR animal correctly")
-        void shouldCreatePredatorAnimal() {
+        void shouldCreatePredatorAnimal() throws ValidationException {
             Animal predator = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             assertEquals(Animal.Category.PREDATOR, predator.getCategory());
@@ -469,7 +469,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should create PREY animal correctly")
-        void shouldCreatePreyAnimal() {
+        void shouldCreatePreyAnimal() throws ValidationException {
             Animal prey = new Animal("Bugs", "Rabbit", Animal.Category.PREY,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
             assertEquals(Animal.Category.PREY, prey.getCategory());
@@ -484,7 +484,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should accept very long name")
-        void shouldAcceptVeryLongName() {
+        void shouldAcceptVeryLongName() throws ValidationException {
             String longName = "A".repeat(200);
             Animal animal = new Animal(longName, "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
@@ -493,7 +493,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should accept name with special characters")
-        void shouldAcceptNameWithSpecialCharacters() {
+        void shouldAcceptNameWithSpecialCharacters() throws ValidationException {
             String specialName = "Leo-1234 (The Great!)";
             Animal animal = new Animal(specialName, "Tiger", Animal.Category.PREDATOR,
                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
@@ -502,7 +502,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should accept very old animal")
-        void shouldAcceptVeryOldAnimal() {
+        void shouldAcceptVeryOldAnimal() throws ValidationException {
             LocalDate oldBirthDate = LocalDate.of(1900, 1, 1);
             LocalDate oldAcquisitionDate = LocalDate.of(1900, 6, 1);
 
@@ -514,7 +514,7 @@ class AnimalTest {
 
         @Test
         @DisplayName("Should accept animal born and acquired today")
-        void shouldAcceptAnimalBornAndAcquiredToday() {
+        void shouldAcceptAnimalBornAndAcquiredToday() throws ValidationException {
             LocalDate today = LocalDate.now();
 
             Animal newbornAnimal = new Animal("Baby", "Rabbit", Animal.Category.PREY,

@@ -1,5 +1,7 @@
 package com.conservation.model;
 
+import com.conservation.exception.ValidationException;
+
 /**
  * Head Keeper - senior staff member with full management responsibilities.
  * 
@@ -33,7 +35,7 @@ public class HeadKeeper extends Keeper {
      * @param contactNumber keeper's phone number
      */
     public HeadKeeper(String firstName, String surname,
-                      String address, String contactNumber) {
+                      String address, String contactNumber) throws ValidationException {
         super(firstName, surname, address, contactNumber, Position.HEAD_KEEPER);
     }
     

@@ -1,6 +1,7 @@
 package com.conservation.persistence;
 
 import com.conservation.exception.PersistenceException;
+import com.conservation.exception.ValidationException;
 import com.conservation.model.*;
 
 import java.io.*;
@@ -282,7 +283,7 @@ public class XMLPersistence {
     /**
      * Parses Animal from XML.
      */
-    private static Animal parseAnimal(String xmlData) {
+    private static Animal parseAnimal(String xmlData) throws ValidationException {
         int animalId = parseInt(extractValue(xmlData, "animalId"));
         String name = extractValue(xmlData, "name");
         String type = extractValue(xmlData, "type");
@@ -299,7 +300,7 @@ public class XMLPersistence {
     /**
      * Parses Keeper from XML.
      */
-    private static Keeper parseKeeper(String xmlData) {
+    private static Keeper parseKeeper(String xmlData) throws ValidationException {
         int keeperId = parseInt(extractValue(xmlData, "keeperId"));
         String firstName = extractValue(xmlData, "firstName");
         String surname = extractValue(xmlData, "surname");
@@ -326,7 +327,7 @@ public class XMLPersistence {
     /**
      * Parses Cage from XML.
      */
-    private static Cage parseCage(String xmlData) {
+    private static Cage parseCage(String xmlData) throws ValidationException {
         int cageId = parseInt(extractValue(xmlData, "cageId"));
         String cageNumber = extractValue(xmlData, "cageNumber");
         String description = extractValue(xmlData, "description");

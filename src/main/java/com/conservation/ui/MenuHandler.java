@@ -255,7 +255,7 @@ public class MenuHandler {
                 DisplayFormatter.printSuccess(
                     "Animal '" + name + "' added successfully with ID: " + animal.getAnimalId()
                 );
-            } catch (IllegalArgumentException exception) {
+            } catch (IllegalArgumentException | ValidationException exception) {
                 ExceptionHandler.handle(exception);
             }
         } else {
@@ -319,7 +319,7 @@ public class MenuHandler {
                     "Keeper '" + firstName + " " + surname + "' added successfully with ID: " + 
                     keeper.getKeeperId()
                 );
-            } catch (IllegalArgumentException exception) {
+            } catch (IllegalArgumentException | ValidationException exception) {
                 ExceptionHandler.handle(exception);
             }
         } else {
@@ -377,6 +377,8 @@ public class MenuHandler {
                 );
             } catch (IllegalArgumentException exception) {
                 ExceptionHandler.handle(exception);
+            } catch (ValidationException e) {
+                throw new RuntimeException(e);
             }
         } else {
             DisplayFormatter.printInfo("Operation cancelled.");

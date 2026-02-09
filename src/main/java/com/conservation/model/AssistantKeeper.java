@@ -1,5 +1,7 @@
 package com.conservation.model;
 
+import com.conservation.exception.ValidationException;
+
 /**
  * Assistant Keeper - junior staff member with basic care responsibilities.
  * 
@@ -37,7 +39,7 @@ public class AssistantKeeper extends Keeper {
      * @param contactNumber keeper's phone number
      */
     public AssistantKeeper(String firstName, String surname,
-                          String address, String contactNumber) {
+                          String address, String contactNumber) throws ValidationException {
         super(firstName, surname, address, contactNumber, Position.ASSISTANT_KEEPER);
     }
     

@@ -78,7 +78,7 @@ public class DataInitialiser {
      * - Medium: 5 animals
      * - Small: 1 animal
      */
-    private static void loadCages() {
+    private static void loadCages() throws ValidationException {
         System.out.println("Creating cages...");
         
         int cageCount = 0;
@@ -126,7 +126,7 @@ public class DataInitialiser {
      * - 2 head keepers
      * - 3 assistant keepers
      */
-    private static void loadKeepers() {
+    private static void loadKeepers() throws ValidationException {
         System.out.println("Creating keepers...");
         
         int keeperCount = 0;

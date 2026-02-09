@@ -26,7 +26,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should create valid Cage with all correct parameters")
-        void shouldCreateValidCage() {
+        void shouldCreateValidCage() throws ValidationException {
             Cage cage = new Cage(
                     "Large-01",
                     "Large predator cage",
@@ -89,14 +89,14 @@ class CageTest {
 
         @Test
         @DisplayName("Should create small cage with capacity of 1")
-        void shouldCreateSmallCageWithCapacityOfOne() {
+        void shouldCreateSmallCageWithCapacityOfOne() throws ValidationException {
             Cage smallCage = new Cage("Small-01", "Small cage", 1);
             assertEquals(1, smallCage.getAnimalCapacity());
         }
 
         @Test
         @DisplayName("Should create large cage with high capacity")
-        void shouldCreateLargeCageWithHighCapacity() {
+        void shouldCreateLargeCageWithHighCapacity() throws ValidationException {
             Cage largeCage = new Cage("Large-01", "Large cage", 50);
             assertEquals(50, largeCage.getAnimalCapacity());
         }
@@ -111,7 +111,7 @@ class CageTest {
         private Cage testCage;
 
         @BeforeEach
-        void setUpCage() {
+        void setUpCage() throws ValidationException {
             testCage = new Cage("Test-01", "Test cage", 5);
         }
 
@@ -213,14 +213,14 @@ class CageTest {
 
         @Test
         @DisplayName("Should be empty when no animals are added")
-        void shouldBeEmptyWhenNoAnimalsAreAdded() {
+        void shouldBeEmptyWhenNoAnimalsAreAdded() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 5);
             assertTrue(cage.isEmpty());
         }
 
         @Test
         @DisplayName("Should not be empty after adding one animal")
-        void shouldNotBeEmptyAfterAddingOneAnimal() {
+        void shouldNotBeEmptyAfterAddingOneAnimal() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 5);
             cage.addAnimal(1);
             assertFalse(cage.isEmpty());
@@ -228,7 +228,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should not be full when cage has space")
-        void shouldNotBeFullWhenCageHasSpace() {
+        void shouldNotBeFullWhenCageHasSpace() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 5);
             cage.addAnimal(1);
             cage.addAnimal(2);
@@ -237,7 +237,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should be full when capacity is reached")
-        void shouldBeFullWhenCapacityIsReached() {
+        void shouldBeFullWhenCapacityIsReached() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 3);
             cage.addAnimal(1);
             cage.addAnimal(2);
@@ -247,7 +247,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should return correct available space")
-        void shouldReturnCorrectAvailableSpace() {
+        void shouldReturnCorrectAvailableSpace() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 10);
             assertEquals(10, cage.getAvailableSpace());
 
@@ -261,7 +261,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should return zero available space when full")
-        void shouldReturnZeroAvailableSpaceWhenFull() {
+        void shouldReturnZeroAvailableSpaceWhenFull() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 2);
             cage.addAnimal(1);
             cage.addAnimal(2);
@@ -272,7 +272,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should increase available space after removing animal")
-        void shouldIncreaseAvailableSpaceAfterRemovingAnimal() {
+        void shouldIncreaseAvailableSpaceAfterRemovingAnimal() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 5);
             cage.addAnimal(1);
             cage.addAnimal(2);
@@ -287,7 +287,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should handle single capacity cage")
-        void shouldHandleSingleCapacityCage() {
+        void shouldHandleSingleCapacityCage() throws ValidationException {
             Cage cage = new Cage("Small-01", "Small cage", 1);
 
             assertTrue(cage.isEmpty());
@@ -309,7 +309,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should return correct occupancy info format")
-        void shouldReturnCorrectOccupancyInfoFormat() {
+        void shouldReturnCorrectOccupancyInfoFormat() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 10);
             cage.addAnimal(1);
             cage.addAnimal(2);
@@ -324,7 +324,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should return EMPTY status when no animals")
-        void shouldReturnEmptyStatusWhenNoAnimals() {
+        void shouldReturnEmptyStatusWhenNoAnimals() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 10);
 
             String status = cage.getStatus();
@@ -336,7 +336,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should return FULL status when at capacity")
-        void shouldReturnFullStatusWhenAtCapacity() {
+        void shouldReturnFullStatusWhenAtCapacity() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 3);
             cage.addAnimal(1);
             cage.addAnimal(2);
@@ -351,7 +351,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should return AVAILABLE status when has space")
-        void shouldReturnAvailableStatusWhenHasSpace() {
+        void shouldReturnAvailableStatusWhenHasSpace() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 10);
             cage.addAnimal(1);
             cage.addAnimal(2);
@@ -373,7 +373,7 @@ class CageTest {
         private Cage testCage;
 
         @BeforeEach
-        void setUpCage() {
+        void setUpCage() throws ValidationException {
             testCage = new Cage("Test-01", "Test cage", 5);
         }
 
@@ -426,13 +426,13 @@ class CageTest {
         private Cage testCage;
 
         @BeforeEach
-        void setUpCage() {
+        void setUpCage() throws ValidationException {
             testCage = new Cage("Test-01", "Test cage", 5);
         }
 
         @Test
         @DisplayName("Should update cage number with valid value")
-        void shouldUpdateCageNumberWithValidValue() {
+        void shouldUpdateCageNumberWithValidValue() throws ValidationException {
             testCage.setCageNumber("Large-02");
             assertEquals("Large-02", testCage.getCageNumber());
         }
@@ -455,7 +455,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should update description with valid value")
-        void shouldUpdateDescriptionWithValidValue() {
+        void shouldUpdateDescriptionWithValidValue() throws ValidationException {
             testCage.setDescription("Updated description");
             assertEquals("Updated description", testCage.getDescription());
         }
@@ -470,7 +470,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should update capacity with valid value")
-        void shouldUpdateCapacityWithValidValue() {
+        void shouldUpdateCapacityWithValidValue() throws ValidationException {
             testCage.setAnimalCapacity(15);
             assertEquals(15, testCage.getAnimalCapacity());
         }
@@ -500,14 +500,14 @@ class CageTest {
 
         @Test
         @DisplayName("Should have ID of 0 when first created")
-        void shouldHaveZeroIdWhenCreated() {
+        void shouldHaveZeroIdWhenCreated() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 5);
             assertEquals(0, cage.getCageId());
         }
 
         @Test
         @DisplayName("Should update ID when set by registry")
-        void shouldUpdateIdWhenSetByRegistry() {
+        void shouldUpdateIdWhenSetByRegistry() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 5);
             cage.setCageId(42);
             assertEquals(42, cage.getCageId());
@@ -515,7 +515,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should allow ID to be updated multiple times")
-        void shouldAllowIdToBeUpdatedMultipleTimes() {
+        void shouldAllowIdToBeUpdatedMultipleTimes() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 5);
             cage.setCageId(1);
             cage.setCageId(2);
@@ -532,7 +532,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should handle very large capacity")
-        void shouldHandleVeryLargeCapacity() {
+        void shouldHandleVeryLargeCapacity() throws ValidationException {
             Cage largeCage = new Cage("Mega-01", "Huge enclosure", 1000);
             assertEquals(1000, largeCage.getAnimalCapacity());
             assertTrue(largeCage.isEmpty());
@@ -540,7 +540,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should handle long cage number")
-        void shouldHandleLongCageNumber() {
+        void shouldHandleLongCageNumber() throws ValidationException {
             String longNumber = "VeryLongCageNumber-" + "1".repeat(50);
             Cage cage = new Cage(longNumber, "Description", 5);
             assertEquals(longNumber, cage.getCageNumber());
@@ -548,7 +548,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should handle long description")
-        void shouldHandleLongDescription() {
+        void shouldHandleLongDescription() throws ValidationException {
             String longDescription = "This is a very long description. ".repeat(20);
             Cage cage = new Cage("Test-01", longDescription, 5);
             assertEquals(longDescription, cage.getDescription());
@@ -556,7 +556,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should handle adding and removing animals repeatedly")
-        void shouldHandleAddingAndRemovingAnimalsRepeatedly() {
+        void shouldHandleAddingAndRemovingAnimalsRepeatedly() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 3);
 
             cage.addAnimal(1);
@@ -579,7 +579,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should handle filling cage to capacity and then emptying")
-        void shouldHandleFillingCageToCapacityAndThenEmptying() {
+        void shouldHandleFillingCageToCapacityAndThenEmptying() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 3);
 
             cage.addAnimal(1);
@@ -598,7 +598,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should handle capacity reduction with existing animals")
-        void shouldHandleCapacityReductionWithExistingAnimals() {
+        void shouldHandleCapacityReductionWithExistingAnimals() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 10);
             cage.addAnimal(1);
             cage.addAnimal(2);
@@ -614,7 +614,7 @@ class CageTest {
 
         @Test
         @DisplayName("Should maintain animal list integrity after multiple operations")
-        void shouldMaintainAnimalListIntegrityAfterMultipleOperations() {
+        void shouldMaintainAnimalListIntegrityAfterMultipleOperations() throws ValidationException {
             Cage cage = new Cage("Test-01", "Test cage", 10);
 
             // Add animals

@@ -2,6 +2,7 @@ package com.conservation.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import com.conservation.exception.ValidationException;
 
 /**
  * Entity class representing an animal in the conservation system.
@@ -59,7 +60,7 @@ public class Animal implements Comparable<Animal> {
      * @throws IllegalArgumentException if any required field is null or invalid
      */
     public Animal(String name, String type, Category category,
-                  LocalDate dateOfBirth, LocalDate dateOfAcquisition, Sex sex) {
+                  LocalDate dateOfBirth, LocalDate dateOfAcquisition, Sex sex) throws ValidationException {
         validateFields(name, type, category, dateOfBirth, dateOfAcquisition, sex);
         
         this.name = name;
@@ -76,30 +77,30 @@ public class Animal implements Comparable<Animal> {
      * @throws IllegalArgumentException if validation fails
      */
     private void validateFields(String name, String type, Category category,
-                                LocalDate dateOfBirth, LocalDate dateOfAcquisition, Sex sex) {
+                                LocalDate dateOfBirth, LocalDate dateOfAcquisition, Sex sex) throws ValidationException {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Animal name cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Animal name cannot be null or empty");
         }
         if (type == null || type.trim().isEmpty()) {
-            throw new IllegalArgumentException("Animal type cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Animal type cannot be null or empty");
         }
         if (category == null) {
-            throw new IllegalArgumentException("Animal category cannot be null");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Animal category cannot be null");
         }
         if (dateOfBirth == null) {
-            throw new IllegalArgumentException("Date of birth cannot be null");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of birth cannot be null");
         }
         if (dateOfAcquisition == null) {
-            throw new IllegalArgumentException("Date of acquisition cannot be null");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of acquisition cannot be null");
         }
         if (sex == null) {
-            throw new IllegalArgumentException("Animal sex cannot be null");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Animal sex cannot be null");
         }
         if (dateOfBirth.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Date of birth cannot be in the future");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of birth cannot be in the future");
         }
         if (dateOfAcquisition.isBefore(dateOfBirth)) {
-            throw new IllegalArgumentException("Date of acquisition cannot be before date of birth");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of acquisition cannot be before date of birth");
         }
     }
 
@@ -117,9 +118,9 @@ public class Animal implements Comparable<Animal> {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name) throws ValidationException {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Animal name cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Animal name cannot be null or empty");
         }
         this.name = name;
     }
@@ -128,9 +129,9 @@ public class Animal implements Comparable<Animal> {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(String type) throws ValidationException {
         if (type == null || type.trim().isEmpty()) {
-            throw new IllegalArgumentException("Animal type cannot be null or empty");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Animal type cannot be null or empty");
         }
         this.type = type;
     }
@@ -139,9 +140,9 @@ public class Animal implements Comparable<Animal> {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(Category category) throws ValidationException {
         if (category == null) {
-            throw new IllegalArgumentException("Animal category cannot be null");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Animal category cannot be null");
         }
         this.category = category;
     }
@@ -150,12 +151,12 @@ public class Animal implements Comparable<Animal> {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) throws ValidationException {
         if (dateOfBirth == null) {
-            throw new IllegalArgumentException("Date of birth cannot be null");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of birth cannot be null");
         }
         if (dateOfBirth.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Date of birth cannot be in the future");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of birth cannot be in the future");
         }
         this.dateOfBirth = dateOfBirth;
     }
@@ -164,12 +165,12 @@ public class Animal implements Comparable<Animal> {
         return dateOfAcquisition;
     }
 
-    public void setDateOfAcquisition(LocalDate dateOfAcquisition) {
+    public void setDateOfAcquisition(LocalDate dateOfAcquisition) throws ValidationException {
         if (dateOfAcquisition == null) {
-            throw new IllegalArgumentException("Date of acquisition cannot be null");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of acquisition cannot be null");
         }
         if (this.dateOfBirth != null && dateOfAcquisition.isBefore(this.dateOfBirth)) {
-            throw new IllegalArgumentException("Date of acquisition cannot be before date of birth");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of acquisition cannot be before date of birth");
         }
         this.dateOfAcquisition = dateOfAcquisition;
     }
@@ -178,9 +179,9 @@ public class Animal implements Comparable<Animal> {
         return sex;
     }
 
-    public void setSex(Sex sex) {
+    public void setSex(Sex sex) throws ValidationException {
         if (sex == null) {
-            throw new IllegalArgumentException("Animal sex cannot be null");
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Animal sex cannot be null");
         }
         this.sex = sex;
     }

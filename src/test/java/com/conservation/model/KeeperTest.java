@@ -26,7 +26,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should create HeadKeeper with valid parameters")
-        void shouldCreateHeadKeeperWithValidParameters() {
+        void shouldCreateHeadKeeperWithValidParameters() throws ValidationException {
             HeadKeeper headKeeper = new HeadKeeper(
                     "John",
                     "Smith",
@@ -44,7 +44,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should create AssistantKeeper with valid parameters")
-        void shouldCreateAssistantKeeperWithValidParameters() {
+        void shouldCreateAssistantKeeperWithValidParameters() throws ValidationException {
             AssistantKeeper assistant = new AssistantKeeper(
                     "Jane",
                     "Doe",
@@ -62,7 +62,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should have empty allocated cages list when first created")
-        void shouldHaveEmptyAllocatedCagesListWhenCreated() {
+        void shouldHaveEmptyAllocatedCagesListWhenCreated() throws ValidationException {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             
             assertTrue(keeper.getAllocatedCageIds().isEmpty());
@@ -119,13 +119,13 @@ class KeeperTest {
         private HeadKeeper testKeeper;
 
         @BeforeEach
-        void setUpKeeper() {
+        void setUpKeeper() throws ValidationException {
             testKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
         }
 
         @Test
         @DisplayName("Should update first name with valid value")
-        void shouldUpdateFirstNameWithValidValue() {
+        void shouldUpdateFirstNameWithValidValue() throws ValidationException {
             testKeeper.setFirstName("Michael");
             assertEquals("Michael", testKeeper.getFirstName());
         }
@@ -140,21 +140,21 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should update surname with valid value")
-        void shouldUpdateSurnameWithValidValue() {
+        void shouldUpdateSurnameWithValidValue() throws ValidationException {
             testKeeper.setSurname("Johnson");
             assertEquals("Johnson", testKeeper.getSurname());
         }
 
         @Test
         @DisplayName("Should update address with valid value")
-        void shouldUpdateAddressWithValidValue() {
+        void shouldUpdateAddressWithValidValue() throws ValidationException {
             testKeeper.setAddress("789 New St, Glasgow");
             assertEquals("789 New St, Glasgow", testKeeper.getAddress());
         }
 
         @Test
         @DisplayName("Should update contact number with valid value")
-        void shouldUpdateContactNumberWithValidValue() {
+        void shouldUpdateContactNumberWithValidValue() throws ValidationException {
             testKeeper.setContactNumber("07111222333");
             assertEquals("07111222333", testKeeper.getContactNumber());
         }
@@ -169,13 +169,13 @@ class KeeperTest {
         private HeadKeeper testKeeper;
 
         @BeforeEach
-        void setUpKeeper() {
+        void setUpKeeper() throws ValidationException {
             testKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
         }
 
         @Test
         @DisplayName("Should add cage ID to allocated cages list")
-        void shouldAddCageIdToAllocatedCagesList() {
+        void shouldAddCageIdToAllocatedCagesList() throws ValidationException {
             testKeeper.allocateCage(1);
             
             List<Integer> allocatedCages = testKeeper.getAllocatedCageIds();
@@ -185,7 +185,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should add multiple cage IDs")
-        void shouldAddMultipleCageIds() {
+        void shouldAddMultipleCageIds() throws ValidationException {
             testKeeper.allocateCage(1);
             testKeeper.allocateCage(2);
             testKeeper.allocateCage(3);
@@ -199,7 +199,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should remove cage ID from allocated cages list")
-        void shouldRemoveCageIdFromAllocatedCagesList() {
+        void shouldRemoveCageIdFromAllocatedCagesList() throws ValidationException {
             testKeeper.allocateCage(1);
             testKeeper.allocateCage(2);
             
@@ -214,7 +214,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should return false when removing non-existent cage ID")
-        void shouldReturnFalseWhenRemovingNonExistentCageId() {
+        void shouldReturnFalseWhenRemovingNonExistentCageId() throws ValidationException {
             testKeeper.allocateCage(1);
             
             boolean removed = testKeeper.removeCage(999);
@@ -225,7 +225,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should not allow duplicate cage IDs")
-        void shouldNotAllowDuplicateCageIds() {
+        void shouldNotAllowDuplicateCageIds() throws ValidationException {
             testKeeper.allocateCage(1);
             testKeeper.allocateCage(1);
             testKeeper.allocateCage(1);
@@ -236,7 +236,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should return defensive copy of allocated cages list")
-        void shouldReturnDefensiveCopyOfAllocatedCagesList() {
+        void shouldReturnDefensiveCopyOfAllocatedCagesList() throws ValidationException {
             testKeeper.allocateCage(1);
             
             List<Integer> allocatedCages1 = testKeeper.getAllocatedCageIds();
@@ -251,7 +251,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should not modify internal list when modifying returned list")
-        void shouldNotModifyInternalListWhenModifyingReturnedList() {
+        void shouldNotModifyInternalListWhenModifyingReturnedList() throws ValidationException {
             testKeeper.allocateCage(1);
             
             List<Integer> allocatedCages = testKeeper.getAllocatedCageIds();
@@ -271,14 +271,14 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should accept more cages when keeper has 0 cages")
-        void shouldAcceptMoreCagesWhenKeeperHasZeroCages() {
+        void shouldAcceptMoreCagesWhenKeeperHasZeroCages() throws ValidationException {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             assertTrue(keeper.canAcceptMoreCages());
         }
 
         @Test
         @DisplayName("Should accept more cages when keeper has 3 cages")
-        void shouldAcceptMoreCagesWhenKeeperHasThreeCages() {
+        void shouldAcceptMoreCagesWhenKeeperHasThreeCages() throws ValidationException {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             keeper.allocateCage(1);
             keeper.allocateCage(2);
@@ -289,7 +289,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should not accept more cages when keeper has 4 cages (maximum)")
-        void shouldNotAcceptMoreCagesWhenKeeperHasFourCages() {
+        void shouldNotAcceptMoreCagesWhenKeeperHasFourCages() throws ValidationException {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             keeper.allocateCage(1);
             keeper.allocateCage(2);
@@ -301,7 +301,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should accept more cages after removing one cage")
-        void shouldAcceptMoreCagesAfterRemovingOneCage() {
+        void shouldAcceptMoreCagesAfterRemovingOneCage() throws ValidationException {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             keeper.allocateCage(1);
             keeper.allocateCage(2);
@@ -324,14 +324,14 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should have HEAD_KEEPER position")
-        void shouldHaveHeadKeeperPosition() {
+        void shouldHaveHeadKeeperPosition() throws ValidationException {
             HeadKeeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             assertEquals(Keeper.Position.HEAD_KEEPER, headKeeper.getPosition());
         }
 
         @Test
         @DisplayName("Should return full permissions description")
-        void shouldReturnFullPermissionsDescription() {
+        void shouldReturnFullPermissionsDescription() throws ValidationException {
             HeadKeeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             String permissions = headKeeper.getResponsibilities();
             
@@ -344,7 +344,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should return full title with position and name")
-        void shouldReturnFullTitleWithPositionAndName() {
+        void shouldReturnFullTitleWithPositionAndName() throws ValidationException {
             HeadKeeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             String fullTitle = headKeeper.getFullTitle();
             
@@ -355,7 +355,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should be able to manage maximum 4 cages")
-        void shouldBeAbleToManageMaximumFourCages() {
+        void shouldBeAbleToManageMaximumFourCages() throws ValidationException {
             HeadKeeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             
             headKeeper.allocateCage(1);
@@ -376,14 +376,14 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should have ASSISTANT_KEEPER position")
-        void shouldHaveAssistantKeeperPosition() {
+        void shouldHaveAssistantKeeperPosition() throws ValidationException {
             AssistantKeeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             assertEquals(Keeper.Position.ASSISTANT_KEEPER, assistant.getPosition());
         }
 
         @Test
         @DisplayName("Should return limited permissions description")
-        void shouldReturnLimitedPermissionsDescription() {
+        void shouldReturnLimitedPermissionsDescription() throws ValidationException {
             AssistantKeeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             String permissions = assistant.getResponsibilities();
             
@@ -396,7 +396,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should return full title with position and name")
-        void shouldReturnFullTitleWithPositionAndName() {
+        void shouldReturnFullTitleWithPositionAndName() throws ValidationException {
             AssistantKeeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             String fullTitle = assistant.getFullTitle();
             
@@ -407,7 +407,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should have different permissions than HeadKeeper")
-        void shouldHaveDifferentPermissionsThanHeadKeeper() {
+        void shouldHaveDifferentPermissionsThanHeadKeeper() throws ValidationException {
             HeadKeeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             AssistantKeeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             
@@ -419,7 +419,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should be able to manage maximum 4 cages like HeadKeeper")
-        void shouldBeAbleToManageMaximumFourCages() {
+        void shouldBeAbleToManageMaximumFourCages() throws ValidationException {
             AssistantKeeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             
             assistant.allocateCage(1);
@@ -440,21 +440,21 @@ class KeeperTest {
 
         @Test
         @DisplayName("HeadKeeper should be instance of Keeper")
-        void headKeeperShouldBeInstanceOfKeeper() {
+        void headKeeperShouldBeInstanceOfKeeper() throws ValidationException {
             HeadKeeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
-            assertTrue(headKeeper instanceof Keeper);
+            assertInstanceOf(Keeper.class, headKeeper);
         }
 
         @Test
         @DisplayName("AssistantKeeper should be instance of Keeper")
-        void assistantKeeperShouldBeInstanceOfKeeper() {
+        void assistantKeeperShouldBeInstanceOfKeeper() throws ValidationException {
             AssistantKeeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
-            assertTrue(assistant instanceof Keeper);
+            assertInstanceOf(Keeper.class, assistant);
         }
 
         @Test
         @DisplayName("Should store different keeper types in Keeper reference")
-        void shouldStoreDifferentKeeperTypesInKeeperReference() {
+        void shouldStoreDifferentKeeperTypesInKeeperReference() throws ValidationException {
             Keeper keeper1 = new HeadKeeper("John", "Smith", "Address", "Phone");
             Keeper keeper2 = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             
@@ -466,7 +466,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should call correct getResponsibilities implementation through polymorphism")
-        void shouldCallCorrectgetResponsibilitiesImplementationThroughPolymorphism() {
+        void shouldCallCorrectgetResponsibilitiesImplementationThroughPolymorphism() throws ValidationException {
             Keeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             Keeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             
@@ -478,7 +478,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should call correct getFullTitle implementation through polymorphism")
-        void shouldCallCorrectGetFullTitleImplementationThroughPolymorphism() {
+        void shouldCallCorrectGetFullTitleImplementationThroughPolymorphism() throws ValidationException {
             Keeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             Keeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             
@@ -491,7 +491,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Both keeper types should share common Keeper behaviour")
-        void bothKeeperTypesShouldShareCommonKeeperBehaviour() {
+        void bothKeeperTypesShouldShareCommonKeeperBehaviour() throws ValidationException {
             Keeper keeper1 = new HeadKeeper("John", "Smith", "Address1", "Phone1");
             Keeper keeper2 = new AssistantKeeper("Jane", "Doe", "Address2", "Phone2");
             
@@ -514,14 +514,14 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should have ID of 0 when first created")
-        void shouldHaveZeroIdWhenCreated() {
+        void shouldHaveZeroIdWhenCreated() throws ValidationException {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             assertEquals(0, keeper.getKeeperId());
         }
 
         @Test
         @DisplayName("Should update ID when set by registry")
-        void shouldUpdateIdWhenSetByRegistry() {
+        void shouldUpdateIdWhenSetByRegistry() throws ValidationException {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             keeper.setKeeperId(42);
             assertEquals(42, keeper.getKeeperId());
@@ -529,7 +529,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should allow ID to be updated for both keeper types")
-        void shouldAllowIdToBeUpdatedForBothKeeperTypes() {
+        void shouldAllowIdToBeUpdatedForBothKeeperTypes() throws ValidationException {
             HeadKeeper headKeeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             AssistantKeeper assistant = new AssistantKeeper("Jane", "Doe", "Address", "Phone");
             
@@ -549,7 +549,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should accept very long name")
-        void shouldAcceptVeryLongName() {
+        void shouldAcceptVeryLongName() throws ValidationException {
             String longFirstName = "A".repeat(100);
             String longSurname = "B".repeat(100);
             
@@ -561,7 +561,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should accept address with special characters")
-        void shouldAcceptAddressWithSpecialCharacters() {
+        void shouldAcceptAddressWithSpecialCharacters() throws ValidationException {
             String address = "Flat 2/1, 123 Main St, Glasgow, G1 1AA";
             HeadKeeper keeper = new HeadKeeper("John", "Smith", address, "Phone");
             assertEquals(address, keeper.getAddress());
@@ -569,7 +569,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should accept UK phone number formats")
-        void shouldAcceptUKPhoneNumberFormats() {
+        void shouldAcceptUKPhoneNumberFormats() throws ValidationException {
             HeadKeeper keeper1 = new HeadKeeper("John", "Smith", "Address", "07123456789");
             HeadKeeper keeper2 = new HeadKeeper("Jane", "Doe", "Address", "0141 123 4567");
             HeadKeeper keeper3 = new HeadKeeper("Bob", "Johnson", "Address", "+44 7123 456789");
@@ -581,7 +581,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should handle adding and removing same cage multiple times")
-        void shouldHandleAddingAndRemovingSameCageMultipleTimes() {
+        void shouldHandleAddingAndRemovingSameCageMultipleTimes() throws ValidationException {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             
             keeper.allocateCage(1);
@@ -596,7 +596,7 @@ class KeeperTest {
 
         @Test
         @DisplayName("Should handle clearing all cages one by one")
-        void shouldHandleClearingAllCagesOneByOne() {
+        void shouldHandleClearingAllCagesOneByOne() throws ValidationException {
             HeadKeeper keeper = new HeadKeeper("John", "Smith", "Address", "Phone");
             keeper.allocateCage(1);
             keeper.allocateCage(2);

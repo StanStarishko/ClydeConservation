@@ -7,7 +7,6 @@ import com.conservation.model.Animal;
 import com.conservation.model.AssistantKeeper;
 import com.conservation.model.Cage;
 import com.conservation.model.HeadKeeper;
-import com.conservation.model.Keeper;
 import com.conservation.registry.Animals;
 import com.conservation.registry.Cages;
 import com.conservation.registry.Keepers;
@@ -52,7 +51,7 @@ public class AllocationValidatorTest {
     private AssistantKeeper assistantKeeper;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws ValidationException {
         validator = new AllocationValidator();
         
         // Clear registries before each test
@@ -112,33 +111,25 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should allow prey animal to empty cage")
         void testPreyToEmptyCage() {
-            assertDoesNotThrow(() -> {
-                validator.validateAnimalToCage(preyAnimal, emptyCage);
-            });
+            assertDoesNotThrow(() -> validator.validateAnimalToCage(preyAnimal, emptyCage));
         }
         
         @Test
         @DisplayName("Should allow predator animal to empty cage")
         void testPredatorToEmptyCage() {
-            assertDoesNotThrow(() -> {
-                validator.validateAnimalToCage(predatorAnimal, emptyCage);
-            });
+            assertDoesNotThrow(() -> validator.validateAnimalToCage(predatorAnimal, emptyCage));
         }
         
         @Test
         @DisplayName("Should allow prey animal to cage with other prey")
         void testPreyToCageWithPrey() {
-            assertDoesNotThrow(() -> {
-                validator.validateAnimalToCage(anotherPreyAnimal, cageWithPrey);
-            });
+            assertDoesNotThrow(() -> validator.validateAnimalToCage(anotherPreyAnimal, cageWithPrey));
         }
         
         @Test
         @DisplayName("Should reject predator animal to cage with prey")
         void testPredatorToCageWithPrey() {
-            ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateAnimalToCage(predatorAnimal, cageWithPrey);
-            });
+            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateAnimalToCage(predatorAnimal, cageWithPrey));
             
             assertEquals(ValidationException.ErrorType.INVALID_PREDATOR_PREY_MIX, 
                         exception.getErrorType());
@@ -150,9 +141,7 @@ public class AllocationValidatorTest {
             // First, we need to register the predator so validator can check its category
             Animals.add(predatorAnimal);
             
-            ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateAnimalToCage(preyAnimal, cageWithPredator);
-            });
+            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateAnimalToCage(preyAnimal, cageWithPredator));
             
             assertEquals(ValidationException.ErrorType.INVALID_PREDATOR_PREY_MIX, 
                         exception.getErrorType());
@@ -160,7 +149,7 @@ public class AllocationValidatorTest {
         
         @Test
         @DisplayName("Should reject predator to cage with existing predator")
-        void testPredatorToCageWithPredator() {
+        void testPredatorToCageWithPredator() throws ValidationException {
             // Predators must be alone - another predator shouldn't be added
             Animal anotherPredator = new Animal("Shere Khan", "Tiger", Animal.Category.PREDATOR,
                                                 validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
@@ -168,9 +157,7 @@ public class AllocationValidatorTest {
             
             Animals.add(predatorAnimal);
             
-            ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateAnimalToCage(anotherPredator, cageWithPredator);
-            });
+            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateAnimalToCage(anotherPredator, cageWithPredator));
             
             assertEquals(ValidationException.ErrorType.INVALID_PREDATOR_PREY_MIX, 
                         exception.getErrorType());
@@ -179,9 +166,7 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should reject animal to full cage")
         void testAnimalToFullCage() {
-            ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateAnimalToCage(preyAnimal, fullCage);
-            });
+            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateAnimalToCage(preyAnimal, fullCage));
             
             assertEquals(ValidationException.ErrorType.CAGE_CAPACITY_EXCEEDED, 
                         exception.getErrorType());
@@ -191,9 +176,7 @@ public class AllocationValidatorTest {
         @DisplayName("Should reject animal already in cage")
         void testAnimalAlreadyInCage() {
             // preyAnimal is already in cageWithPrey
-            ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateAnimalToCage(preyAnimal, cageWithPrey);
-            });
+            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateAnimalToCage(preyAnimal, cageWithPrey));
             
             // Should fail with some validation error (could be INVALID_INPUT or custom)
             assertNotNull(exception.getErrorType());
@@ -202,17 +185,13 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should reject null animal")
         void testNullAnimal() {
-            assertThrows(ValidationException.class, () -> {
-                validator.validateAnimalToCage(null, emptyCage);
-            });
+            assertThrows(ValidationException.class, () -> validator.validateAnimalToCage(null, emptyCage));
         }
         
         @Test
         @DisplayName("Should reject null cage")
         void testNullCage() {
-            assertThrows(ValidationException.class, () -> {
-                validator.validateAnimalToCage(preyAnimal, null);
-            });
+            assertThrows(ValidationException.class, () -> validator.validateAnimalToCage(preyAnimal, null));
         }
     }
 
@@ -227,14 +206,12 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should allow keeper with no cages to be assigned")
         void testKeeperWithNoCages() {
-            assertDoesNotThrow(() -> {
-                validator.validateKeeperToCage(headKeeper, emptyCage);
-            });
+            assertDoesNotThrow(() -> validator.validateKeeperToCage(headKeeper, emptyCage));
         }
         
         @Test
         @DisplayName("Should allow keeper with 3 cages to accept 4th")
-        void testKeeperWith3Cages() {
+        void testKeeperWith3Cages() throws ValidationException {
             // Assign 3 cages to keeper
             headKeeper.allocateCage(1);
             headKeeper.allocateCage(2);
@@ -243,14 +220,12 @@ public class AllocationValidatorTest {
             Cage fourthCage = new Cage("Large-04", "Fourth cage", 10);
             fourthCage.setCageId(10);
             
-            assertDoesNotThrow(() -> {
-                validator.validateKeeperToCage(headKeeper, fourthCage);
-            });
+            assertDoesNotThrow(() -> validator.validateKeeperToCage(headKeeper, fourthCage));
         }
         
         @Test
         @DisplayName("Should reject keeper with 4 cages from accepting 5th")
-        void testKeeperWith4Cages() {
+        void testKeeperWith4Cages() throws ValidationException {
             // Assign 4 cages (maximum) to keeper
             headKeeper.allocateCage(1);
             headKeeper.allocateCage(2);
@@ -260,9 +235,7 @@ public class AllocationValidatorTest {
             Cage fifthCage = new Cage("Large-05", "Fifth cage", 10);
             fifthCage.setCageId(10);
             
-            ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateKeeperToCage(headKeeper, fifthCage);
-            });
+            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateKeeperToCage(headKeeper, fifthCage));
             
             assertEquals(ValidationException.ErrorType.KEEPER_OVERLOAD, 
                         exception.getErrorType());
@@ -270,12 +243,10 @@ public class AllocationValidatorTest {
         
         @Test
         @DisplayName("Should reject keeper already assigned to this cage")
-        void testKeeperAlreadyAssigned() {
+        void testKeeperAlreadyAssigned() throws ValidationException {
             headKeeper.allocateCage(emptyCage.getCageId());
             
-            ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateKeeperToCage(headKeeper, emptyCage);
-            });
+            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateKeeperToCage(headKeeper, emptyCage));
             
             assertNotNull(exception.getErrorType());
         }
@@ -283,24 +254,18 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should reject null keeper")
         void testNullKeeper() {
-            assertThrows(ValidationException.class, () -> {
-                validator.validateKeeperToCage(null, emptyCage);
-            });
+            assertThrows(ValidationException.class, () -> validator.validateKeeperToCage(null, emptyCage));
         }
         
         @Test
         @DisplayName("Should work for both HeadKeeper and AssistantKeeper")
-        void testBothKeeperTypes() {
-            assertDoesNotThrow(() -> {
-                validator.validateKeeperToCage(headKeeper, emptyCage);
-            });
+        void testBothKeeperTypes() throws ValidationException {
+            assertDoesNotThrow(() -> validator.validateKeeperToCage(headKeeper, emptyCage));
             
             Cage anotherCage = new Cage("Medium-02", "Another cage", 5);
             anotherCage.setCageId(20);
             
-            assertDoesNotThrow(() -> {
-                validator.validateKeeperToCage(assistantKeeper, anotherCage);
-            });
+            assertDoesNotThrow(() -> validator.validateKeeperToCage(assistantKeeper, anotherCage));
         }
     }
 
@@ -314,23 +279,19 @@ public class AllocationValidatorTest {
         
         @Test
         @DisplayName("Should allow removal when keeper has multiple cages")
-        void testRemovalWithMultipleCages() {
+        void testRemovalWithMultipleCages() throws ValidationException {
             headKeeper.allocateCage(1);
             headKeeper.allocateCage(2);
             
-            assertDoesNotThrow(() -> {
-                validator.validateKeeperRemoval(headKeeper);
-            });
+            assertDoesNotThrow(() -> validator.validateKeeperRemoval(headKeeper));
         }
         
         @Test
         @DisplayName("Should reject removal when keeper has only 1 cage (underload)")
-        void testRemovalCausingUnderload() {
+        void testRemovalCausingUnderload() throws ValidationException {
             headKeeper.allocateCage(1);
             
-            ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateKeeperRemoval(headKeeper);
-            });
+            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateKeeperRemoval(headKeeper));
             
             assertEquals(ValidationException.ErrorType.KEEPER_UNDERLOAD, 
                         exception.getErrorType());
@@ -338,20 +299,16 @@ public class AllocationValidatorTest {
         
         @Test
         @DisplayName("Should allow removal with underload when explicitly allowed")
-        void testRemovalWithAllowUnderload() {
+        void testRemovalWithAllowUnderload() throws ValidationException {
             headKeeper.allocateCage(1);
             
-            assertDoesNotThrow(() -> {
-                validator.validateKeeperRemoval(headKeeper);
-            });
+            assertDoesNotThrow(() -> validator.validateKeeperRemoval(headKeeper));
         }
         
         @Test
         @DisplayName("Should allow removal when keeper has no cages with underload allowed")
         void testRemovalNoCagesWithAllowUnderload() {
-            assertDoesNotThrow(() -> {
-                validator.validateKeeperRemoval(headKeeper);
-            });
+            assertDoesNotThrow(() -> validator.validateKeeperRemoval(headKeeper));
         }
     }
 
@@ -366,17 +323,13 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should allow removal when animal is in cage")
         void testRemovalAnimalInCage() {
-            assertDoesNotThrow(() -> {
-                validator.validateAnimalRemoval(preyAnimal, cageWithPrey);
-            });
+            assertDoesNotThrow(() -> validator.validateAnimalRemoval(preyAnimal, cageWithPrey));
         }
         
         @Test
         @DisplayName("Should reject removal when animal is not in cage")
         void testRemovalAnimalNotInCage() {
-            ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateAnimalRemoval(anotherPreyAnimal, cageWithPrey);
-            });
+            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateAnimalRemoval(anotherPreyAnimal, cageWithPrey));
             
             assertNotNull(exception);
         }
@@ -384,9 +337,7 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should reject removal from empty cage")
         void testRemovalFromEmptyCage() {
-            ValidationException exception = assertThrows(ValidationException.class, () -> {
-                validator.validateAnimalRemoval(preyAnimal, emptyCage);
-            });
+            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateAnimalRemoval(preyAnimal, emptyCage));
             
             assertNotNull(exception);
         }
@@ -403,26 +354,20 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should validate cage with positive capacity")
         void testValidCage() {
-            assertDoesNotThrow(() -> {
-                validator.validateCage(emptyCage);
-            });
+            assertDoesNotThrow(() -> validator.validateCage(emptyCage));
         }
         
         @Test
         @DisplayName("Should validate cage at capacity")
         void testCageAtCapacity() {
             // fullCage has capacity 1 and 1 animal
-            assertDoesNotThrow(() -> {
-                validator.validateCage(fullCage);
-            });
+            assertDoesNotThrow(() -> validator.validateCage(fullCage));
         }
         
         @Test
         @DisplayName("Should reject null cage")
         void testNullCageValidation() {
-            assertThrows(ValidationException.class, () -> {
-                validator.validateCage(null);
-            });
+            assertThrows(ValidationException.class, () -> validator.validateCage(null));
         }
     }
 
@@ -463,7 +408,7 @@ public class AllocationValidatorTest {
         
         @Test
         @DisplayName("Should provide detailed error for keeper overload")
-        void testKeeperOverloadErrorMessage() {
+        void testKeeperOverloadErrorMessage() throws ValidationException {
             headKeeper.allocateCage(1);
             headKeeper.allocateCage(2);
             headKeeper.allocateCage(3);
@@ -587,19 +532,17 @@ public class AllocationValidatorTest {
         
         @Test
         @DisplayName("Should handle cage with zero capacity")
-        void testZeroCapacityCage() {
+        void testZeroCapacityCage() throws ValidationException {
             Cage zeroCage = new Cage("Zero", "Zero capacity cage", 0);
             zeroCage.setCageId(999);
             
             // Should reject any animal
-            assertThrows(ValidationException.class, () -> {
-                validator.validateAnimalToCage(preyAnimal, zeroCage);
-            });
+            assertThrows(ValidationException.class, () -> validator.validateAnimalToCage(preyAnimal, zeroCage));
         }
         
         @Test
         @DisplayName("Should handle keeper at exact boundary (4 cages)")
-        void testKeeperAtExactBoundary() {
+        void testKeeperAtExactBoundary() throws ValidationException {
             // Add exactly 3 cages
             headKeeper.allocateCage(1);
             headKeeper.allocateCage(2);
@@ -619,7 +562,7 @@ public class AllocationValidatorTest {
         
         @Test
         @DisplayName("Should validate multiple prey animals in same cage")
-        void testMultiplePreyInCage() {
+        void testMultiplePreyInCage() throws ValidationException {
             // Add multiple prey to a cage
             Cage multiPreyCage = new Cage("Multi", "Multi prey cage", 10);
             multiPreyCage.setCageId(500);
