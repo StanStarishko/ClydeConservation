@@ -36,21 +36,45 @@ public class XMLPersistence {
     public static void saveToXML(Collection<?> entities, String filename, String rootElement)
             throws PersistenceException {
 
-        String filepath = filename.startsWith(DATA_DIRECTORY) ? filename : DATA_DIRECTORY + filename;
+        // Normalise filepath - remove duplicate "data/" prefix if present
+        String filepath = filename;
+        if (filename.startsWith(DATA_DIRECTORY)) {
+            filepath = filename;
+        } else if (!filename.startsWith("/") && !filename.contains(":")) {
+            // Relative path - add DATA_DIRECTORY prefix
+            filepath = DATA_DIRECTORY + filename;
+        }
 
         try {
-            File dataDir = new File(DATA_DIRECTORY);
-            if (!dataDir.exists()) {
-                if (!dataDir.mkdirs()) {
+            // Create parent directory for the target file
+            File targetFile = new File(filepath);
+            File parentDir = targetFile.getParentFile();
+
+            if (parentDir != null && !parentDir.exists()) {
+                if (!parentDir.mkdirs()) {
                     throw new PersistenceException(
-                            "Failed to create data directory",
-                            DATA_DIRECTORY
+                            "Failed to create parent directory",
+                            parentDir.getAbsolutePath()
                     );
                 }
             }
 
+            // Write to temporary file first
             String tempFilepath = filepath + ".tmp";
+            File tempFile = new File(tempFilepath);
 
+            // Ensure parent directory exists for temp file too
+            File tempParentDir = tempFile.getParentFile();
+            if (tempParentDir != null && !tempParentDir.exists()) {
+                if (!tempParentDir.mkdirs()) {
+                    throw new PersistenceException(
+                            "Failed to create temporary directory",
+                            tempParentDir.getAbsolutePath()
+                    );
+                }
+            }
+
+            // Write XML content
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFilepath))) {
                 writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
                 writer.write("<" + rootElement + ">\n");
@@ -63,7 +87,7 @@ public class XMLPersistence {
                 writer.write("</" + rootElement + ">\n");
             }
 
-            File tempFile = new File(tempFilepath);
+            // Atomic rename: delete old file and rename temp file
             File actualFile = new File(filepath);
 
             if (actualFile.exists()) {

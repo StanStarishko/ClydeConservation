@@ -77,23 +77,41 @@ public class SettingsManager {
      * @return true if save successful, false otherwise
      */
     public static boolean saveSettings(Settings settings, String filePath) {
-        File settingsFile = new File(filePath);
-
-        File parentDir = settingsFile.getParentFile();
-        if (parentDir != null && !parentDir.exists()) {
-            if (!parentDir.mkdirs()) {
-                System.err.println("Failed to create config directory");
-                return false;
-            }
+        // Validate parameters
+        if (settings == null) {
+            System.err.println("Cannot save null settings");
+            return false;
         }
 
-        try (FileWriter writer = new FileWriter(settingsFile)) {
-            gson.toJson(settings, writer);
+        if (filePath == null || filePath.trim().isEmpty()) {
+            System.err.println("Config path cannot be null or empty");
+            return false;
+        }
+
+        try {
+            // Create parent directory if needed
+            File configFile = new File(filePath);
+            File parentDir = configFile.getParentFile();
+
+            if (parentDir != null && !parentDir.exists()) {
+                if (!parentDir.mkdirs()) {
+                    System.err.println("Failed to create config directory: " +
+                            parentDir.getAbsolutePath());
+                    return false;
+                }
+            }
+
+            // Write settings to file
+            try (FileWriter writer = new FileWriter(configFile)) {
+                gson.toJson(settings, writer);
+            }
+
             System.out.println("Settings saved successfully to " + filePath);
             currentSettings = settings;
             return true;
+
         } catch (IOException ioException) {
-            System.err.println("Error saving settings: " + ioException.getMessage());
+            System.err.println("Failed to save settings: " + ioException.getMessage());
             return false;
         }
     }
