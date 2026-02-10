@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cages>
+  <cage>
+    <cageId>1</cageId>
+    <cageNumber>Large-01</cageNumber>
+    <description>Large cage for multiple animals</description>
+    <animalCapacity>10</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>2</cageId>
+    <cageNumber>Large-02</cageNumber>
+    <description>Large cage for multiple animals</description>
+    <animalCapacity>10</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>3</cageId>
+    <cageNumber>Large-03</cageNumber>
+    <description>Large cage for multiple animals</description>
+    <animalCapacity>10</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>4</cageId>
+    <cageNumber>Large-04</cageNumber>
+    <description>Large cage for multiple animals</description>
+    <animalCapacity>10</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>5</cageId>
+    <cageNumber>Large-05</cageNumber>
+    <description>Large cage for multiple animals</description>
+    <animalCapacity>10</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>6</cageId>
+    <cageNumber>Medium-01</cageNumber>
+    <description>Medium cage for small groups</description>
+    <animalCapacity>5</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>7</cageId>
+    <cageNumber>Medium-02</cageNumber>
+    <description>Medium cage for small groups</description>
+    <animalCapacity>5</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>8</cageId>
+    <cageNumber>Medium-03</cageNumber>
+    <description>Medium cage for small groups</description>
+    <animalCapacity>5</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>9</cageId>
+    <cageNumber>Small-01</cageNumber>
+    <description>Small cage for single animal</description>
+    <animalCapacity>1</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>10</cageId>
+    <cageNumber>Small-02</cageNumber>
+    <description>Small cage for single animal</description>
+    <animalCapacity>1</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>11</cageId>
+    <cageNumber>Small-03</cageNumber>
+    <description>Small cage for single animal</description>
+    <animalCapacity>1</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>12</cageId>
+    <cageNumber>Small-04</cageNumber>
+    <description>Small cage for single animal</description>
+    <animalCapacity>1</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>13</cageId>
+    <cageNumber>Small-05</cageNumber>
+    <description>Small cage for single animal</description>
+    <animalCapacity>1</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>14</cageId>
+    <cageNumber>Small-06</cageNumber>
+    <description>Small cage for single animal</description>
+    <animalCapacity>1</animalCapacity>
+  </cage>
+  <cage>
+    <cageId>15</cageId>
+    <cageNumber>Small-07</cageNumber>
+    <description>Small cage for single animal</description>
+    <animalCapacity>1</animalCapacity>
+  </cage>
+</cages>

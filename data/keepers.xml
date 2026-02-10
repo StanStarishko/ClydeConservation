@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<keepers>
+  <keeper>
+    <keeperId>1</keeperId>
+    <firstName>John</firstName>
+    <surname>Smith</surname>
+    <address>123 Main Street, Glasgow</address>
+    <contactNumber>07123456789</contactNumber>
+    <position>HEAD_KEEPER</position>
+  </keeper>
+  <keeper>
+    <keeperId>2</keeperId>
+    <firstName>Sarah</firstName>
+    <surname>Johnson</surname>
+    <address>45 High Street, Glasgow</address>
+    <contactNumber>07234567890</contactNumber>
+    <position>HEAD_KEEPER</position>
+  </keeper>
+  <keeper>
+    <keeperId>3</keeperId>
+    <firstName>Michael</firstName>
+    <surname>Brown</surname>
+    <address>78 Queen Street, Glasgow</address>
+    <contactNumber>07345678901</contactNumber>
+    <position>ASSISTANT_KEEPER</position>
+  </keeper>
+  <keeper>
+    <keeperId>4</keeperId>
+    <firstName>Emma</firstName>
+    <surname>Davis</surname>
+    <address>12 King Street, Glasgow</address>
+    <contactNumber>07456789012</contactNumber>
+    <position>ASSISTANT_KEEPER</position>
+  </keeper>
+  <keeper>
+    <keeperId>5</keeperId>
+    <firstName>James</firstName>
+    <surname>Wilson</surname>
+    <address>90 Bridge Street, Glasgow</address>
+    <contactNumber>07567890123</contactNumber>
+    <position>ASSISTANT_KEEPER</position>
+  </keeper>
+</keepers>
