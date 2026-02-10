@@ -101,13 +101,18 @@ public class SettingsManager {
                 }
             }
 
-            // Write settings to file
+            // Write settings to file with pretty printing
             try (FileWriter writer = new FileWriter(configFile)) {
                 gson.toJson(settings, writer);
             }
 
             System.out.println("Settings saved successfully to " + filePath);
-            currentSettings = settings;
+
+            // Only update currentSettings if saving to default path
+            if (filePath.equals(SETTINGS_FILE_PATH)) {
+                currentSettings = settings;
+            }
+
             return true;
 
         } catch (IOException ioException) {

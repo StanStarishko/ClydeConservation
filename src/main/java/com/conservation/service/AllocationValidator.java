@@ -6,8 +6,11 @@ import com.conservation.exception.ValidationException;
 import com.conservation.interfaces.IValidator;
 import com.conservation.model.Animal;
 import com.conservation.model.Cage;
+import com.conservation.model.HeadKeeper;
 import com.conservation.model.Keeper;
 import com.conservation.registry.Animals;
+import com.conservation.registry.Cages;
+import com.conservation.registry.Keepers;
 
 /**
  * Validator for animal and keeper allocation business rules.
@@ -92,6 +95,11 @@ public class AllocationValidator implements IValidator<Object> {
         return lastValidationError;
     }
 
+    @Override
+    public void validateKeeperRemoval(HeadKeeper headKeeper) {
+
+    }
+
     // ============================================
     // ANIMAL-TO-CAGE VALIDATION
     // ============================================
@@ -99,15 +107,21 @@ public class AllocationValidator implements IValidator<Object> {
     /**
      * Validates that an animal can be allocated to a specific cage.
      *
-     * Checks:
-     * 1. Cage is not at capacity
-     * 2. Predator/prey compatibility with existing animals
+     * Validates business rules in order of priority:
+     * 1. Null validation
+     * 2. Existence validation (animal/cage must exist in registries)
+     * 3. Animal not already in this cage
+     * 4. Predator/Prey compatibility (most important business rule)
+     * 5. Capacity constraints
      *
      * @param animal the animal to allocate
-     * @param cage the cage to allocate to
+     * @param cage the cage to allocate the animal to
      * @throws ValidationException if validation fails
      */
     public void validateAnimalToCage(Animal animal, Cage cage) throws ValidationException {
+        // ============================================
+        // 1. NULL VALIDATION
+        // ============================================
         if (animal == null) {
             throw new ValidationException(
                     ValidationException.ErrorType.INVALID_ANIMAL_DATA,
@@ -122,19 +136,94 @@ public class AllocationValidator implements IValidator<Object> {
             );
         }
 
-        // Check 1: Cage capacity
+        // ============================================
+        // 2. EXISTENCE VALIDATION
+        // ============================================
+        Animal existingAnimal = Animals.findById(animal.getAnimalId());
+        if (existingAnimal == null) {
+            lastValidationError = String.format(
+                    "Animal ID %d does not exist in registry. Cannot allocate.",
+                    animal.getAnimalId());
+            throw new ValidationException(
+                    ValidationException.ErrorType.INVALID_ANIMAL_DATA,
+                    lastValidationError
+            );
+        }
+
+        Cage existingCage = Cages.findById(cage.getCageId());
+        if (existingCage == null) {
+            lastValidationError = String.format(
+                    "Cage ID %d does not exist in registry. Cannot allocate.",
+                    cage.getCageId());
+            throw new ValidationException(
+                    ValidationException.ErrorType.INVALID_CAGE_DATA,
+                    lastValidationError
+            );
+        }
+
+        // ============================================
+        // 3. DUPLICATE CHECK
+        // ============================================
+        if (cage.getCurrentAnimalIds().contains(animal.getAnimalId())) {
+            lastValidationError = String.format(
+                    "Animal '%s' (ID: %d) is already in Cage %d (%s)",
+                    animal.getName(), animal.getAnimalId(),
+                    cage.getCageId(), cage.getCageNumber());
+            throw new ValidationException(
+                    ValidationException.ErrorType.INVALID_ANIMAL_DATA,
+                    lastValidationError
+            );
+        }
+
+        // ============================================
+        // 4. PREDATOR/PREY COMPATIBILITY
+        // ============================================
+        if (animal.getCategory() == Animal.Category.PREDATOR) {
+            // PREDATOR must be alone
+            if (!cage.isEmpty()) {
+                lastValidationError = String.format(
+                        "Predator '%s' (ID: %d) cannot share cage with other animals. " +
+                                "Cage %d (%s) currently has %d animal(s).",
+                        animal.getName(), animal.getAnimalId(),
+                        cage.getCageId(), cage.getCageNumber(),
+                        cage.getCurrentOccupancy());
+                throw new ValidationException(
+                        ValidationException.ErrorType.INVALID_PREDATOR_PREY_MIX,
+                        lastValidationError
+                );
+            }
+        } else if (animal.getCategory() == Animal.Category.PREY) {
+            // PREY cannot share with PREDATOR
+            for (Integer existingAnimalId : cage.getCurrentAnimalIds()) {
+                Animal existingAnimalInCage = Animals.findById(existingAnimalId);
+                if (existingAnimalInCage != null &&
+                        existingAnimalInCage.getCategory() == Animal.Category.PREDATOR) {
+                    lastValidationError = String.format(
+                            "Prey animal '%s' (ID: %d) cannot share cage with predator '%s' (ID: %d)",
+                            animal.getName(), animal.getAnimalId(),
+                            existingAnimalInCage.getName(), existingAnimalInCage.getAnimalId());
+                    throw new ValidationException(
+                            ValidationException.ErrorType.INVALID_PREDATOR_PREY_MIX,
+                            lastValidationError
+                    );
+                }
+            }
+        }
+
+        // ============================================
+        // 5. CAPACITY CHECK
+        // ============================================
         if (cage.isFull()) {
-            lastValidationError = String.format("Cage %d (%s) is at maximum capacity (%d/%d animals)",
+            lastValidationError = String.format(
+                    "Cage %d (%s) is at full capacity (%d/%d animals). Cannot add '%s' (ID: %d).",
                     cage.getCageId(), cage.getCageNumber(),
-                    cage.getCurrentOccupancy(), cage.getAnimalCapacity());
+                    cage.getCurrentOccupancy(), cage.getAnimalCapacity(),
+                    animal.getName(), animal.getAnimalId());
             throw new ValidationException(
                     ValidationException.ErrorType.CAGE_CAPACITY_EXCEEDED,
                     lastValidationError
             );
         }
-
-        // Check 2: Predator/prey compatibility
-        validatePredatorPreyCompatibility(animal, cage);
 
         lastValidationError = null;
     }
@@ -206,15 +295,20 @@ public class AllocationValidator implements IValidator<Object> {
     /**
      * Validates that a keeper can be allocated to a specific cage.
      *
-     * Checks:
-     * 1. Keeper has not reached maximum cage limit (default: 4)
-     * 2. Keeper is not already assigned to this cage
+     * Validates:
+     * 1. Null validation
+     * 2. Existence validation (keeper/cage must exist in registries)
+     * 3. Keeper not already assigned to this cage
+     * 4. Keeper workload constraints (max 4 cages)
      *
      * @param keeper the keeper to allocate
-     * @param cage the cage to allocate to
+     * @param cage the cage to allocate the keeper to
      * @throws ValidationException if validation fails
      */
     public void validateKeeperToCage(Keeper keeper, Cage cage) throws ValidationException {
+        // ============================================
+        // 1. NULL VALIDATION
+        // ============================================
         if (keeper == null) {
             throw new ValidationException(
                     ValidationException.ErrorType.INVALID_KEEPER_DATA,
@@ -229,29 +323,62 @@ public class AllocationValidator implements IValidator<Object> {
             );
         }
 
-        Settings.KeeperConstraints constraints = SettingsManager.getKeeperConstraints();
-        int maxCages = constraints.getMaxCages();
-
-        // Check: Keeper has not exceeded maximum cage allocation
-        if (keeper.getAllocatedCageCount() >= maxCages) {
+        // ============================================
+        // 2. EXISTENCE VALIDATION
+        // ============================================
+        Keeper existingKeeper = Keepers.findById(keeper.getKeeperId());
+        if (existingKeeper == null) {
             lastValidationError = String.format(
-                    "Keeper %s (%s) already has maximum cages allocated (%d/%d). Cannot assign more cages.",
-                    keeper.getKeeperId(), keeper.getFullName(),
-                    keeper.getAllocatedCageCount(), maxCages);
+                    "Keeper ID %d does not exist in registry. Cannot allocate.",
+                    keeper.getKeeperId());
             throw new ValidationException(
-                    ValidationException.ErrorType.KEEPER_OVERLOAD,
+                    ValidationException.ErrorType.INVALID_KEEPER_DATA,
                     lastValidationError
             );
         }
 
-        // Check: If cage already has a keeper, log the reassignment
-        if (cage.hasAssignedKeeper()) {
-            Integer currentKeeperId = cage.getAssignedKeeperId();
-            if (!currentKeeperId.equals(keeper.getKeeperId())) {
-                System.out.println(String.format(
-                        "Note: Cage %d will be reassigned from Keeper %d to Keeper %d",
-                        cage.getCageId(), currentKeeperId, keeper.getKeeperId()));
-            }
+        Cage existingCage = Cages.findById(cage.getCageId());
+        if (existingCage == null) {
+            lastValidationError = String.format(
+                    "Cage ID %d does not exist in registry. Cannot allocate.",
+                    cage.getCageId());
+            throw new ValidationException(
+                    ValidationException.ErrorType.INVALID_CAGE_DATA,
+                    lastValidationError
+            );
+        }
+
+        // ============================================
+        // 3. DUPLICATE CHECK
+        // ============================================
+        if (keeper.getAllocatedCageIds().contains(cage.getCageId())) {
+            lastValidationError = String.format(
+                    "Keeper '%s' (ID: %d) is already assigned to Cage %d (%s)",
+                    keeper.getFullName(), keeper.getKeeperId(),
+                    cage.getCageId(), cage.getCageNumber());
+            throw new ValidationException(
+                    ValidationException.ErrorType.INVALID_KEEPER_DATA,
+                    lastValidationError
+            );
+        }
+
+        // ============================================
+        // 4. WORKLOAD CONSTRAINTS
+        // ============================================
+        Settings.KeeperConstraints constraints = SettingsManager.getKeeperConstraints();
+        int maxCages = constraints.getMaxCages();
+
+        if (keeper.getAllocatedCageCount() >= maxCages) {
+            lastValidationError = String.format(
+                    "Keeper '%s' (ID: %d) has reached maximum cage allocation (%d/%d cages). " +
+                            "Cannot assign to Cage %d (%s).",
+                    keeper.getFullName(), keeper.getKeeperId(),
+                    keeper.getAllocatedCageCount(), maxCages,
+                    cage.getCageId(), cage.getCageNumber());
+            throw new ValidationException(
+                    ValidationException.ErrorType.KEEPER_OVERLOAD,
+                    lastValidationError
+            );
         }
 
         lastValidationError = null;
@@ -263,27 +390,15 @@ public class AllocationValidator implements IValidator<Object> {
 
     /**
      * Validates that a keeper can be removed from a cage.
-     * Strict mode - does not allow underload below minimum cages.
      *
-     * @param keeper the keeper to remove from cage
-     * @throws ValidationException if removal would violate minimum cage rule
+     * Checks underload constraints with optional override.
+     * Underload occurs when keeper would have fewer than minimum cages.
+     *
+     * @param keeper the keeper to validate for removal
+     * @param allowUnderload if true, allows removal even if it causes underload
+     * @throws ValidationException if removal would violate constraints
      */
-    public void validateKeeperRemoval(Keeper keeper) throws ValidationException {
-        validateKeeperRemoval(keeper, false);
-    }
-
-    /**
-     * Validates that a keeper can be removed from a cage.
-     *
-     * When allowUnderload is false, keeper must maintain minimum cage allocation after removal.
-     * When allowUnderload is true, the minimum cage constraint is bypassed.
-     *
-     * @param keeper the keeper to remove from cage
-     * @param allowUnderload if true, permits removal even if it drops below minimum cages
-     * @throws ValidationException if removal is not permitted
-     */
-    public void validateKeeperRemoval(Keeper keeper, boolean allowUnderload)
-            throws ValidationException {
+    public void validateKeeperRemoval(Keeper keeper, boolean allowUnderload) throws ValidationException {
         if (keeper == null) {
             throw new ValidationException(
                     ValidationException.ErrorType.INVALID_KEEPER_DATA,
@@ -291,23 +406,43 @@ public class AllocationValidator implements IValidator<Object> {
             );
         }
 
-        if (!allowUnderload) {
-            Settings.KeeperConstraints constraints = SettingsManager.getKeeperConstraints();
-            int minCages = constraints.getMinCages();
+        Settings.KeeperConstraints constraints = SettingsManager.getKeeperConstraints();
+        int minCages = constraints.getMinCages();
 
-            if (keeper.getAllocatedCageCount() - 1 < minCages) {
-                lastValidationError = String.format(
-                        "Cannot remove cage from Keeper %s (%s). Keeper must maintain at least %d cage(s). Current: %d",
-                        keeper.getKeeperId(), keeper.getFullName(),
-                        minCages, keeper.getAllocatedCageCount());
-                throw new ValidationException(
-                        ValidationException.ErrorType.KEEPER_UNDERLOAD,
-                        lastValidationError
-                );
-            }
+        // If keeper has no cages, removal is always allowed
+        if (keeper.getAllocatedCageCount() == 0) {
+            lastValidationError = null;
+            return;
+        }
+
+        // Check if removal would cause underload
+        int cagesAfterRemoval = keeper.getAllocatedCageCount() - 1;
+
+        if (cagesAfterRemoval > 0 && cagesAfterRemoval < minCages && !allowUnderload) {
+            lastValidationError = String.format(
+                    "Removing cage from Keeper '%s' (ID: %d) would result in underload. " +
+                            "Keeper would have %d cage(s), minimum required: %d. " +
+                            "Current: %d",
+                    keeper.getFullName(), keeper.getKeeperId(),
+                    cagesAfterRemoval, minCages,
+                    keeper.getAllocatedCageCount());
+            throw new ValidationException(
+                    ValidationException.ErrorType.KEEPER_UNDERLOAD,
+                    lastValidationError
+            );
         }
 
         lastValidationError = null;
+    }
+
+    /**
+     * Validates keeper removal with default underload restriction.
+     *
+     * @param keeper the keeper to validate
+     * @throws ValidationException if removal would cause underload
+     */
+    public void validateKeeperRemoval(Keeper keeper) throws ValidationException {
+        validateKeeperRemoval(keeper, false);
     }
 
     /**
@@ -334,6 +469,7 @@ public class AllocationValidator implements IValidator<Object> {
             );
         }
 
+        // Check animal is actually in the cage
         if (!cage.getCurrentAnimalIds().contains(animal.getAnimalId())) {
             lastValidationError = String.format(
                     "Animal '%s' (ID: %d) is not in Cage %d (%s). Cannot remove.",

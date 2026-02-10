@@ -22,6 +22,10 @@ public class ExceptionHandler {
      * @param exception the exception to handle
      */
     public static void handle(Exception exception) {
+        if (exception == null) {
+            System.err.println("Unknown error occurred");
+            return;
+        }
         if (exception instanceof ValidationException) {
             handleValidation((ValidationException) exception);
         } else if (exception instanceof PersistenceException) {

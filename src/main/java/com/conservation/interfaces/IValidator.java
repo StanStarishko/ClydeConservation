@@ -1,5 +1,7 @@
 package com.conservation.interfaces;
 
+import com.conservation.model.HeadKeeper;
+
 /**
  * Generic interface for validating objects against business rules.
  * 
@@ -30,4 +32,6 @@ public interface IValidator<T> {
      * @return error message from last validation, or null if validation passed
      */
     String getValidationError();
+
+    void validateKeeperRemoval(HeadKeeper headKeeper);
 }

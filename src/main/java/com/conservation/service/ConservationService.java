@@ -3,6 +3,7 @@ package com.conservation.service;
 import com.conservation.exception.ValidationException;
 import com.conservation.model.Animal;
 import com.conservation.model.Cage;
+import com.conservation.model.HeadKeeper;
 import com.conservation.model.Keeper;
 import com.conservation.registry.Animals;
 import com.conservation.registry.Cages;
@@ -276,7 +277,7 @@ public class ConservationService {
         }
 
         // Validate removal (checks minimum cage requirement)
-        validator.validateKeeperRemoval(keeper);
+        validator.validateKeeperRemoval((HeadKeeper) keeper);
 
         // Remove keeper from cage
         if (cage.getAssignedKeeperId() != null && cage.getAssignedKeeperId().equals(keeperId)) {
