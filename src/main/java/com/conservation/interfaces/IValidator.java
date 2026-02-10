@@ -1,5 +1,7 @@
 package com.conservation.interfaces;
 
+import com.conservation.model.Animal;
+import com.conservation.model.Cage;
 import com.conservation.model.HeadKeeper;
 
 /**
@@ -34,4 +36,5 @@ public interface IValidator<T> {
     String getValidationError();
 
     void validateKeeperRemoval(HeadKeeper headKeeper);
+
 }

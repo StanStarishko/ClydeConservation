@@ -22,75 +22,57 @@ public class SettingsManager {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     
     private static Settings currentSettings;
-    
+
     /**
      * Loads settings from JSON file.
-     * 
-     * If file doesn't exist, creates new default settings and saves them.
+     *
+     * If file doesn't exist, returns default settings WITHOUT saving them.
      * If file is corrupted, returns default settings and logs error.
-     * 
+     *
      * @return Settings object loaded from file or default settings
      */
     public static Settings loadSettings() {
         File settingsFile = new File(SETTINGS_FILE_PATH);
-        
-        // If settings file doesn't exist, create default
+
+        // If settings file doesn't exist, return defaults (DON'T save!)
         if (!settingsFile.exists()) {
-            System.out.println("Settings file not found. Creating default settings...");
-            Settings defaultSettings = new Settings();
-            saveSettings(defaultSettings);
-            currentSettings = defaultSettings;
-            return defaultSettings;
+            System.out.println("Settings file not found. Using default settings.");
+            currentSettings = new Settings();
+            return currentSettings;
         }
-        
+
         // Try to load existing settings
         try (FileReader reader = new FileReader(settingsFile)) {
             currentSettings = gson.fromJson(reader, Settings.class);
             System.out.println("Settings loaded successfully from " + SETTINGS_FILE_PATH);
             return currentSettings;
-        } catch (IOException ioException) {
-            System.err.println("Error loading settings: " + ioException.getMessage());
+        } catch (IOException | com.google.gson.JsonSyntaxException exception) {
+            System.err.println("Error loading settings: " + exception.getMessage());
             System.err.println("Using default settings instead.");
             currentSettings = new Settings();
             return currentSettings;
         }
     }
-    
+
     /**
      * Saves settings to JSON file.
-     * 
+     *
      * Creates parent directory if it doesn't exist.
      * Overwrites existing file with new settings.
-     * 
+     *
      * @param settings the Settings object to save
      * @return true if save successful, false otherwise
      */
     public static boolean saveSettings(Settings settings) {
-            return saveSettings(settings, SETTINGS_FILE_PATH);
-    }
-
-    /**
-     * Saves settings to a specific JSON file path.
-     *
-     * @param settings the Settings object to save
-     * @param filePath the target file path
-     * @return true if save successful, false otherwise
-     */
-    public static boolean saveSettings(Settings settings, String filePath) {
         // Validate parameters
         if (settings == null) {
             System.err.println("Cannot save null settings");
             return false;
         }
 
-        if (filePath == null || filePath.trim().isEmpty()) {
-            System.err.println("Config path cannot be null or empty");
-            return false;
-        }
-
         try {
             // Create parent directory if needed
-            File configFile = new File(filePath);
+            File configFile = new File(SETTINGS_FILE_PATH);
             File parentDir = configFile.getParentFile();
 
             if (parentDir != null && !parentDir.exists()) {
@@ -106,13 +88,8 @@ public class SettingsManager {
                 gson.toJson(settings, writer);
             }
 
-            System.out.println("Settings saved successfully to " + filePath);
-
-            // Only update currentSettings if saving to default path
-            if (filePath.equals(SETTINGS_FILE_PATH)) {
-                currentSettings = settings;
-            }
-
+            System.out.println("Settings saved successfully to " + SETTINGS_FILE_PATH);
+            currentSettings = settings;
             return true;
 
         } catch (IOException ioException) {

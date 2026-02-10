@@ -109,10 +109,11 @@ public class AllocationValidator implements IValidator<Object> {
      *
      * Validates business rules in order of priority:
      * 1. Null validation
-     * 2. Existence validation (animal/cage must exist in registries)
-     * 3. Animal not already in this cage
-     * 4. Predator/Prey compatibility (most important business rule)
-     * 5. Capacity constraints
+     * 2. Animal not already in this cage
+     * 3. Predator/Prey compatibility (most important business rule)
+     * 4. Capacity constraints
+     *
+     * NOTE: Does NOT check if animal/cage exist in registry - that's the caller's responsibility.
      *
      * @param animal the animal to allocate
      * @param cage the cage to allocate the animal to
@@ -137,32 +138,7 @@ public class AllocationValidator implements IValidator<Object> {
         }
 
         // ============================================
-        // 2. EXISTENCE VALIDATION
-        // ============================================
-        Animal existingAnimal = Animals.findById(animal.getAnimalId());
-        if (existingAnimal == null) {
-            lastValidationError = String.format(
-                    "Animal ID %d does not exist in registry. Cannot allocate.",
-                    animal.getAnimalId());
-            throw new ValidationException(
-                    ValidationException.ErrorType.INVALID_ANIMAL_DATA,
-                    lastValidationError
-            );
-        }
-
-        Cage existingCage = Cages.findById(cage.getCageId());
-        if (existingCage == null) {
-            lastValidationError = String.format(
-                    "Cage ID %d does not exist in registry. Cannot allocate.",
-                    cage.getCageId());
-            throw new ValidationException(
-                    ValidationException.ErrorType.INVALID_CAGE_DATA,
-                    lastValidationError
-            );
-        }
-
-        // ============================================
-        // 3. DUPLICATE CHECK
+        // 2. DUPLICATE CHECK
         // ============================================
         if (cage.getCurrentAnimalIds().contains(animal.getAnimalId())) {
             lastValidationError = String.format(
@@ -176,7 +152,7 @@ public class AllocationValidator implements IValidator<Object> {
         }
 
         // ============================================
-        // 4. PREDATOR/PREY COMPATIBILITY
+        // 3. PREDATOR/PREY COMPATIBILITY (CRITICAL!)
         // ============================================
         if (animal.getCategory() == Animal.Category.PREDATOR) {
             // PREDATOR must be alone
@@ -211,7 +187,7 @@ public class AllocationValidator implements IValidator<Object> {
         }
 
         // ============================================
-        // 5. CAPACITY CHECK
+        // 4. CAPACITY CHECK (LAST!)
         // ============================================
         if (cage.isFull()) {
             lastValidationError = String.format(
