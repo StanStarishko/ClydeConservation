@@ -140,11 +140,13 @@ public class XMLPersistence {
         String filepath = filename.startsWith(DATA_DIRECTORY) ? filename : DATA_DIRECTORY + filename;
 
         File file = new File(filepath);
+        if (!file.exists() && new File(filename).isAbsolute()) {
+            filepath = filename;
+            file = new File(filepath);
+        }
+
         if (!file.exists()) {
-            throw new PersistenceException(
-                    "File not found",
-                    filepath
-            );
+            throw new PersistenceException("File not found", filepath);
         }
 
         Collection<T> entities = new ArrayList<>();
