@@ -4,6 +4,7 @@ import com.conservation.interfaces.IRegistry;
 import com.conservation.model.Cage;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -207,11 +208,12 @@ public class Cages {
      * @return collection of cages containing this animal (should be at most 1)
      */
     public static Collection<Cage> findByAnimalId(int animalId) {
-        return allCages.values().stream()
+        return Collections.singleton(allCages.values().stream()
                 .filter(cage -> cage.getCurrentAnimalIds().contains(animalId))
-                .toList();
+                .findFirst()
+                .orElse(null));
     }
-    
+
     /**
      * Finds all cages without an assigned keeper.
      * 
@@ -225,7 +227,6 @@ public class Cages {
     
     /**
      * Finds cages by capacity.
-     * 
      * Useful for finding small (1), medium (5), or large (10) cages.
      * 
      * @param capacity the capacity to filter by

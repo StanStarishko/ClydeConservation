@@ -172,9 +172,10 @@ public class ExceptionHandler {
      * @return user-friendly error message
      */
     public static String getErrorMessage(Exception exception) {
-        if (exception instanceof ValidationException) {
-            ValidationException validationException = (ValidationException) exception;
-            return validationException.getErrorType().getDefaultMessage() + 
+        if (exception == null) {
+            return "Unknown error occurred";
+        } else if (exception instanceof ValidationException validationException) {
+            return validationException.getErrorType().getDefaultMessage() +
                    "\n\n" + exception.getMessage();
         } else if (exception instanceof PersistenceException) {
             return "Failed to save or load data.\n\n" + exception.getMessage();
