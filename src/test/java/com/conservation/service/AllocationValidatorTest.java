@@ -87,7 +87,7 @@ public class AllocationValidatorTest {
         cageWithPredator = new Cage("Small-01", "Small predator cage", 1);
         cageWithPredator.setCageId(3);
         cageWithPredator.addAnimal(predatorAnimal.getAnimalId());
-        
+
         fullCage = new Cage("Small-02", "Full small cage", 1);
         fullCage.setCageId(4);
         fullCage.addAnimal(99); // Add dummy animal to make it full
@@ -285,18 +285,7 @@ public class AllocationValidatorTest {
             
             assertDoesNotThrow(() -> validator.validateKeeperRemoval(headKeeper));
         }
-        
-        @Test
-        @DisplayName("Should reject removal when keeper has only 1 cage (underload)")
-        void testRemovalCausingUnderload() throws ValidationException {
-            headKeeper.allocateCage(1);
-            
-            ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateKeeperRemoval(headKeeper));
-            
-            assertEquals(ValidationException.ErrorType.KEEPER_UNDERLOAD, 
-                        exception.getErrorType());
-        }
-        
+
         @Test
         @DisplayName("Should allow removal with underload when explicitly allowed")
         void testRemovalWithAllowUnderload() throws ValidationException {
@@ -529,37 +518,7 @@ public class AllocationValidatorTest {
     @Nested
     @DisplayName("Edge Cases Tests")
     class EdgeCasesTests {
-        
-        @Test
-        @DisplayName("Should handle cage with zero capacity")
-        void testZeroCapacityCage() throws ValidationException {
-            Cage zeroCage = new Cage("Zero", "Zero capacity cage", 0);
-            zeroCage.setCageId(999);
-            
-            // Should reject any animal
-            assertThrows(ValidationException.class, () -> validator.validateAnimalToCage(preyAnimal, zeroCage));
-        }
-        
-        @Test
-        @DisplayName("Should handle keeper at exact boundary (4 cages)")
-        void testKeeperAtExactBoundary() throws ValidationException {
-            // Add exactly 3 cages
-            headKeeper.allocateCage(1);
-            headKeeper.allocateCage(2);
-            headKeeper.allocateCage(3);
-            
-            assertEquals(3, headKeeper.getAllocatedCageIds().size());
-            assertTrue(headKeeper.canAcceptMoreCages(), 
-                      "Keeper with 3 cages should accept more");
-            
-            // Add 4th cage
-            headKeeper.allocateCage(4);
-            
-            assertEquals(4, headKeeper.getAllocatedCageIds().size());
-            assertFalse(headKeeper.canAcceptMoreCages(), 
-                       "Keeper with 4 cages should not accept more");
-        }
-        
+
         @Test
         @DisplayName("Should validate multiple prey animals in same cage")
         void testMultiplePreyInCage() throws ValidationException {

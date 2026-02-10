@@ -90,6 +90,9 @@ public class Animal implements Comparable<Animal> {
         if (dateOfBirth == null) {
             throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of birth cannot be null");
         }
+        if (dateOfBirth.isAfter(LocalDate.now())) {
+            throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of birth cannot be in the future");
+        }
         if (dateOfAcquisition == null) {
             throw new ValidationException(ValidationException.ErrorType.INVALID_ANIMAL_DATA,  "Date of acquisition cannot be null");
         }

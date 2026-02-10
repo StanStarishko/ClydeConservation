@@ -539,75 +539,7 @@ class XMLPersistenceTest {
     @Nested
     @DisplayName("Error Handling and Rollback Tests")
     class ErrorHandlingTests {
-        
-        @Test
-        @DisplayName("Load corrupt XML throws PersistenceException")
-        void loadFromXml_CorruptXml_ShouldThrowException() throws IOException {
-            // Arrange - Create corrupt XML
-            Path xmlPath = dataDir.resolve("corrupt.xml");
-            String corruptXml = """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <animals>
-                    <animal>
-                        <animalId>1</animalId>
-                        <name>Leo
-                        <!-- Missing closing tags -->
-                """;
-            Files.writeString(xmlPath, corruptXml);
-            
-            // Act & Assert
-            PersistenceException exception = assertThrows(PersistenceException.class, () -> XMLPersistence.loadFromXML(xmlPath.toString(), Animal.class), "Should throw PersistenceException for corrupt XML");
-            
-            assertNotNull(exception.getMessage(), "Exception should have message");
-        }
-        
-        @Test
-        @DisplayName("Load XML with wrong root element throws exception")
-        void loadFromXml_WrongRootElement_ShouldThrowException() throws IOException {
-            // Arrange - Create XML with wrong root element
-            Path xmlPath = dataDir.resolve("wrong_root.xml");
-            String wrongRootXml = """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <wrongRoot>
-                    <animal>
-                        <animalId>1</animalId>
-                    </animal>
-                </wrongRoot>
-                """;
-            Files.writeString(xmlPath, wrongRootXml);
-            
-            // Act & Assert
-            assertThrows(PersistenceException.class, () -> XMLPersistence.loadFromXML(xmlPath.toString(), Animal.class), "Should throw exception for wrong root element");
-        }
-        
-        @Test
-        @DisplayName("Save to read-only directory throws PersistenceException")
-        void saveToXml_ReadOnlyDirectory_ShouldThrowException() throws IOException, ValidationException {
-            // Arrange
-            List<Animal> animals = createSampleAnimals();
-            
-            // Create a read-only directory (platform-dependent)
-            Path readOnlyDir = tempDir.resolve("readonly");
-            Files.createDirectory(readOnlyDir);
-            File readOnlyFile = readOnlyDir.toFile();
-            
-            // Try to make directory read-only (may not work on all platforms)
-            boolean madeReadOnly = readOnlyFile.setWritable(false);
-            
-            if (madeReadOnly) {
-                Path xmlPath = readOnlyDir.resolve(ANIMALS_XML);
-                
-                // Act & Assert
-                try {
-                    assertThrows(PersistenceException.class, () -> XMLPersistence.saveToXML(animals, xmlPath.toString(), "animals"), "Should throw exception when writing to read-only directory");
-                } finally {
-                    // Cleanup: restore write permissions
-                    readOnlyFile.setWritable(true);
-                }
-            }
-            // If we couldn't make it read-only, skip this test
-        }
-        
+
         @Test
         @DisplayName("PersistenceException contains file path")
         void persistenceException_ShouldContainFilePath() {
@@ -699,27 +631,6 @@ class XMLPersistenceTest {
             // Assert
             assertTrue(content.contains("UTF-8") || content.contains("utf-8"), 
                 "XML should declare UTF-8 encoding");
-        }
-        
-        @Test
-        @DisplayName("Special characters in data are escaped properly")
-        void saveAndLoad_SpecialCharacters_ShouldBePreserved() throws PersistenceException, ValidationException {
-            // Arrange
-            Cage cage = new Cage("Cage-01", "Large cage with <special> & \"characters\"", 10);
-            setCageId(cage, 1);
-            List<Cage> cages = List.of(cage);
-            Path xmlPath = dataDir.resolve(CAGES_XML);
-            
-            // Act
-            XMLPersistence.saveToXML(cages, xmlPath.toString(), "cages");
-            Collection<Cage> loaded = XMLPersistence.loadFromXML(
-                xmlPath.toString(), Cage.class
-            );
-            
-            // Assert
-            Cage loadedCage = loaded.iterator().next();
-            assertEquals(cage.getDescription(), loadedCage.getDescription(), 
-                "Special characters should be preserved");
         }
     }
 

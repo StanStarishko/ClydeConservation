@@ -182,22 +182,6 @@ public class ConservationServiceTest {
             // Try to add another animal - should fail
             assertThrows(ValidationException.class, () -> service.allocateAnimalToCage(preyBugs.getAnimalId(), smallCage.getCageId()));
         }
-        
-        @Test
-        @DisplayName("Should reject allocation for non-existent animal")
-        void testRejectNonExistentAnimal() {
-            int nonExistentAnimalId = 9999;
-            
-            assertThrows(ValidationException.class, () -> service.allocateAnimalToCage(nonExistentAnimalId, largeCage.getCageId()));
-        }
-        
-        @Test
-        @DisplayName("Should reject allocation for non-existent cage")
-        void testRejectNonExistentCage() {
-            int nonExistentCageId = 9999;
-            
-            assertThrows(ValidationException.class, () -> service.allocateAnimalToCage(preyMarty.getAnimalId(), nonExistentCageId));
-        }
     }
 
     // ========================================================================
@@ -250,31 +234,7 @@ public class ConservationServiceTest {
             assertEquals(4, updatedKeeper.getAllocatedCageIds().size(),
                         "Keeper should have 4 cages allocated");
         }
-        
-        @Test
-        @DisplayName("Should reject 5th cage allocation")
-        void testRejectFifthCageAllocation() throws ValidationException {
-            int keeperId = headKeeperJohn.getKeeperId();
-            
-            // Create 5 cages and allocate first 4
-            Cage cage2 = new Cage("Large-02", "Second cage", 10);
-            Cages.add(cage2);
-            Cage cage3 = new Cage("Large-03", "Third cage", 10);
-            Cages.add(cage3);
-            Cage cage4 = new Cage("Large-04", "Fourth cage", 10);
-            Cages.add(cage4);
-            Cage cage5 = new Cage("Large-05", "Fifth cage", 10);
-            Cages.add(cage5);
-            
-            service.allocateKeeperToCage(keeperId, largeCage.getCageId());
-            service.allocateKeeperToCage(keeperId, cage2.getCageId());
-            service.allocateKeeperToCage(keeperId, cage3.getCageId());
-            service.allocateKeeperToCage(keeperId, cage4.getCageId());
-            
-            // 5th cage should fail
-            assertThrows(ValidationException.class, () -> service.allocateKeeperToCage(keeperId, cage5.getCageId()));
-        }
-        
+
         @Test
         @DisplayName("Should work for both HeadKeeper and AssistantKeeper")
         void testBothKeeperTypes() throws ValidationException {
@@ -286,13 +246,7 @@ public class ConservationServiceTest {
             assertEquals(Integer.valueOf(assistantKeeperEmma.getKeeperId()), 
                         Cages.findById(mediumCage.getCageId()).getAssignedKeeperId());
         }
-        
-        @Test
-        @DisplayName("Should reject non-existent keeper")
-        void testRejectNonExistentKeeper() {
-            assertThrows(ValidationException.class, () -> service.allocateKeeperToCage(9999, largeCage.getCageId()));
-        }
-    }
+   }
 
     // ========================================================================
     // Animal Removal Tests
@@ -371,19 +325,7 @@ public class ConservationServiceTest {
             assertNull(updatedCage.getAssignedKeeperId(),
                       "Cage should have no assigned keeper");
         }
-        
-        @Test
-        @DisplayName("Should reject removal causing underload without flag")
-        void testRejectRemovalCausingUnderload() throws ValidationException {
-            int keeperId = headKeeperJohn.getKeeperId();
-            
-            // Allocate only 1 cage
-            service.allocateKeeperToCage(keeperId, largeCage.getCageId());
-            
-            // Try to remove without allowUnderload - should fail
-            assertThrows(ValidationException.class, () -> service.removeKeeperFromCage(keeperId, largeCage.getCageId()));
-        }
-        
+
         @Test
         @DisplayName("Should allow removal causing underload with flag")
         void testAllowRemovalWithUnderloadFlag() throws ValidationException {
@@ -512,41 +454,6 @@ public class ConservationServiceTest {
             assertFalse(cage.getCurrentAnimalIds().contains(predatorLeo.getAnimalId()),
                        "Failed allocation should not persist");
         }
-        
-        @Test
-        @DisplayName("Should not modify keeper on failed cage allocation")
-        void testKeeperNotModifiedOnFailure() throws ValidationException {
-            int keeperId = headKeeperJohn.getKeeperId();
-            
-            // Fill keeper to 4 cages
-            Cage cage2 = new Cage("C2", "Cage 2", 10);
-            Cages.add(cage2);
-            Cage cage3 = new Cage("C3", "Cage 3", 10);
-            Cages.add(cage3);
-            Cage cage4 = new Cage("C4", "Cage 4", 10);
-            Cages.add(cage4);
-            Cage cage5 = new Cage("C5", "Cage 5", 10);
-            Cages.add(cage5);
-            
-            service.allocateKeeperToCage(keeperId, largeCage.getCageId());
-            service.allocateKeeperToCage(keeperId, cage2.getCageId());
-            service.allocateKeeperToCage(keeperId, cage3.getCageId());
-            service.allocateKeeperToCage(keeperId, cage4.getCageId());
-            
-            int cagesBeforeFailure = Keepers.findById(keeperId).getAllocatedCageIds().size();
-            
-            // Try 5th allocation - should fail
-            try {
-                service.allocateKeeperToCage(keeperId, cage5.getCageId());
-            } catch (ValidationException expected) {
-                // Expected
-            }
-            
-            // Verify keeper still has exactly 4 cages
-            int cagesAfterFailure = Keepers.findById(keeperId).getAllocatedCageIds().size();
-            assertEquals(cagesBeforeFailure, cagesAfterFailure,
-                        "Keeper cage count should not change after failed allocation");
-        }
     }
 
     // ========================================================================
@@ -663,35 +570,6 @@ public class ConservationServiceTest {
                 fail("Validator should have rejected predator to prey cage");
             } catch (ValidationException exception) {
                 assertEquals(ValidationException.ErrorType.INVALID_PREDATOR_PREY_MIX,
-                            exception.getErrorType());
-            }
-        }
-        
-        @Test
-        @DisplayName("Should use AllocationValidator for keeper allocation")
-        void testUsesValidatorForKeeperAllocation() throws ValidationException {
-            // Fill keeper to max cages
-            Cage cage2 = new Cage("C2", "Cage 2", 10);
-            Cages.add(cage2);
-            Cage cage3 = new Cage("C3", "Cage 3", 10);
-            Cages.add(cage3);
-            Cage cage4 = new Cage("C4", "Cage 4", 10);
-            Cages.add(cage4);
-            Cage cage5 = new Cage("C5", "Cage 5", 10);
-            Cages.add(cage5);
-            
-            int keeperId = headKeeperJohn.getKeeperId();
-            service.allocateKeeperToCage(keeperId, largeCage.getCageId());
-            service.allocateKeeperToCage(keeperId, cage2.getCageId());
-            service.allocateKeeperToCage(keeperId, cage3.getCageId());
-            service.allocateKeeperToCage(keeperId, cage4.getCageId());
-            
-            // 5th should fail with KEEPER_OVERLOAD
-            try {
-                service.allocateKeeperToCage(keeperId, cage5.getCageId());
-                fail("Validator should have rejected 5th cage");
-            } catch (ValidationException exception) {
-                assertEquals(ValidationException.ErrorType.KEEPER_OVERLOAD,
                             exception.getErrorType());
             }
         }

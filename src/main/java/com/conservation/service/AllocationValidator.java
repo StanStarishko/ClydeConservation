@@ -110,10 +110,11 @@ public class AllocationValidator implements IValidator<Object> {
      * Validates business rules in order of priority:
      * 1. Null validation
      * 2. Animal not already in this cage
-     * 3. Predator/Prey compatibility (most important business rule)
+     * 3. Predator/Prey compatibility (CRITICAL business rule)
      * 4. Capacity constraints
      *
-     * NOTE: Does NOT check if animal/cage exist in registry - that's the caller's responsibility.
+     * NOTE: Does NOT check if animal/cage exist in registry.
+     * That is the caller's (ConservationService) responsibility.
      *
      * @param animal the animal to allocate
      * @param cage the cage to allocate the animal to
@@ -226,15 +227,12 @@ public class AllocationValidator implements IValidator<Object> {
 
         // Determine existing animal categories in cage
         boolean cageHasPredators = false;
-        boolean cageHasPrey = false;
 
         for (Integer existingAnimalId : cage.getCurrentAnimalIds()) {
             Animal existingAnimal = Animals.findById(existingAnimalId);
             if (existingAnimal != null) {
                 if (existingAnimal.getCategory() == Animal.Category.PREDATOR) {
                     cageHasPredators = true;
-                } else {
-                    cageHasPrey = true;
                 }
             }
         }
