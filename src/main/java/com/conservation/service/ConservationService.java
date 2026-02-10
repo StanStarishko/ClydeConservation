@@ -161,9 +161,11 @@ public class ConservationService {
         }
 
         // Find and remove from any cages
-        for (Cage cage : Cages.findByAnimalId(animalId)) {
+        Cage cage = Cages.findByAnimalId(animalId);
+        if (cage != null) {
             cage.removeAnimal(animalId);
-            System.out.println(String.format("Animal %d removed from Cage %d", animalId, cage.getCageId()));
+            System.out.println(String.format("Removed %s (ID: %d) from cage %s",
+                    animal.getName(), animalId, cage.getCageNumber()));
         }
 
         // Remove from registry

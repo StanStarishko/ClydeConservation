@@ -141,7 +141,10 @@ public class XMLPersistence {
 
         File file = new File(filepath);
         if (!file.exists()) {
-            return new ArrayList<>();
+            throw new PersistenceException(
+                    "File not found",
+                    filepath
+            );
         }
 
         Collection<T> entities = new ArrayList<>();
@@ -176,7 +179,11 @@ public class XMLPersistence {
             return entities;
 
         } catch (FileNotFoundException fileNotFoundException) {
-            return new ArrayList<>();
+            throw new PersistenceException(
+                    "File not found",
+                    filepath,
+                    fileNotFoundException
+            );
         } catch (IOException ioException) {
             throw new PersistenceException(
                     "Failed to read XML file",

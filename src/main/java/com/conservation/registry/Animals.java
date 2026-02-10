@@ -3,6 +3,7 @@ package com.conservation.registry;
 import com.conservation.interfaces.IRegistry;
 import com.conservation.model.Animal;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +70,7 @@ public class Animals {
      * @return collection of all animals (defensive copy)
      */
     public static Collection<Animal> getAll() {
-        return allAnimals.values();
+        return new ArrayList<>(allAnimals.values());
     }
     
     /**

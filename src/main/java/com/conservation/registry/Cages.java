@@ -200,18 +200,21 @@ public class Cages {
                                cage.getAssignedKeeperId().equals(keeperId))
                 .toList();
     }
-    
+
     /**
-     * Finds all cages that contain a specific animal.
-     * 
+     * Finds the cage containing a specific animal.
+     *
+     * An animal can only be in one cage at a time, so this returns
+     * a single Cage or null if the animal is not in any cage.
+     *
      * @param animalId the ID of the animal to search for
-     * @return collection of cages containing this animal (should be at most 1)
+     * @return the cage containing this animal, or null if not found
      */
-    public static Collection<Cage> findByAnimalId(int animalId) {
-        return Collections.singleton(allCages.values().stream()
+    public static Cage findByAnimalId(int animalId) {
+        return allCages.values().stream()
                 .filter(cage -> cage.getCurrentAnimalIds().contains(animalId))
                 .findFirst()
-                .orElse(null));
+                .orElse(null);
     }
 
     /**
