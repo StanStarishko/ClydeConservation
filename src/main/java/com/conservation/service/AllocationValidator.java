@@ -110,8 +110,8 @@ public class AllocationValidator implements IValidator<Object> {
      * Validates business rules in order of priority:
      * 1. Null validation
      * 2. Animal not already in this cage
-     * 3. Predator/Prey compatibility (CRITICAL business rule)
-     * 4. Capacity constraints
+     * 3. Predator/Prey compatibility (CRITICAL business rule - checked FIRST!)
+     * 4. Capacity constraints (checked LAST)
      *
      * NOTE: Does NOT check if animal/cage exist in registry.
      * That is the caller's (ConservationService) responsibility.
@@ -153,7 +153,7 @@ public class AllocationValidator implements IValidator<Object> {
         }
 
         // ============================================
-        // 3. PREDATOR/PREY COMPATIBILITY (CRITICAL!)
+        // 3. PREDATOR/PREY COMPATIBILITY (CRITICAL - CHECK FIRST!)
         // ============================================
         if (animal.getCategory() == Animal.Category.PREDATOR) {
             // PREDATOR must be alone
@@ -271,9 +271,11 @@ public class AllocationValidator implements IValidator<Object> {
      *
      * Validates:
      * 1. Null validation
-     * 2. Existence validation (keeper/cage must exist in registries)
-     * 3. Keeper not already assigned to this cage
-     * 4. Keeper workload constraints (max 4 cages)
+     * 2. Keeper not already assigned to this cage
+     * 3. Keeper workload constraints (max 4 cages from settings)
+     *
+     * NOTE: Does NOT check if keeper/cage exist in registry.
+     * That is the caller's (ConservationService) responsibility.
      *
      * @param keeper the keeper to allocate
      * @param cage the cage to allocate the keeper to
@@ -298,32 +300,7 @@ public class AllocationValidator implements IValidator<Object> {
         }
 
         // ============================================
-        // 2. EXISTENCE VALIDATION
-        // ============================================
-        Keeper existingKeeper = Keepers.findById(keeper.getKeeperId());
-        if (existingKeeper == null) {
-            lastValidationError = String.format(
-                    "Keeper ID %d does not exist in registry. Cannot allocate.",
-                    keeper.getKeeperId());
-            throw new ValidationException(
-                    ValidationException.ErrorType.INVALID_KEEPER_DATA,
-                    lastValidationError
-            );
-        }
-
-        Cage existingCage = Cages.findById(cage.getCageId());
-        if (existingCage == null) {
-            lastValidationError = String.format(
-                    "Cage ID %d does not exist in registry. Cannot allocate.",
-                    cage.getCageId());
-            throw new ValidationException(
-                    ValidationException.ErrorType.INVALID_CAGE_DATA,
-                    lastValidationError
-            );
-        }
-
-        // ============================================
-        // 3. DUPLICATE CHECK
+        // 2. DUPLICATE CHECK
         // ============================================
         if (keeper.getAllocatedCageIds().contains(cage.getCageId())) {
             lastValidationError = String.format(
@@ -337,7 +314,7 @@ public class AllocationValidator implements IValidator<Object> {
         }
 
         // ============================================
-        // 4. WORKLOAD CONSTRAINTS
+        // 3. WORKLOAD CONSTRAINTS
         // ============================================
         Settings.KeeperConstraints constraints = SettingsManager.getKeeperConstraints();
         int maxCages = constraints.getMaxCages();

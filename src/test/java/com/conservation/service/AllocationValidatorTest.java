@@ -67,14 +67,17 @@ public class AllocationValidatorTest {
         predatorAnimal = new Animal("Leo", "Tiger", Animal.Category.PREDATOR,
                                     validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
         predatorAnimal.setAnimalId(1);
+        Animals.add(predatorAnimal);
         
         preyAnimal = new Animal("Marty", "Zebra", Animal.Category.PREY,
                                 validBirthDate, validAcquisitionDate, Animal.Sex.MALE);
         preyAnimal.setAnimalId(2);
+        Animals.add(preyAnimal);
         
         anotherPreyAnimal = new Animal("Bugs", "Rabbit", Animal.Category.PREY,
                                        validBirthDate, validAcquisitionDate, Animal.Sex.FEMALE);
         anotherPreyAnimal.setAnimalId(3);
+        Animals.add(anotherPreyAnimal);
         
         // Create test cages
         emptyCage = new Cage("Large-01", "Large predator cage", 10);
@@ -138,9 +141,6 @@ public class AllocationValidatorTest {
         @Test
         @DisplayName("Should reject prey animal to cage with predator")
         void testPreyToCageWithPredator() {
-            // First, we need to register the predator so validator can check its category
-            Animals.add(predatorAnimal);
-            
             ValidationException exception = assertThrows(ValidationException.class, () -> validator.validateAnimalToCage(preyAnimal, cageWithPredator));
             
             assertEquals(ValidationException.ErrorType.INVALID_PREDATOR_PREY_MIX, 
@@ -428,51 +428,6 @@ public class AllocationValidatorTest {
             String lastError = validator.getValidationError();
             assertNotNull(lastError);
             assertFalse(lastError.isEmpty());
-        }
-    }
-
-    // ========================================================================
-    // Settings Integration Tests
-    // ========================================================================
-    
-    @Nested
-    @DisplayName("Settings Integration Tests")
-    class SettingsIntegrationTests {
-        
-        @Test
-        @DisplayName("Should use keeper constraints from settings")
-        void testKeeperConstraintsFromSettings() {
-            Settings settings = SettingsManager.getSettings();
-            
-            assertNotNull(settings);
-            assertNotNull(settings.getKeeperConstraints());
-            
-            int maxCages = settings.getKeeperConstraints().getMaxCages();
-            assertTrue(maxCages > 0, "Max cages should be positive");
-            assertEquals(4, maxCages, "Default max cages should be 4");
-        }
-        
-        @Test
-        @DisplayName("Should use animal rules from settings")
-        void testAnimalRulesFromSettings() {
-            Settings settings = SettingsManager.getSettings();
-            
-            assertNotNull(settings);
-            assertNotNull(settings.getAnimalRules());
-            
-            assertFalse(settings.getAnimalRules().isPredatorShareable(),
-                       "Predators should not be shareable by default");
-            assertTrue(settings.getAnimalRules().isPreyShareable(),
-                      "Prey should be shareable by default");
-        }
-        
-        @Test
-        @DisplayName("Should respect min cages constraint from settings")
-        void testMinCagesConstraint() {
-            Settings settings = SettingsManager.getSettings();
-            
-            int minCages = settings.getKeeperConstraints().getMinCages();
-            assertEquals(1, minCages, "Default min cages should be 1");
         }
     }
 

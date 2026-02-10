@@ -227,10 +227,11 @@ class KeeperTest {
         @DisplayName("Should not allow duplicate cage IDs")
         void shouldNotAllowDuplicateCageIds() throws ValidationException {
             testKeeper.allocateCage(1);
-            testKeeper.allocateCage(1);
-            testKeeper.allocateCage(1);
-            
-            // Should only be added once
+
+            // Second attempt should throw exception
+            assertThrows(ValidationException.class, () -> testKeeper.allocateCage(1));
+
+            // Should still only have one cage
             assertEquals(1, testKeeper.getAllocatedCageIds().size());
         }
 

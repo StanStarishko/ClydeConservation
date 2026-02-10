@@ -121,7 +121,7 @@ public class ConservationService {
      * @param cageId the ID of the cage to remove from
      * @throws IllegalArgumentException if animal or cage not found
      */
-    public void removeAnimalFromCage(int animalId, int cageId) {
+    public void removeAnimalFromCage(int animalId, int cageId) throws ValidationException {
         // Find entities
         Animal animal = Animals.findById(animalId);
         if (animal == null) {
@@ -132,6 +132,8 @@ public class ConservationService {
         if (cage == null) {
             throw new IllegalArgumentException("Cage not found: ID " + cageId);
         }
+
+        validator.validateAnimalRemoval(animal, cage);
 
         // Remove animal from cage
         boolean removed = cage.removeAnimal(animalId);

@@ -140,7 +140,11 @@ public class SettingsManager {
      * @return KeeperConstraints object
      */
     public static Settings.KeeperConstraints getKeeperConstraints() {
-        return getSettings().getKeeperConstraints();
+        Settings settings = getSettings();
+        if (settings == null) {
+            settings = new Settings(); // Default settings
+        }
+        return settings.getKeeperConstraints();
     }
     
     /**

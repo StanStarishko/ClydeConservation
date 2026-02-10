@@ -1,8 +1,10 @@
 package com.conservation.interfaces;
 
+import com.conservation.exception.ValidationException;
 import com.conservation.model.Animal;
 import com.conservation.model.Cage;
 import com.conservation.model.HeadKeeper;
+import com.conservation.model.Keeper;
 
 /**
  * Generic interface for validating objects against business rules.

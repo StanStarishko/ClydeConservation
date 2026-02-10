@@ -169,10 +169,11 @@ class CageTest {
         @DisplayName("Should not allow duplicate animal IDs")
         void shouldNotAllowDuplicateAnimalIds() {
             testCage.addAnimal(1);
-            testCage.addAnimal(1);
-            testCage.addAnimal(1);
 
-            // Should only be added once
+            // Second attempt should throw exception
+            assertThrows(IllegalArgumentException.class, () -> testCage.addAnimal(1));
+
+            // Should still only have one animal
             assertEquals(1, testCage.getCurrentAnimalIds().size());
         }
 
