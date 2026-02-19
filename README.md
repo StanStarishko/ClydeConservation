@@ -224,11 +224,8 @@ mvn clean compile exec:java
 
 **Want to see the complete journey?**
 
-🔗 **[Interactive Testing Dashboard](https://stanstarishko.github.io/ClydeConservation/)** - Visual progress from 77.9% to 100%
-
+🔗 **[Interactive Testing Dashboard](https://stanstarishko.github.io/ClydeConservation/)** - Visual progress from 77.9% to 100%  
 📄 **[Testing Strategy Document (PDF)](docs/Testing%20Strategy%20and%20Results.pdf)** - Full analysis with decisions and reasoning
-
-📂 **[10 Test Report Logs](docs/testlogs/)** - Every iteration documented (Round 01-10)
 
 ---
 
@@ -253,7 +250,7 @@ mvn clean compile exec:java
 **Stanislav Starishko**
 
 📂 [GitHub Repository](https://github.com/StanStarishko/ClydeConservation)  
-📐 [Diagrams Dashboard](https://stanstarishko.github.io/ClydeConservation/diagrams.html)
+📐 [Diagrams Dashboard](https://stanstarishko.github.io/ClydeConservation/diagrams.html)  
 📊 [Testing Dashboard](https://stanstarishko.github.io/ClydeConservation/)
 
 ---
