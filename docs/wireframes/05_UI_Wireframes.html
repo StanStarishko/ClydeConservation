@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Wireframes - Clyde Conservation Console Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            color: black;
+        }
+        
+        h1 {
+            color: black;
+            border-bottom: 3px solid black;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: black;
+            margin-top: 40px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 5px;
+        }
+        
+        h3 {
+            color: black;
+            margin-top: 30px;
+        }
+        
+        .console-screen {
+            color: black;
+            background-color: #f5f5f5;
+            border: 2px solid black;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 20px 0;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        
+        .section {
+            page-break-after: always;
+        }
+        
+        .principles {
+            background-color: #f9f9f9;
+            border-left: 4px solid black;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        ul {
+            line-height: 1.8;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>UI Wireframes - Clyde Conservation Console Interface</h1>
+
+<h2>Overview</h2>
+<p>This document presents wireframes for the console-based user interface of the Clyde Conservation Management System.</p>
+
+<hr>
+
+<div class="section">
+<h2>1. Main Menu</h2>
+<div class="console-screen">============================================
+   CLYDE CONSERVATION MANAGEMENT SYSTEM
+============================================
+
+MAIN MENU:
+1. Administrator Menu
+2. Head Keeper Menu
+3. View Reports
+4. Exit
+
+Select option (1-4): _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>2. Administrator Menu</h2>
+<div class="console-screen">============================================
+        ADMINISTRATOR MENU
+============================================
+
+1. Add Animal
+2. Add Keeper
+3. Add Cage
+4. View All Animals
+5. View All Keepers
+6. View All Cages
+7. Back to Main Menu
+
+Select option (1-7): _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>3. Head Keeper Menu</h2>
+<div class="console-screen">============================================
+         HEAD KEEPER MENU
+============================================
+
+1. Allocate Animal to Cage
+2. Allocate Keeper to Cage
+3. Remove Animal from Cage
+4. View Cage Details
+5. View Keeper Assignments
+6. Back to Main Menu
+
+Select option (1-6): _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>4. View Reports Menu</h2>
+<div class="console-screen">============================================
+          VIEW REPORTS
+============================================
+
+1. View All Animals
+2. View All Keepers
+3. View All Cages
+4. View Animals by Category
+5. View Cage Occupancy
+6. Back to Main Menu
+
+Select option (1-6): _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>5. Add Animal Form</h2>
+<div class="console-screen">============================================
+           ADD ANIMAL
+============================================
+
+Enter Animal Details:
+
+Animal ID: [Auto-generated]
+
+Animal Name: _________________
+
+Select Animal Type:
+1. Tiger
+2. Zebra
+3. Rabbit
+4. Eagle
+5. Vulture
+6. Bearded Dragon
+7. Other
+
+Type (1-7): _
+
+Select Category:
+1. Predator
+2. Prey
+
+Category (1-2): _
+
+Date of Birth (DD-MM-YYYY): __-__-____
+
+Date of Acquisition (DD-MM-YYYY): __-__-____
+
+Select Sex:
+1. Male
+2. Female
+
+Sex (1-2): _
+
+============================================
+Confirm details? (Y/N): _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>6. Add Animal - Success Message</h2>
+<div class="console-screen">============================================
+           ADD ANIMAL
+============================================
+
+✓ Success!
+
+Animal successfully added to system:
+
+  Animal ID:    1
+  Name:         Leo
+  Type:         Tiger
+  Category:     PREDATOR
+  Date of Birth: 15-05-2020
+  Acquired:     20-11-2023
+  Sex:          Male
+
+Press ENTER to continue...
+============================================</div>
+</div>
+
+<div class="section">
+<h2>7. Add Animal - Error Message</h2>
+<div class="console-screen">============================================
+           ADD ANIMAL
+============================================
+
+✗ Error!
+
+Animal ID '1' already exists in the system.
+
+Please try again or contact administrator.
+
+Press ENTER to continue...
+============================================</div>
+</div>
+
+<div class="section">
+<h2>8. Add Keeper Form</h2>
+<div class="console-screen">============================================
+           ADD KEEPER
+============================================
+
+Enter Keeper Details:
+
+Keeper ID: [Auto-generated]
+
+First Name: _________________
+
+Surname: _________________
+
+Address: _________________________________
+
+Contact Number: _________________
+
+Select Position:
+1. Head Keeper
+2. Assistant Keeper
+
+Position (1-2): _
+
+============================================
+Confirm details? (Y/N): _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>9. Add Cage Form</h2>
+<div class="console-screen">============================================
+            ADD CAGE
+============================================
+
+Enter Cage Details:
+
+Cage ID: [Auto-generated]
+
+Cage Number: ____
+
+Description: _________________________________
+
+Select Cage Size:
+1. Small (Capacity: 1 animal)
+2. Medium (Capacity: 5 animals)
+3. Large (Capacity: 10 animals)
+
+Size (1-3): _
+
+Animal Capacity: __ (auto-filled based on size)
+
+============================================
+Confirm details? (Y/N): _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>10. Allocate Animal to Cage - Step 1: Select Animal</h2>
+<div class="console-screen">============================================
+      ALLOCATE ANIMAL TO CAGE
+============================================
+
+Available Animals (not yet allocated):
+
+ID     Name        Type          Category
+--------------------------------------------
+1   Leo         Tiger         PREDATOR
+2   Marty       Zebra         PREY
+3   Bugs        Rabbit        PREY
+4   Eagle-1     Eagle         PREDATOR
+--------------------------------------------
+
+Enter Animal ID to allocate: ___
+
+Or type 'B' to go back: _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>11. Allocate Animal to Cage - Step 2: Select Cage</h2>
+<div class="console-screen">============================================
+      ALLOCATE ANIMAL TO CAGE
+============================================
+
+Selected Animal: 1 - Leo (Tiger, PREDATOR)
+
+Health Check Status: ✓ PASSED
+
+Available Cages:
+
+ID     Number  Description        Capacity  Current  Status
+----------------------------------------------------------------
+1   1       Large predator     10/10     10       FULL
+2   2       Large predator     10/10     0        EMPTY
+3   3       Medium prey        5/5       3        AVAILABLE
+4   4       Small predator     1/1       0        EMPTY
+----------------------------------------------------------------
+
+Enter Cage ID: ___
+
+Or type 'B' to go back: _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>12. Allocate Animal to Cage - Success</h2>
+<div class="console-screen">============================================
+      ALLOCATE ANIMAL TO CAGE
+============================================
+
+✓ Success!
+
+Animal 'Leo' (1) has been successfully allocated
+to Cage '2' (Large predator cage).
+
+Cage Details:
+  Cage ID:      2
+  Capacity:     1/10 animals
+  Assigned Keeper: 1 - John Smith
+
+Press ENTER to continue...
+============================================</div>
+</div>
+
+<div class="section">
+<h2>13. Allocate Animal to Cage - Error (Predator/Prey)</h2>
+<div class="console-screen">============================================
+      ALLOCATE ANIMAL TO CAGE
+============================================
+
+✗ Allocation Error!
+
+Cannot allocate PREDATOR animal 'Leo' (1)
+to Cage '3'.
+
+Reason: Cage contains PREY animals.
+Predator animals must be housed alone.
+
+Suggested Actions:
+- Select an empty cage
+- Remove current animals from this cage first
+
+Press ENTER to try again...
+============================================</div>
+</div>
+
+<div class="section">
+<h2>14. Allocate Animal to Cage - Error (Capacity)</h2>
+<div class="console-screen">============================================
+      ALLOCATE ANIMAL TO CAGE
+============================================
+
+✗ Allocation Error!
+
+Cannot allocate animal to Cage '1'.
+
+Reason: Cage is at maximum capacity (10/10).
+
+Suggested Cages with Available Space:
+- 2 (0/10) - Large predator cage
+- 4 (0/1)  - Small predator cage
+
+Press ENTER to try again...
+============================================</div>
+</div>
+
+<div class="section">
+<h2>15. Allocate Keeper to Cage - Step 1: Select Keeper</h2>
+<div class="console-screen">============================================
+       ALLOCATE KEEPER TO CAGE
+============================================
+
+Available Keepers:
+
+ID     Name              Position        Cages Allocated
+----------------------------------------------------------
+1   John Smith        Head Keeper     2/4
+2   Jane Doe          Assistant       1/4
+3   Bob Johnson       Head Keeper     4/4 (MAX)
+4   Alice Williams    Assistant       0/4
+----------------------------------------------------------
+
+Enter Keeper ID: ___
+
+Or type 'B' to go back: _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>16. Allocate Keeper to Cage - Step 2: Select Cage</h2>
+<div class="console-screen">============================================
+       ALLOCATE KEEPER TO CAGE
+============================================
+
+Selected Keeper: 1 - John Smith (Head Keeper)
+Current Assignments: 2/4 cages (can accept 2 more)
+
+Available Cages:
+
+ID     Number  Description        Animals  Keeper Status
+------------------------------------------------------------
+1   1       Large predator     10       2 - Jane Doe
+2   2       Large predator     1        None
+3   3       Medium prey        3        2 - Jane Doe
+4   4       Small predator     0        None
+------------------------------------------------------------
+
+Enter Cage ID: ___
+
+Or type 'B' to go back: _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>17. Allocate Keeper to Cage - Confirmation (Replace)</h2>
+<div class="console-screen">============================================
+       ALLOCATE KEEPER TO CAGE
+============================================
+
+⚠ Warning!
+
+Cage '1' is currently assigned to:
+  Keeper: 2 - Jane Doe (Assistant)
+
+Do you want to replace this assignment with:
+  Keeper: 1 - John Smith (Head Keeper)
+
+Current keeper will be unassigned from this cage.
+
+Replace keeper? (Y/N): _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>18. Allocate Keeper to Cage - Success</h2>
+<div class="console-screen">============================================
+       ALLOCATE KEEPER TO CAGE
+============================================
+
+✓ Success!
+
+Keeper 'John Smith' (1) has been assigned to
+Cage '2' (Large predator cage).
+
+Updated Assignments:
+  Keeper: John Smith (1)
+  Cages:  3/4 (can accept 1 more)
+
+  5 - Medium prey cage
+  7 - Large predator cage
+  2 - Large predator cage (NEW)
+
+Press ENTER to continue...
+============================================</div>
+</div>
+
+<div class="section">
+<h2>19. View All Animals</h2>
+<div class="console-screen">============================================
+         VIEW ALL ANIMALS
+============================================
+
+Total Animals: 15
+
+ID     Name        Type          Category    Cage    Keeper
+----------------------------------------------------------------
+1   Leo         Tiger         PREDATOR    2    1
+2   Marty       Zebra         PREY        3    2
+3   Bugs        Rabbit        PREY        3    2
+4   Eagle-1     Eagle         PREDATOR    1    2
+5   Owl-1       Owl           PREDATOR    4    None
+6   Stripe      Zebra         PREY        3    2
+7   Hoppy       Rabbit        PREY        6    3
+----------------------------------------------------------------
+[Page 1 of 3]
+
+Press ENTER for next page or 'Q' to quit: _
+============================================</div>
+</div>
+
+<div class="section">
+<h2>20. View Cage Details</h2>
+<div class="console-screen">============================================
+          VIEW CAGE DETAILS
+============================================
+
+Enter Cage ID: ___
+
+------------------------------------------------------------
+
+Cage Details:
+
+  Cage ID:      3
+  Cage Number:  3
+  Description:  Medium prey cage
+  Size:         Medium
+  Capacity:     3/5 animals
+  Status:       Available space
+
+Assigned Keeper:
+  2 - Jane Doe (Assistant Keeper)
+  Contact: 07123456789
+
+Current Animals:
+  1. 2 - Marty (Zebra, PREY)
+  2. 3 - Bugs (Rabbit, PREY)
+  3. 6 - Stripe (Zebra, PREY)
+
+Available Space: 2 animals
+
+Compatible: PREY animals only
+
+Press ENTER to continue...
+============================================</div>
+</div>
+
+<div class="section">
+<h2>21. Exit Confirmation</h2>
+<div class="console-screen">============================================
+   CLYDE CONSERVATION MANAGEMENT SYSTEM
+============================================
+
+Are you sure you want to exit? (Y/N): _
+
+All unsaved changes have been saved to database.
+
+Thank you for using Clyde Conservation System!
+
+============================================</div>
+</div>
+
+<hr>
+
+<h2>UI Flow Diagram</h2>
+<div class="console-screen">Main Menu
+    │
+    ├─→ Administrator Menu
+    │       ├─→ Add Animal
+    │       ├─→ Add Keeper
+    │       ├─→ Add Cage
+    │       └─→ View Data
+    │
+    ├─→ Head Keeper Menu
+    │       ├─→ Allocate Animal to Cage
+    │       ├─→ Allocate Keeper to Cage
+    │       ├─→ Remove Animal
+    │       └─→ View Cage Details
+    │
+    ├─→ View Reports
+    │       ├─→ View All Animals
+    │       ├─→ View All Keepers
+    │       ├─→ View All Cages
+    │       └─→ View Statistics
+    │
+    └─→ Exit</div>
+
+<hr>
+
+<h2>Design Principles</h2>
+
+<div class="principles">
+<h3>Visual Elements:</h3>
+<ul>
+    <li><strong>Header bars:</strong> <code>============================================</code></li>
+    <li><strong>Success messages:</strong> <code>✓ Success!</code></li>
+    <li><strong>Error messages:</strong> <code>✗ Error!</code></li>
+    <li><strong>Warning messages:</strong> <code>⚠ Warning!</code></li>
+    <li><strong>Input prompts:</strong> <code>_</code> (underscore)</li>
+    <li><strong>Separators:</strong> <code>--------------------------------------------</code></li>
+</ul>
+
+<h3>Navigation:</h3>
+<ul>
+    <li>Number selection for menu options</li>
+    <li>'B' or 'Back' to return to previous menu</li>
+    <li>'Q' or 'Quit' to exit current view</li>
+    <li>'Y/N' for confirmations</li>
+    <li>ENTER to continue after messages</li>
+</ul>
+
+<h3>Input Formats:</h3>
+<ul>
+    <li><strong>Animal ID:</strong> Auto-generated number (e.g., 1, 2, 3)</li>
+    <li><strong>Keeper ID:</strong> Auto-generated number (e.g., 1, 2, 3)</li>
+    <li><strong>Cage ID:</strong> Auto-generated number (e.g., 1, 2, 3)</li>
+    <li><strong>Dates:</strong> DD-MM-YYYY</li>
+    <li><strong>Phone:</strong> Standard UK format</li>
+</ul>
+
+<h3>Error Handling:</h3>
+<ul>
+    <li>Clear error messages</li>
+    <li>Suggested actions</li>
+    <li>Input validation before processing</li>
+    <li>Confirmation prompts for critical operations</li>
+</ul>
+</div>
+
+</body>
+</html>
