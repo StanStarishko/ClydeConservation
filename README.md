@@ -252,7 +252,7 @@ mvn clean compile exec:java
 📂 [GitHub Repository](https://github.com/StanStarishko/ClydeConservation)  
 📚 [Documentation Portal](https://stanstarishko.github.io/ClydeConservation/index.html)  
 📐 [Diagrams Dashboard](https://stanstarishko.github.io/ClydeConservation/diagrams.html)  
-📊 [Testing Dashboard](https://stanstarishko.github.io/ClydeConservation/)
+🧪 [Testing Dashboard](https://stanstarishko.github.io/ClydeConservation/)
 
 ---
 
