@@ -244,17 +244,7 @@ mvn clean compile exec:java
 - ✅ Object-Oriented Design (inheritance, polymorphism, encapsulation)
 - ✅ Clean Code Practices (SOLID, design patterns, meaningful names)
 - ✅ Comprehensive Testing (unit tests, validation, exception handling)
-- ✅ Complete Documentation (test plan, strategy, technical docs)
-
----
-
-## 📝 Documentation
-
-- **[Use Case Diagrams](docs/diagrams/)** - System functionality from user perspective
-- **[Class Diagrams](docs/diagrams/)** - Object-oriented structure with relationships
-- **[Sequence Diagrams](docs/diagrams/)** - Interaction flows between objects
-- **[Activity Diagrams](docs/diagrams/)** - Business process workflows
-- **[UI Wireframes](docs/wireframes/)** - Interface mockups and navigation
+- ✅ Complete Documentation (test plan, strategy)
 
 ---
 
@@ -263,8 +253,8 @@ mvn clean compile exec:java
 **Stanislav Starishko**
 
 📂 [GitHub Repository](https://github.com/StanStarishko/ClydeConservation)  
-📊 [Testing Dashboard](https://stanstarishko.github.io/ClydeConservation/)  
-📧 [Contact](mailto:your.email@example.com) *(Update with actual email)*
+📐 [Diagrams Dashboard](https://stanstarishko.github.io/ClydeConservation/diagrams.html)
+📊 [Testing Dashboard](https://stanstarishko.github.io/ClydeConservation/)
 
 ---
 
