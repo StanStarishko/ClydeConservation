@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UML Diagrams - Clyde Conservation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: #f6f8fa;
+            color: #24292f;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #0969da;
+            text-decoration: none;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            color: #24292f;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #57606a;
+        }
+
+        /* Section Headers */
+        .section-header {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .section-header h2 {
+            font-size: 1.6em;
+            color: #24292f;
+            margin-bottom: 5px;
+        }
+
+        .section-header p {
+            color: #57606a;
+            font-size: 0.95em;
+        }
+
+        /* Diagrams Grid */
+        .diagrams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Diagram Card */
+        .diagram-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 5px solid #0969da;
+        }
+
+        .diagram-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .diagram-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .diagram-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #24292f;
+            margin-bottom: 10px;
+        }
+
+        .diagram-description {
+            color: #57606a;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .diagram-button {
+            display: inline-block;
+            background: #0969da;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .diagram-button:hover {
+            background: #0860ca;
+        }
+
+        /* Core Diagrams - Blue */
+        .diagram-card.core {
+            border-left-color: #0969da;
+        }
+
+        /* Activity Diagrams - Orange */
+        .diagram-card.activity {
+            border-left-color: #fb8500;
+        }
+
+        .diagram-card.activity .diagram-button {
+            background: #fb8500;
+        }
+
+        .diagram-card.activity .diagram-button:hover {
+            background: #e07700;
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+            color: #57606a;
+        }
+
+        footer a {
+            color: #0969da;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .diagrams-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .diagram-icon {
+                font-size: 2em;
+            }
+
+            .diagram-title {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="back-link">← Back to Documentation Portal</a>
+        <h1>📐 UML Diagrams</h1>
+        <p class="subtitle">Unified Modelling Language diagrams documenting system analysis and design</p>
+    </header>
+
+    <!-- Core Diagrams Section -->
+    <div class="section-header">
+        <h2>Core System Diagrams</h2>
+        <p>Fundamental diagrams showing system structure, behaviour, and interactions</p>
+    </div>
+
+    <div class="diagrams-grid">
+        <!-- Use Case Diagram -->
+        <div class="diagram-card core">
+            <div class="diagram-icon">📊</div>
+            <div class="diagram-title">Use Case Diagram</div>
+            <div class="diagram-description">
+                Shows system functionality from the user's perspective. Identifies actors (Administrator, Head Keeper) and their interactions with the system use cases.
+            </div>
+            <a href="diagrams/01_Use_Case_Diagram.png" class="diagram-button" target="_blank">View Diagram →</a>
+        </div>
+
+        <!-- Class Diagram -->
+        <div class="diagram-card core">
+            <div class="diagram-icon">🔄</div>
+            <div class="diagram-title">Class Diagram</div>
+            <div class="diagram-description">
+                Object-oriented structure showing classes, attributes, methods, and relationships. Demonstrates inheritance (Keeper hierarchy), aggregation, and associations.
+            </div>
+            <a href="diagrams/06_Class_Diagram.png" class="diagram-button" target="_blank">View Diagram →</a>
+        </div>
+
+        <!-- Sequence Diagram -->
+        <div class="diagram-card core">
+            <div class="diagram-icon">↔️</div>
+            <div class="diagram-title">Sequence Diagram</div>
+            <div class="diagram-description">
+                Shows object interactions over time for the "Allocate Animal to Cage" use case. Demonstrates message passing and method invocation sequence.
+            </div>
+            <a href="diagrams/07_Sequence_Diagram.png" class="diagram-button" target="_blank">View Diagram →</a>
+        </div>
+    </div>
+
+    <!-- Activity Diagrams Section -->
+    <div class="section-header">
+        <h2>Activity Diagrams</h2>
+        <p>Process workflows showing decision points and business logic flows</p>
+    </div>
+
+    <div class="diagrams-grid">
+        <!-- Allocate Animal -->
+        <div class="diagram-card activity">
+            <div class="diagram-icon">🦁</div>
+            <div class="diagram-title">Allocate Animal to Cage</div>
+            <div class="diagram-description">
+                Workflow for assigning an animal to a cage. Includes health check validation, cage suitability checks, capacity verification, and predator/prey compatibility rules.
+            </div>
+            <a href="diagrams/02_Activity_Diagram_Allocate_Animal.png" class="diagram-button" target="_blank">View Diagram →</a>
+        </div>
+
+        <!-- Add Animal -->
+        <div class="diagram-card activity">
+            <div class="diagram-icon">➕</div>
+            <div class="diagram-title">Add New Animal</div>
+            <div class="diagram-description">
+                Process for registering a new animal in the system. Shows data validation steps, registry operations, and error handling for invalid input.
+            </div>
+            <a href="diagrams/03_Activity_Diagram_Add_Animal.png" class="diagram-button" target="_blank">View Diagram →</a>
+        </div>
+
+        <!-- Allocate Keeper -->
+        <div class="diagram-card activity">
+            <div class="diagram-icon">👤</div>
+            <div class="diagram-title">Allocate Keeper to Cage</div>
+            <div class="diagram-description">
+                Workflow for assigning a keeper to a cage. Includes workload validation (1-4 cages per keeper), permission checks, and allocation constraints.
+            </div>
+            <a href="diagrams/04_Activity_Diagram_Allocate_Keeper.png" class="diagram-button" target="_blank">View Diagram →</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>UML Diagrams | Clyde Conservation Management System</strong></p>
+        <p style="margin-top: 10px;">
+            <a href="index.html">← Back to Documentation Portal</a> |
+            <a href="testing.html">Testing Dashboard</a> |
+            <a href="wireframes/05_UI_Wireframes.html">UI Wireframes</a>
+        </p>
+    </footer>
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clyde Conservation - Testing Journey</title>
+    <title>Clyde Conservation - Documentation Portal</title>
     <style>
         * {
             margin: 0;
@@ -24,12 +24,12 @@
             margin: 0 auto;
         }
 
-        /* Header Section */
+        /* Header */
         header {
             background: white;
             border-radius: 12px;
             padding: 40px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             text-align: center;
         }
@@ -41,234 +41,169 @@
         }
 
         .subtitle {
-            font-size: 1.3em;
+            font-size: 1.2em;
             color: #57606a;
             margin-bottom: 20px;
         }
 
-        .success-badge {
+        .badge {
             display: inline-block;
-            background: #2da44e;
+            background: #0969da;
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-top: 10px;
-        }
-
-        /* Stats Summary */
-        .stats-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border-left: 4px solid #0969da;
-        }
-
-        .stat-card.success {
-            border-left-color: #2da44e;
-        }
-
-        .stat-card.improvement {
-            border-left-color: #8250df;
-        }
-
-        .stat-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #24292f;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
+            font-weight: 600;
             font-size: 0.95em;
-            color: #57606a;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin: 5px;
         }
 
-        /* Progress Chart */
-        .chart-section {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .chart-title {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-            color: #24292f;
-            text-align: center;
-        }
-
-        .chart-container {
-            position: relative;
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        svg {
-            width: 100%;
-            height: 300px;
-        }
-
-        /* Test Rounds Grid */
-        .rounds-section {
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: #24292f;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .rounds-grid {
+        /* Navigation Cards */
+        .nav-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
         }
 
-        .round-card {
+        .nav-card {
             background: white;
             border-radius: 12px;
-            padding: 25px;
+            padding: 40px 30px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             transition: transform 0.2s, box-shadow 0.2s;
             cursor: pointer;
             border-left: 6px solid #0969da;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
-        .round-card:hover {
+        .nav-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        .round-card.final {
+        .nav-card.testing {
             border-left-color: #2da44e;
-            background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%);
         }
 
-        .round-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .nav-card.wireframes {
+            border-left-color: #8250df;
+        }
+
+        .nav-card.diagrams {
+            border-left-color: #fb8500;
+        }
+
+        .nav-icon {
+            font-size: 3em;
             margin-bottom: 15px;
         }
 
-        .round-number {
-            font-size: 1.3em;
+        .nav-title {
+            font-size: 1.8em;
             font-weight: bold;
+            margin-bottom: 10px;
             color: #24292f;
         }
 
-        .round-success {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #2da44e;
+        .nav-description {
+            font-size: 1em;
+            color: #57606a;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
-        .round-success.low {
-            color: #cf222e;
+        .nav-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .round-success.medium {
-            color: #fb8500;
+        .stat-badge {
+            display: inline-block;
+            background: #f6f8fa;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #24292f;
         }
 
-        .round-success.high {
-            color: #2da44e;
+        .nav-button {
+            display: inline-block;
+            background: #0969da;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #d0d7de;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 15px;
+        .nav-button:hover {
+            background: #0860ca;
         }
 
-        .progress-fill {
-            height: 100%;
+        .nav-card.testing .nav-button {
             background: #2da44e;
-            transition: width 0.3s;
         }
 
-        .progress-fill.low {
-            background: #cf222e;
+        .nav-card.testing .nav-button:hover {
+            background: #2c974b;
         }
 
-        .progress-fill.medium {
+        .nav-card.wireframes .nav-button {
+            background: #8250df;
+        }
+
+        .nav-card.wireframes .nav-button:hover {
+            background: #7645d9;
+        }
+
+        .nav-card.diagrams .nav-button {
             background: #fb8500;
         }
 
-        .progress-fill.high {
-            background: #2da44e;
+        .nav-card.diagrams .nav-button:hover {
+            background: #e07700;
         }
 
-        .round-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-            font-size: 0.9em;
+        /* Quick Links */
+        .quick-links {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px;
-            background: #f6f8fa;
-            border-radius: 6px;
-        }
-
-        .stat-item-label {
-            color: #57606a;
-        }
-
-        .stat-item-value {
-            font-weight: bold;
+        .quick-links h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
             color: #24292f;
         }
 
-        .round-description {
-            font-size: 0.9em;
-            color: #57606a;
-            margin-bottom: 15px;
-            font-style: italic;
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
         }
 
-        .view-report-btn {
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-            padding: 10px;
-            background: #0969da;
-            color: white;
-            text-decoration: none;
+        .quick-link {
+            display: block;
+            padding: 15px;
+            background: #f6f8fa;
             border-radius: 6px;
+            text-decoration: none;
+            color: #0969da;
             font-weight: 500;
             transition: background 0.2s;
         }
 
-        .view-report-btn:hover {
-            background: #0860ca;
+        .quick-link:hover {
+            background: #e8eaed;
         }
 
         /* Footer */
@@ -276,7 +211,6 @@
             background: white;
             border-radius: 12px;
             padding: 30px;
-            margin-top: 30px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             text-align: center;
             color: #57606a;
@@ -297,45 +231,17 @@
                 font-size: 1.8em;
             }
 
-            .subtitle {
-                font-size: 1.1em;
-            }
-
-            .stat-value {
-                font-size: 2em;
-            }
-
-            .rounds-grid {
+            .nav-grid {
                 grid-template-columns: 1fr;
             }
 
-            svg {
-                height: 250px;
+            .nav-icon {
+                font-size: 2.5em;
             }
-        }
 
-        /* Badge styles */
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-
-        .badge.errors {
-            background: #ffebe9;
-            color: #cf222e;
-        }
-
-        .badge.failed {
-            background: #fff5eb;
-            color: #fb8500;
-        }
-
-        .badge.passed {
-            background: #dafbe1;
-            color: #0f5323;
+            .nav-title {
+                font-size: 1.5em;
+            }
         }
     </style>
 </head>
@@ -343,399 +249,85 @@
 <div class="container">
     <!-- Header -->
     <header>
-        <h1>🧪 Clyde Conservation Testing Journey</h1>
-        <p class="subtitle">From 77.9% to 100% Success</p>
-        <span class="success-badge">✅ All Tests Passing</span>
+        <h1>📚 Clyde Conservation Documentation Portal</h1>
+        <p class="subtitle">Complete project documentation including testing journey, UI design, and technical diagrams</p>
+        <div>
+            <span class="badge">Java 25</span>
+            <span class="badge">JUnit 5</span>
+            <span class="badge">TDD Methodology</span>
+            <span class="badge">100% Test Success</span>
+        </div>
     </header>
 
-    <!-- Stats Summary -->
-    <div class="stats-summary">
-        <div class="stat-card">
-            <div class="stat-value">10</div>
-            <div class="stat-label">Testing Rounds</div>
-        </div>
-        <div class="stat-card improvement">
-            <div class="stat-value">+22.1%</div>
-            <div class="stat-label">Success Improvement</div>
-        </div>
-        <div class="stat-card success">
-            <div class="stat-value">307</div>
-            <div class="stat-label">Final Test Count</div>
-        </div>
-        <div class="stat-card success">
-            <div class="stat-value">100%</div>
-            <div class="stat-label">Success Rate</div>
-        </div>
+    <!-- Navigation Cards -->
+    <div class="nav-grid">
+        <!-- Testing Journey -->
+        <a href="testing.html" class="nav-card testing">
+            <div class="nav-icon">🧪</div>
+            <div class="nav-title">Testing Journey</div>
+            <div class="nav-description">
+                Interactive dashboard showing 10 testing rounds with complete progression from 77.9% to 100% success rate.
+            </div>
+            <div class="nav-stats">
+                <span class="stat-badge">10 Rounds</span>
+                <span class="stat-badge">307 Tests</span>
+                <span class="stat-badge">100% Success</span>
+            </div>
+            <span class="nav-button">View Testing Dashboard →</span>
+        </a>
+
+        <!-- UI Wireframes -->
+        <a href="wireframes/05_UI_Wireframes.html" class="nav-card wireframes">
+            <div class="nav-icon">🎨</div>
+            <div class="nav-title">UI Wireframes</div>
+            <div class="nav-description">
+                User interface design mockups showing system navigation, screens, and interaction flows.
+            </div>
+            <div class="nav-stats">
+                <span class="stat-badge">Interactive</span>
+                <span class="stat-badge">Console UI</span>
+            </div>
+            <span class="nav-button">View Wireframes →</span>
+        </a>
+
+        <!-- UML Diagrams -->
+        <a href="diagrams.html" class="nav-card diagrams">
+            <div class="nav-icon">📐</div>
+            <div class="nav-title">UML Diagrams</div>
+            <div class="nav-description">
+                Complete set of Unified Modelling Language diagrams including Use Case, Class, Sequence, and Activity diagrams.
+            </div>
+            <div class="nav-stats">
+                <span class="stat-badge">6 Diagrams</span>
+                <span class="stat-badge">OOAD</span>
+            </div>
+            <span class="nav-button">View Diagrams →</span>
+        </a>
     </div>
 
-    <!-- Progress Chart -->
-    <div class="chart-section">
-        <h2 class="chart-title">📈 Testing Progress Over 10 Rounds</h2>
-        <div class="chart-container">
-            <svg viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg">
-                <!-- Grid lines -->
-                <line x1="50" y1="250" x2="950" y2="250" stroke="#d0d7de" stroke-width="2"/>
-                <line x1="50" y1="200" x2="950" y2="200" stroke="#d0d7de" stroke-width="1" stroke-dasharray="5,5"/>
-                <line x1="50" y1="150" x2="950" y2="150" stroke="#d0d7de" stroke-width="1" stroke-dasharray="5,5"/>
-                <line x1="50" y1="100" x2="950" y2="100" stroke="#d0d7de" stroke-width="1" stroke-dasharray="5,5"/>
-                <line x1="50" y1="50" x2="950" y2="50" stroke="#d0d7de" stroke-width="1" stroke-dasharray="5,5"/>
-
-                <!-- Y-axis labels -->
-                <text x="30" y="255" font-size="12" fill="#57606a">0%</text>
-                <text x="20" y="205" font-size="12" fill="#57606a">25%</text>
-                <text x="20" y="155" font-size="12" fill="#57606a">50%</text>
-                <text x="20" y="105" font-size="12" fill="#57606a">75%</text>
-                <text x="10" y="55" font-size="12" fill="#57606a">100%</text>
-
-                <!-- Progress line -->
-                <polyline points="50,94 140,79 230,75 320,75 410,71 500,68 590,72 680,64 770,57 860,50 950,50"
-                          fill="none" stroke="#0969da" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-
-                <!-- Data points -->
-                <circle cx="50" cy="94" r="6" fill="#fb8500"/>
-                <circle cx="140" cy="79" r="6" fill="#2da44e"/>
-                <circle cx="230" cy="75" r="6" fill="#2da44e"/>
-                <circle cx="320" cy="75" r="6" fill="#2da44e"/>
-                <circle cx="410" cy="71" r="6" fill="#2da44e"/>
-                <circle cx="500" cy="68" r="6" fill="#2da44e"/>
-                <circle cx="590" cy="72" r="6" fill="#2da44e"/>
-                <circle cx="680" cy="64" r="6" fill="#2da44e"/>
-                <circle cx="770" cy="57" r="6" fill="#2da44e"/>
-                <circle cx="860" cy="50" r="6" fill="#2da44e"/>
-                <circle cx="950" cy="50" r="8" fill="#2da44e" stroke="#0f5323" stroke-width="2"/>
-
-                <!-- X-axis labels -->
-                <text x="40" y="275" font-size="12" fill="#57606a">R1</text>
-                <text x="130" y="275" font-size="12" fill="#57606a">R2</text>
-                <text x="220" y="275" font-size="12" fill="#57606a">R3</text>
-                <text x="310" y="275" font-size="12" fill="#57606a">R4</text>
-                <text x="400" y="275" font-size="12" fill="#57606a">R5</text>
-                <text x="490" y="275" font-size="12" fill="#57606a">R6</text>
-                <text x="580" y="275" font-size="12" fill="#57606a">R7</text>
-                <text x="670" y="275" font-size="12" fill="#57606a">R8</text>
-                <text x="760" y="275" font-size="12" fill="#57606a">R9</text>
-                <text x="940" y="275" font-size="12" fill="#57606a">R10</text>
-
-                <!-- Success percentages -->
-                <text x="35" y="85" font-size="11" font-weight="bold" fill="#fb8500">78%</text>
-                <text x="125" y="70" font-size="11" font-weight="bold" fill="#2da44e">86%</text>
-                <text x="215" y="66" font-size="11" font-weight="bold" fill="#2da44e">87%</text>
-                <text x="305" y="66" font-size="11" font-weight="bold" fill="#2da44e">88%</text>
-                <text x="395" y="62" font-size="11" font-weight="bold" fill="#2da44e">89%</text>
-                <text x="485" y="59" font-size="11" font-weight="bold" fill="#2da44e">91%</text>
-                <text x="575" y="63" font-size="11" font-weight="bold" fill="#2da44e">89%</text>
-                <text x="665" y="55" font-size="11" font-weight="bold" fill="#2da44e">93%</text>
-                <text x="755" y="48" font-size="11" font-weight="bold" fill="#2da44e">97%</text>
-                <text x="935" y="43" font-size="13" font-weight="bold" fill="#0f5323">100%</text>
-            </svg>
-        </div>
-    </div>
-
-    <!-- Test Rounds -->
-    <div class="rounds-section">
-        <div class="section-title">📋 Testing Rounds - Detailed Results</div>
-
-        <div class="rounds-grid">
-            <!-- Round 01 -->
-            <div class="round-card" onclick="window.open('testlogs/Test Results - All_in_clyde-conservation_01.html', '_blank')">
-                <div class="round-header">
-                    <span class="round-number">Round 01</span>
-                    <span class="round-success medium">77.9%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill medium" style="width: 77.9%"></div>
-                </div>
-                <div class="round-stats">
-                    <div class="stat-item">
-                        <span class="stat-item-label">Total</span>
-                        <span class="stat-item-value">349</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label">Passed</span>
-                        <span class="stat-item-value">272</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge errors">Errors: 24</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge failed">Failed: 53</span>
-                    </div>
-                </div>
-                <div class="round-description">Initial baseline - multiple schema and validation issues</div>
-                <a href="testlogs/Test Results - All_in_clyde-conservation_01.html" class="view-report-btn" target="_blank" onclick="event.stopPropagation()">View Detailed Report →</a>
-            </div>
-
-            <!-- Round 02 -->
-            <div class="round-card" onclick="window.open('testlogs/Test Results - All_in_clyde-conservation_02.html', '_blank')">
-                <div class="round-header">
-                    <span class="round-number">Round 02</span>
-                    <span class="round-success high">85.7%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill high" style="width: 85.7%"></div>
-                </div>
-                <div class="round-stats">
-                    <div class="stat-item">
-                        <span class="stat-item-label">Total</span>
-                        <span class="stat-item-value">349</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label">Passed</span>
-                        <span class="stat-item-value">299</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge errors">Errors: 24</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge failed">Failed: 26</span>
-                    </div>
-                </div>
-                <div class="round-description">Fixed XML schema paths - major improvement</div>
-                <a href="testlogs/Test Results - All_in_clyde-conservation_02.html" class="view-report-btn" target="_blank" onclick="event.stopPropagation()">View Detailed Report →</a>
-            </div>
-
-            <!-- Round 03 -->
-            <div class="round-card" onclick="window.open('testlogs/Test Results - All_in_clyde-conservation_03.html', '_blank')">
-                <div class="round-header">
-                    <span class="round-number">Round 03</span>
-                    <span class="round-success high">87.4%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill high" style="width: 87.4%"></div>
-                </div>
-                <div class="round-stats">
-                    <div class="stat-item">
-                        <span class="stat-item-label">Total</span>
-                        <span class="stat-item-value">349</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label">Passed</span>
-                        <span class="stat-item-value">305</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge errors">Errors: 15</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge failed">Failed: 29</span>
-                    </div>
-                </div>
-                <div class="round-description">Registry null checks and defensive programming</div>
-                <a href="testlogs/Test Results - All_in_clyde-conservation_03.html" class="view-report-btn" target="_blank" onclick="event.stopPropagation()">View Detailed Report →</a>
-            </div>
-
-            <!-- Round 04 -->
-            <div class="round-card" onclick="window.open('testlogs/Test Results - All_in_clyde-conservation_04.html', '_blank')">
-                <div class="round-header">
-                    <span class="round-number">Round 04</span>
-                    <span class="round-success high">87.7%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill high" style="width: 87.7%"></div>
-                </div>
-                <div class="round-stats">
-                    <div class="stat-item">
-                        <span class="stat-item-label">Total</span>
-                        <span class="stat-item-value">349</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label">Passed</span>
-                        <span class="stat-item-value">306</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge errors">Errors: 14</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge failed">Failed: 29</span>
-                    </div>
-                </div>
-                <div class="round-description">Allocation validator business logic corrections</div>
-                <a href="testlogs/Test Results - All_in_clyde-conservation_04.html" class="view-report-btn" target="_blank" onclick="event.stopPropagation()">View Detailed Report →</a>
-            </div>
-
-            <!-- Round 05 -->
-            <div class="round-card" onclick="window.open('testlogs/Test Results - All_in_clyde-conservation_05.html', '_blank')">
-                <div class="round-header">
-                    <span class="round-number">Round 05</span>
-                    <span class="round-success high">89.4%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill high" style="width: 89.4%"></div>
-                </div>
-                <div class="round-stats">
-                    <div class="stat-item">
-                        <span class="stat-item-label">Total</span>
-                        <span class="stat-item-value">349</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label">Passed</span>
-                        <span class="stat-item-value">312</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge errors">Errors: 16</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge failed">Failed: 21</span>
-                    </div>
-                </div>
-                <div class="round-description">Date validation improvements across entities</div>
-                <a href="testlogs/Test Results - All_in_clyde-conservation_05.html" class="view-report-btn" target="_blank" onclick="event.stopPropagation()">View Detailed Report →</a>
-            </div>
-
-            <!-- Round 06 -->
-            <div class="round-card" onclick="window.open('testlogs/Test Results - All_in_clyde-conservation_06.html', '_blank')">
-                <div class="round-header">
-                    <span class="round-number">Round 06</span>
-                    <span class="round-success high">90.8%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill high" style="width: 90.8%"></div>
-                </div>
-                <div class="round-stats">
-                    <div class="stat-item">
-                        <span class="stat-item-label">Total</span>
-                        <span class="stat-item-value">349</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label">Passed</span>
-                        <span class="stat-item-value">317</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge errors">Errors: 8</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge failed">Failed: 24</span>
-                    </div>
-                </div>
-                <div class="round-description">Service layer coordination and integration fixes</div>
-                <a href="testlogs/Test Results - All_in_clyde-conservation_06.html" class="view-report-btn" target="_blank" onclick="event.stopPropagation()">View Detailed Report →</a>
-            </div>
-
-            <!-- Round 07 -->
-            <div class="round-card" onclick="window.open('testlogs/Test Results - All_in_clyde-conservation_07.html', '_blank')">
-                <div class="round-header">
-                    <span class="round-number">Round 07</span>
-                    <span class="round-success high">89.1%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill high" style="width: 89.1%"></div>
-                </div>
-                <div class="round-stats">
-                    <div class="stat-item">
-                        <span class="stat-item-label">Total</span>
-                        <span class="stat-item-value">349</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label">Passed</span>
-                        <span class="stat-item-value">311</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge errors">Errors: 8</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge failed">Failed: 30</span>
-                    </div>
-                </div>
-                <div class="round-description">Validation refactoring - temporary regression</div>
-                <a href="testlogs/Test Results - All_in_clyde-conservation_07.html" class="view-report-btn" target="_blank" onclick="event.stopPropagation()">View Detailed Report →</a>
-            </div>
-
-            <!-- Round 08 -->
-            <div class="round-card" onclick="window.open('testlogs/Test Results - All_in_clyde-conservation_08.html', '_blank')">
-                <div class="round-header">
-                    <span class="round-number">Round 08</span>
-                    <span class="round-success high">93.2%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill high" style="width: 93.2%"></div>
-                </div>
-                <div class="round-stats">
-                    <div class="stat-item">
-                        <span class="stat-item-label">Total</span>
-                        <span class="stat-item-value">324</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label">Passed</span>
-                        <span class="stat-item-value">302</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge errors">Errors: 5</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge failed">Failed: 17</span>
-                    </div>
-                </div>
-                <div class="round-description">Removed ConfigPersistence duplicate tests</div>
-                <a href="testlogs/Test Results - All_in_clyde-conservation_08.html" class="view-report-btn" target="_blank" onclick="event.stopPropagation()">View Detailed Report →</a>
-            </div>
-
-            <!-- Round 09 -->
-            <div class="round-card" onclick="window.open('testlogs/Test Results - All_in_clyde-conservation_09.html', '_blank')">
-                <div class="round-header">
-                    <span class="round-number">Round 09</span>
-                    <span class="round-success high">96.5%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill high" style="width: 96.5%"></div>
-                </div>
-                <div class="round-stats">
-                    <div class="stat-item">
-                        <span class="stat-item-label">Total</span>
-                        <span class="stat-item-value">310</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label">Passed</span>
-                        <span class="stat-item-value">299</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge errors">Errors: 2</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge failed">Failed: 9</span>
-                    </div>
-                </div>
-                <div class="round-description">Removed edge cases and redundant tests</div>
-                <a href="testlogs/Test Results - All_in_clyde-conservation_09.html" class="view-report-btn" target="_blank" onclick="event.stopPropagation()">View Detailed Report →</a>
-            </div>
-
-            <!-- Round 10 - Final Success -->
-            <div class="round-card final" onclick="window.open('testlogs/Test Results - All_in_clyde-conservation_10.html', '_blank')">
-                <div class="round-header">
-                    <span class="round-number">Round 10 ✅</span>
-                    <span class="round-success high">100%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill high" style="width: 100%"></div>
-                </div>
-                <div class="round-stats">
-                    <div class="stat-item">
-                        <span class="stat-item-label">Total</span>
-                        <span class="stat-item-value">307</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label">Passed</span>
-                        <span class="stat-item-value badge passed">307 ✅</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge passed">Errors: 0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-item-label badge passed">Failed: 0</span>
-                    </div>
-                </div>
-                <div class="round-description">Final success - all tests passing! 🎉</div>
-                <a href="testlogs/Test Results - All_in_clyde-conservation_10.html" class="view-report-btn" target="_blank" onclick="event.stopPropagation()">View Detailed Report →</a>
-            </div>
+    <!-- Quick Links -->
+    <div class="quick-links">
+        <h2>📎 Quick Links</h2>
+        <div class="links-grid">
+            <a href="../docs/Testing Strategy and Results.pdf" class="quick-link" target="_blank">
+                📄 Testing Strategy (PDF)
+            </a>
+            <a href="testlogs/Test Results - All_in_clyde-conservation_10.html" class="quick-link" target="_blank">
+                ✅ Final Test Results
+            </a>
+            <a href="https://github.com/StanStarishko/ClydeConservation" class="quick-link" target="_blank">
+                📂 GitHub Repository
+            </a>
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
         <p><strong>Clyde Conservation Management System</strong></p>
-        <p>Test-Driven Development (TDD) Journey - Object-Oriented Analysis, Design & Programming Assessment</p>
+        <p>Object-Oriented Analysis, Design & Programming Assessment</p>
         <p>Stanislav Starishko | February 2026</p>
         <p style="margin-top: 15px;">
-            <a href="https://github.com/StanStarishko/ClydeConservation" target="_blank">📂 View Project on GitHub</a> |
-            <a href="https://github.com/StanStarishko/ClydeConservation/blob/main/docs/Testing%20Strategy%20and%20Results.pdf" target="_blank">📄 Read Testing Strategy Document</a>
+            <a href="https://github.com/StanStarishko/ClydeConservation" target="_blank">📂 View on GitHub</a>
         </p>
     </footer>
 </div>
