@@ -19,6 +19,15 @@ Conservation management system demonstrating professional software engineering p
 
 ---
 
+## 📊 Testing Journey
+
+**Want to see the complete journey?**
+
+🔗 **[Interactive Testing Dashboard](https://stanstarishko.github.io/ClydeConservation/)** - Visual progress from 77.9% to 100%  
+📄 **[Testing Strategy Document (PDF)](docs/Testing%20Strategy%20and%20Results.pdf)** - Full analysis with decisions and reasoning
+
+---
+
 ## 🔍 The Real Story: From 77.9% to 100% Test Success
 
 ### The Challenge (Situation)
@@ -217,15 +226,6 @@ mvn clean compile exec:java
 
 # Or via IDE: Run ConsoleUI.main()
 ```
-
----
-
-## 📊 Testing Journey
-
-**Want to see the complete journey?**
-
-🔗 **[Interactive Testing Dashboard](https://stanstarishko.github.io/ClydeConservation/)** - Visual progress from 77.9% to 100%  
-📄 **[Testing Strategy Document (PDF)](docs/Testing%20Strategy%20and%20Results.pdf)** - Full analysis with decisions and reasoning
 
 ---
 
